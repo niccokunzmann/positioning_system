@@ -53,8 +53,7 @@ const int high_frequency_pin = 9;
 //const int middle_frequency = 4; // how many times it
 //const int low_frequency = 3; // how many times it fits into sample_frequency
 
-byte frequency_counter = 0;
-byte frequency_selector = 0;
+word frequency_counter = 0;
 
 void setup_speaker() {
   pinMode(low_frequency_pin, OUTPUT);
@@ -63,73 +62,159 @@ void setup_speaker() {
 }
 
 ISR(TIMER2_COMPA_vect){//timer2 interrupt 33333Hz toggles sound pins
-  ++frequency_counter;
   switch (frequency_counter) {
     case 0:
-      digitalWrite(high_frequency_pin, LOW);
       digitalWrite(low_frequency_pin, LOW);
-      digitalWrite(middle_frequency_pin, LOW);
-      break;
-    case 26:
-      digitalWrite(high_frequency_pin, HIGH);
-      break;
-    case 32:
-      digitalWrite(middle_frequency_pin, HIGH);
       break;
     case 43:
       digitalWrite(low_frequency_pin, HIGH);
       break;
-    case 51:
-      digitalWrite(high_frequency_pin, LOW);
-      break;
-    case 64:
-      digitalWrite(middle_frequency_pin, LOW);
-      break;
-    case 77:
-      digitalWrite(high_frequency_pin, HIGH);
-      break;
     case 85:
       digitalWrite(low_frequency_pin, LOW);
       break;
-    case 96:
-      digitalWrite(middle_frequency_pin, HIGH);
-      break;
-    case 102:
-      digitalWrite(high_frequency_pin, LOW);
-      break;
     case 128:
-      digitalWrite(high_frequency_pin, HIGH);
       digitalWrite(low_frequency_pin, HIGH);
-      digitalWrite(middle_frequency_pin, LOW);
-      break;
-    case 154:
-      digitalWrite(high_frequency_pin, LOW);
-      break;
-    case 160:
-      digitalWrite(middle_frequency_pin, HIGH);
       break;
     case 171:
       digitalWrite(low_frequency_pin, LOW);
       break;
-    case 179:
-      digitalWrite(high_frequency_pin, HIGH);
-      break;
-    case 192:
-      digitalWrite(middle_frequency_pin, LOW);
-      break;
-    case 205:
-      digitalWrite(high_frequency_pin, LOW);
-      break;
     case 213:
       digitalWrite(low_frequency_pin, HIGH);
       break;
-    case 224:
+    case 256:
+      digitalWrite(low_frequency_pin, LOW);
+      break;
+    case 299:
+      digitalWrite(low_frequency_pin, HIGH);
+      break;
+    case 341:
+      digitalWrite(low_frequency_pin, LOW);
+      break;
+    case 384:
+      digitalWrite(low_frequency_pin, HIGH);
+      break;
+    case 427:
+      digitalWrite(low_frequency_pin, LOW);
+      break;
+    case 469:
+      digitalWrite(low_frequency_pin, HIGH);
+      break;
+    case 512:
+      digitalWrite(low_frequency_pin, LOW);
+      digitalWrite(middle_frequency_pin, LOW);
+      break;
+    case 544:
       digitalWrite(middle_frequency_pin, HIGH);
       break;
-    case 230:
+    case 576:
+      digitalWrite(middle_frequency_pin, LOW);
+      break;
+    case 608:
+      digitalWrite(middle_frequency_pin, HIGH);
+      break;
+    case 640:
+      digitalWrite(middle_frequency_pin, LOW);
+      break;
+    case 672:
+      digitalWrite(middle_frequency_pin, HIGH);
+      break;
+    case 704:
+      digitalWrite(middle_frequency_pin, LOW);
+      break;
+    case 736:
+      digitalWrite(middle_frequency_pin, HIGH);
+      break;
+    case 768:
+      digitalWrite(middle_frequency_pin, LOW);
+      break;
+    case 800:
+      digitalWrite(middle_frequency_pin, HIGH);
+      break;
+    case 832:
+      digitalWrite(middle_frequency_pin, LOW);
+      break;
+    case 864:
+      digitalWrite(middle_frequency_pin, HIGH);
+      break;
+    case 896:
+      digitalWrite(middle_frequency_pin, LOW);
+      break;
+    case 928:
+      digitalWrite(middle_frequency_pin, HIGH);
+      break;
+    case 960:
+      digitalWrite(middle_frequency_pin, LOW);
+      break;
+    case 992:
+      digitalWrite(middle_frequency_pin, HIGH);
+      break;
+    case 1024:
+      digitalWrite(high_frequency_pin, LOW);
+      digitalWrite(middle_frequency_pin, LOW);
+      break;
+    case 1050:
       digitalWrite(high_frequency_pin, HIGH);
-      break;  
-    }
+      break;
+    case 1075:
+      digitalWrite(high_frequency_pin, LOW);
+      break;
+    case 1101:
+      digitalWrite(high_frequency_pin, HIGH);
+      break;
+    case 1126:
+      digitalWrite(high_frequency_pin, LOW);
+      break;
+    case 1152:
+      digitalWrite(high_frequency_pin, HIGH);
+      break;
+    case 1178:
+      digitalWrite(high_frequency_pin, LOW);
+      break;
+    case 1203:
+      digitalWrite(high_frequency_pin, HIGH);
+      break;
+    case 1229:
+      digitalWrite(high_frequency_pin, LOW);
+      break;
+    case 1254:
+      digitalWrite(high_frequency_pin, HIGH);
+      break;
+    case 1280:
+      digitalWrite(high_frequency_pin, LOW);
+      break;
+    case 1306:
+      digitalWrite(high_frequency_pin, HIGH);
+      break;
+    case 1331:
+      digitalWrite(high_frequency_pin, LOW);
+      break;
+    case 1357:
+      digitalWrite(high_frequency_pin, HIGH);
+      break;
+    case 1382:
+      digitalWrite(high_frequency_pin, LOW);
+      break;
+    case 1408:
+      digitalWrite(high_frequency_pin, HIGH);
+      break;
+    case 1434:
+      digitalWrite(high_frequency_pin, LOW);
+      break;
+    case 1459:
+      digitalWrite(high_frequency_pin, HIGH);
+      break;
+    case 1485:
+      digitalWrite(high_frequency_pin, LOW);
+      break;
+    case 1510:
+      digitalWrite(high_frequency_pin, HIGH);
+      break;
+    case 1536:
+      digitalWrite(high_frequency_pin, LOW);
+      break;
+  }
+  ++frequency_counter;
+  frequency_counter%= 1792;
 }
 
 void setup() {

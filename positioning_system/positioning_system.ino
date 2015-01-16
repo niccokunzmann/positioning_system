@@ -135,18 +135,18 @@ void loop() {
     int v_low = low_phase * 180 / PI / 3;
     int v_middle = middle_phase * 180 / PI / 4;
     
-    Serial.print(v_low - v_middle);
-    Serial.print(" low middle ");
+    Serial.print(v_middle - v_low);
+    Serial.print(" middle-low ");
 //    Serial.print(low_amplitude * 100);
     Serial.print("\t");
   
     Serial.print(v_high - v_middle);
-    Serial.print(" middle high ");
+    Serial.print(" high-middle ");
 //    Serial.print((middle_amplitude * 100));
     Serial.print("\t");
   
-    Serial.print(v_high - v_low);
-    Serial.print(" low-high ");
+    Serial.print((v_high - v_low) / 2);
+    Serial.print(" high-low ");
 //    Serial.print(high_amplitude * 100);
     Serial.println("\t");
   }
