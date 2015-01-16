@@ -21,11 +21,8 @@ def switch(i, string, offset):
     
     
 switch(3, "low", 0)
-switch(3, "low", 256)
-switch(4, "middle", 512)
-switch(4, "middle", 768)
-switch(5, "high", 1024)
-switch(5, "high", 1280)
+switch(4, "middle", 256)
+switch(5, "high", 512)
 l.sort()
 print("  switch (frequency_counter) {")
 li = iter(l)
