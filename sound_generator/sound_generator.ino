@@ -45,8 +45,8 @@ void setup_timer2_frequency(){
 }
 
 const int low_frequency_pin = 9;
-const int middle_frequency_pin = 10;
-const int high_frequency_pin = 11;
+const int middle_frequency_pin = 9;
+const int high_frequency_pin = 9;
 
 //const int sample_frequency = 256;
 //const int high_frequency = 5; // how many times it
@@ -54,6 +54,7 @@ const int high_frequency_pin = 11;
 //const int low_frequency = 3; // how many times it fits into sample_frequency
 
 byte frequency_counter = 0;
+byte frequency_selector = 0;
 
 void setup_speaker() {
   pinMode(low_frequency_pin, OUTPUT);
@@ -136,7 +137,7 @@ void setup() {
   setup_timer2_frequency();
   Serial.begin(9600); 
   while (!Serial) {};
-  Serial.println("Interrrupt test"); 
+  Serial.println("Sound generation"); 
 }
 
 void loop() {
