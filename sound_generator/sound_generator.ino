@@ -34,7 +34,7 @@ void setup_timer2_frequency(){
   TCCR2B = 0;// same for TCCR1B
   TCNT2  = 0;//initialize counter value to 0
   // set compare match register for 33333hz increments
-  OCR2A = 60;// = 16000000 / (32768 * 8) - 1 (must be <256)
+  OCR2A = 243 /*60*/;// = 16000000 / (32768 * 8) - 1 (must be <256)
   // turn on CTC mode
   TCCR2A |= (1 << WGM12);
   // Set CS10 bits for 8 prescaler
@@ -44,9 +44,6 @@ void setup_timer2_frequency(){
   sei();//allow interrupts
 }
 
-const int low_frequency_pin = 9;
-const int middle_frequency_pin = 9;
-const int high_frequency_pin = 9;
 
 //const int sample_frequency = 256;
 //const int high_frequency = 5; // how many times it
@@ -56,93 +53,41 @@ const int high_frequency_pin = 9;
 word frequency_counter = 0;
 
 void setup_speaker() {
-  pinMode(low_frequency_pin, OUTPUT);
-  pinMode(middle_frequency_pin, OUTPUT);
-  pinMode(high_frequency_pin, OUTPUT);
+  pinMode( 8, OUTPUT);
+  pinMode( 9, OUTPUT);
+  pinMode(10, OUTPUT);
+  pinMode(11, OUTPUT);
 }
 
 ISR(TIMER2_COMPA_vect){//timer2 interrupt 33333Hz toggles sound pins
-  switch (frequency_counter) {
-    case 0:
-      digitalWrite(low_frequency_pin, LOW);
-      break;
-    case 43:
-      digitalWrite(low_frequency_pin, HIGH);
-      break;
-    case 85:
-      digitalWrite(low_frequency_pin, LOW);
-      break;
-    case 128:
-      digitalWrite(low_frequency_pin, HIGH);
-      break;
-    case 171:
-      digitalWrite(low_frequency_pin, LOW);
-      break;
-    case 213:
-      digitalWrite(low_frequency_pin, HIGH);
-      break;
-    case 256:
-      digitalWrite(low_frequency_pin, LOW);
-      digitalWrite(middle_frequency_pin, LOW);
-      break;
-    case 288:
-      digitalWrite(middle_frequency_pin, HIGH);
-      break;
-    case 320:
-      digitalWrite(middle_frequency_pin, LOW);
-      break;
-    case 352:
-      digitalWrite(middle_frequency_pin, HIGH);
-      break;
-    case 384:
-      digitalWrite(middle_frequency_pin, LOW);
-      break;
-    case 416:
-      digitalWrite(middle_frequency_pin, HIGH);
-      break;
-    case 448:
-      digitalWrite(middle_frequency_pin, LOW);
-      break;
-    case 480:
-      digitalWrite(middle_frequency_pin, HIGH);
-      break;
-    case 512:
-      digitalWrite(high_frequency_pin, LOW);
-      digitalWrite(middle_frequency_pin, LOW);
-      break;
-    case 538:
-      digitalWrite(high_frequency_pin, HIGH);
-      break;
-    case 563:
-      digitalWrite(high_frequency_pin, LOW);
-      break;
-    case 589:
-      digitalWrite(high_frequency_pin, HIGH);
-      break;
-    case 614:
-      digitalWrite(high_frequency_pin, LOW);
-      break;
-    case 640:
-      digitalWrite(high_frequency_pin, HIGH);
-      break;
-    case 666:
-      digitalWrite(high_frequency_pin, LOW);
-      break;
-    case 691:
-      digitalWrite(high_frequency_pin, HIGH);
-      break;
-    case 717:
-      digitalWrite(high_frequency_pin, LOW);
-      break;
-    case 742:
-      digitalWrite(high_frequency_pin, HIGH);
-      break;
-    case 768:
-      digitalWrite(high_frequency_pin, LOW);
-      break;
+  byte value = (frequency_counter & 0b01111100) >> 2;
+  byte sign = value & 1;
+  value >>= 1;
+  if (sign) {
+    value = ~value;
+  }
+  if (value & 0b1000) {
+    digitalWrite(11, HIGH);
+  } else {
+    digitalWrite(11, LOW);
+  }
+  if (value & 0b0100) {
+    digitalWrite(10, HIGH);
+  } else {
+    digitalWrite(10, LOW);
+  }
+  if (value & 0b0010) {
+    digitalWrite(9, HIGH);
+  } else {
+    digitalWrite(9, LOW);
+  }
+  if (value & 0b0001) {
+    digitalWrite(8, HIGH);
+  } else {
+    digitalWrite(8, LOW);
   }
   ++frequency_counter;
-  frequency_counter%= 1024;
+  frequency_counter%= 256;
 }
 
 void setup() {
