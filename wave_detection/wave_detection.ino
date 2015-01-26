@@ -11,10 +11,10 @@ void setup() {
 
 void loop() {
   long volume = get_volume_squared();
-  Serial.print("volume: ");
-  Serial.println(volume);
-  Serial.print("average sample: ");
-  Serial.println(get_average_sample());
+  //Serial.print("volume: ");
+  //Serial.println(volume);
+  Serial.print("distance: ");
+  Serial.println(1000. / pow(volume, 0.25));
   delay(100);
 }
 
@@ -160,7 +160,7 @@ void record_samples() {
   while (recording_samples) {};
 }
 
-char wave_detection_error[] = "WAVE DETECTION ERROR: "
+char wave_detection_error[] = "WAVE DETECTION ERROR: ";
 
 long compute_squared_volume() {
 
@@ -175,12 +175,27 @@ long compute_squared_volume() {
       Serial.println("squared_volume is negative but should be positive. Maybe overflow_preventing_volume_divisor should be higher?");
     }
   }
+  return squared_volume;
 }
+
+/*int example_samples[] = {1023, 1023, 1023, 1023, 1023, 1023, 1, 1, 1, 1, 1, 1, 1, 2, 1, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 
+1, 1, 1, 1, 1, 1, 1, 1, 1, 989, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 2, 1, 1, 1, 1, 1, 
+1, 1, 1, 1, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1, 1, 1, 1, 1, 1, 1, 1, 1, 756, 1023, 1023, 
+1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 
+1023, 2, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1, 1, 1, 2, 
+2, 1, 1, 1, 1, 1, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1023, 
+1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1023, 1023, 1023, 1023, 1023, 1023, 
+1023, 1023, 1023, 1023, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 0, 2, 
+1, 2, 1, 1, 1, 1, 1, 1, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1, 1, 1, 1, 1, 1, 1, 1, 
+1, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1023, 1023, 1023, 1023, 
+1023, 1023, 1023, 1023, 1023, 1023, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 1023, 806, 
+1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1023, 1023, 1023, 1023}
+; /**/
 
 void convolve_wave() {
   // read the book http://www.dspguide.com/ch13/2.htm
   sum_sinus   = 0;
-  sum_cosinus = 0;
+  sum_cosinus = 0; 
   long sum_of_samples = 0;
   for (int sample_index = 0; sample_index < number_of_samples; sample_index++) {
     sum_of_samples += samples[sample_index];
