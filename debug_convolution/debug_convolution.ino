@@ -78,7 +78,15 @@ long compute_squared_volume() {
   // => 30 bit sum_sinus squared
   // => 31 bit sum_sinus squared + sum_cosinus squared
   long sin_value = sum_sinus / 2048;
+  Serial.print("sin_value ");
+  Serial.println(sin_value);
+  Serial.print("sin_value*sin_value ");
+  Serial.println(sin_value*sin_value);
   long cos_value = sum_cosinus / 2048;
+  Serial.print("cos_value ");
+  Serial.println(cos_value);
+  Serial.print("cos_value*cos_value ");
+  Serial.println(cos_value*cos_value);
   return sin_value * sin_value + cos_value * cos_value;
 }
 
@@ -92,8 +100,9 @@ void setup() {
   Serial.println(sum_sinus);
   Serial.print("sum_cosinus ");
   Serial.println(sum_cosinus);
+  long sqv = compute_squared_volume();
   Serial.print("squared value: ");
-  Serial.println(compute_squared_volume());
+  Serial.println(sqv);
   
 }
 

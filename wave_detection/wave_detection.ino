@@ -152,8 +152,8 @@ void convolve_wave() {
        sample_index++) 
   {
     int wave_index = sample_index % samples_per_wave_cycle;
-    sum_sinus   += long(samples[sample_index] - average_sample) * sinus_wave[wave_index];
-    sum_cosinus += long(samples[sample_index] - average_sample) * cosinus_wave[wave_index];
+    sum_sinus   += long(samples[sample_index] - average_sample) * long(sinus_wave[wave_index]);
+    sum_cosinus += long(samples[sample_index] - average_sample) * long(cosinus_wave[wave_index]);
   }
 }
 
