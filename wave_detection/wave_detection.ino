@@ -12,7 +12,7 @@ void setup() {
 void loop() {
   long lautstaerke = get_volume_squared();
   Serial.println(lautstaerke); 
-  print_samples();
+  //print_samples();
   delay(100);
 }
 
