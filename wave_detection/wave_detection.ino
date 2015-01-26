@@ -4,20 +4,37 @@ void setup() {
   Serial.begin(9600); 
   while (!Serial) {};
   setup_volume_recognition(A0);
-  Serial.print("Lautstaerke der Schwingung: "); 
+  Serial.print("Volume of the wave "); 
   Serial.print(get_frequency());
   Serial.println("Hz");
 }
 
 void loop() {
-  long lautstaerke = get_volume_squared();
-  Serial.println(lautstaerke); 
-  //print_samples();
+  long volume = get_volume_squared();
+  Serial.print("volume: ");
+  Serial.println(volume);
+  Serial.print("average sample: ");
+  Serial.println(get_average_sample());
   delay(100);
 }
 
-
-/*************
+/***************
+ *  Functions  *
+ ***************
+ *
+ * void setup_volume_recognition(int microphone_pin)
+ *    must be called once in setup
+ *    it makes the program listen to input from the microphone
+ *    also if something is wrong it will print error messages
+ *
+ * int get_frequency()
+ *    returns the frequency in Hz
+ *    This is the frequency the program listens to.
+ *
+ * long get_volume_squared()
+ *    returns the loudness of the frequency.
+ *    
+ *************
  *  Program  *
  *************/
 
@@ -38,7 +55,22 @@ int microphone_pin;
 //   5 * 5 * 5 * 5 * 2 * 5 = 6250
 const int sample_frequency       = 8000; //Hz max 8000Hz
 const int samples_per_wave_cycle = 20;  // determines the frequency
-const int number_of_samples      = 300; // used to determine the volume
+const int number_of_samples      = 300; // number samples used to determine the volume
+
+  // see compute_squared_volume()
+  // 8 bit sinus_wave
+  // 10 bit analogRead
+  // 9 bit number_of_samples
+  // == 27 bit sum_sinus
+  // => shift by 12 bit to get 15 bit sum_sinus
+  // => 30 bit sum_sinus squared
+  // => 31 bit sum_sinus squared + sum_cosinus squared
+  // so we should divide by 2048
+  // but if we take 512 it may still be ok
+  // if the frequency is between 0 and 1024 then this value prevents overflow errors.
+  // if you get negative values you should turn it higher up to 2048 
+  // where no overflow can occur
+const long overflow_preventing_volume_divisor = 512; // <= 2048
 
 const int wave_frequency         = sample_frequency / samples_per_wave_cycle;  //Hz
 int samples[number_of_samples];
@@ -48,6 +80,8 @@ long sum_cosinus = 0;
 
 int sinus_wave[samples_per_wave_cycle];
 int cosinus_wave[samples_per_wave_cycle];
+
+int average_sample = -1;
 
 // for interrupt sampling
 int sample_index = 0;
@@ -126,27 +160,32 @@ void record_samples() {
   while (recording_samples) {};
 }
 
+char wave_detection_error[] = "WAVE DETECTION ERROR: "
+
 long compute_squared_volume() {
-  // 8 bit sine_wave
-  // 10 bit analogRead
-  // 9 bit number_of_samples
-  // == 27 bit sum_sinus
-  // => shift by 12 bit to get 15 bit sum_sinus
-  // => 30 bit sum_sinus squared
-  // => 31 bit sum_sinus squared + sum_cosinus squared
-  long sin_value = sum_sinus / 2048;
-  long cos_value = sum_cosinus / 2048;
-  return sin_value * sin_value + cos_value * cos_value;
+
+  long sin_value = sum_sinus / overflow_preventing_volume_divisor;
+  long cos_value = sum_cosinus / overflow_preventing_volume_divisor;
+  long squared_volume = sin_value * sin_value + cos_value * cos_value;
+  if (squared_volume < 0 && Serial) {
+    Serial.print(wave_detection_error);
+    if (overflow_preventing_volume_divisor >= 2048) {
+      Serial.println("squared_volume is negative but should be positive. overflow_preventing_volume_divisor has the right value. What could be the reason?");
+    } else {
+      Serial.println("squared_volume is negative but should be positive. Maybe overflow_preventing_volume_divisor should be higher?");
+    }
+  }
 }
 
 void convolve_wave() {
+  // read the book http://www.dspguide.com/ch13/2.htm
   sum_sinus   = 0;
   sum_cosinus = 0;
   long sum_of_samples = 0;
   for (int sample_index = 0; sample_index < number_of_samples; sample_index++) {
     sum_of_samples += samples[sample_index];
   }
-  int average_sample = sum_of_samples / number_of_samples;
+  average_sample = sum_of_samples / number_of_samples;
   for (int sample_index = 0;
        sample_index < number_of_samples;
        sample_index++) 
@@ -162,6 +201,13 @@ long get_volume_squared() {
   convolve_wave();
   return compute_squared_volume();
 }
+
+int get_average_sample() {
+  if (average_sample < 0) {
+    get_volume_squared();
+  }
+  return average_sample;
+}
  
 void setup_microphone_pin(int _microphone_pin) {
   microphone_pin = _microphone_pin;
@@ -171,12 +217,15 @@ void setup_microphone_pin(int _microphone_pin) {
 void setup_check_values() {
   if (Serial) {
     if (sample_frequency / samples_per_wave_cycle * samples_per_wave_cycle != sample_frequency) {
+      Serial.print(wave_detection_error);
       Serial.println("sample_frequency should be a multiple of samples_per_wave_cycle.");
     };
     if (number_of_samples / samples_per_wave_cycle * samples_per_wave_cycle != number_of_samples) {
+      Serial.print(wave_detection_error);
       Serial.println("number_of_samples should be a multiple of samples_per_wave_cycle.");
     };
     if (sizeof(long) < 4) {
+      Serial.print(wave_detection_error);
       Serial.println("datatype long should have 4 bytes at least!");
     }
   }
