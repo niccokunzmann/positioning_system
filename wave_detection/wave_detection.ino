@@ -54,8 +54,8 @@ int microphone_pin;
 // It takes about 100 microseconds (0.0001 s) to read an analog input, so the maximum reading rate is about 10,000 times a second. 
 //   5 * 5 * 5 * 5 * 2 * 5 = 6250
 const int sample_frequency       = 8000; //Hz max 8000Hz
-const int samples_per_wave_cycle = 20;  // determines the frequency
-const int number_of_samples      = 300; // number samples used to determine the volume
+const int samples_per_wave_cycle = 20;   // determines the frequency
+const int number_of_samples      = 300;  // number samples used to determine the volume
 
   // see compute_squared_volume()
   // 8 bit sinus_wave

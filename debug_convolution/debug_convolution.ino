@@ -52,10 +52,6 @@ void convolve_wave() {
   Serial.println(sum_of_samples);
   Serial.print("average_sample ");
   Serial.println(average_sample);
-  Serial.print("sizeof(int)");
-  Serial.println(sizeof(int));
-  Serial.print("sizeof(long)");
-  Serial.println(sizeof(long));
   
   for (int sample_index = 0;
        sample_index < number_of_samples;
@@ -83,11 +79,11 @@ long compute_squared_volume() {
   // => 30 bit sum_sinus squared
   // => 31 bit sum_sinus squared + sum_cosinus squared
   long sin_value = sum_sinus / 512;
+  long cos_value = sum_cosinus / 512;
   Serial.print("sin_value ");
   Serial.println(sin_value);
   Serial.print("sin_value*sin_value ");
   Serial.println(sin_value*sin_value);
-  long cos_value = sum_cosinus / 512;
   Serial.print("cos_value ");
   Serial.println(cos_value);
   Serial.print("cos_value*cos_value ");
@@ -100,6 +96,15 @@ void setup() {
   setup_waves();
   Serial.begin(9600);
   while (!Serial) {};
+  Serial.print("sizeof(int)");
+  Serial.println(sizeof(int));
+  Serial.print("sizeof(long)");
+  Serial.println(sizeof(long));
+  Serial.print("sizeof(float)");
+  Serial.println(sizeof(float));
+  Serial.print("sizeof(double)");
+  Serial.println(sizeof(double));
+
   convolve_wave();
   Serial.print("sum_sinus ");
   Serial.println(sum_sinus);

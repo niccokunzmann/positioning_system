@@ -19,7 +19,7 @@ void loop() {
   Serial.print(" reads: ");
   Serial.print(time);
   Serial.print("ms. Reads/second: ");
-  Serial.print((double)READS * 1000 / time);
+  Serial.print((double)READS * 1000 / time); // 8900 reads / second
   Serial.print(" sum: ");
   Serial.println(s);
 }
