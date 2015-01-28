@@ -11,7 +11,7 @@ class Function
 {
   public:
     // constant
-/*    static Function<Number> from_zeros();
+    static Function<Number> from_zeros();
     // linear function
     static Function<Number> from_zeros(Number zero1);
     // quadratic function
@@ -24,13 +24,13 @@ class Function
     // constant 0
     Function(); 
     // constant
-    Function(Number a); 
+    Function(Number e); 
     // linear function
-    Function(Number a, Number b);
+    Function(Number d, Number e);
     // quadratic function
-    Function(Number a, Number b, Number c);
+    Function(Number c, Number d, Number e);
     // cubic function
-    Function(Number a, Number b, Number c, Number d);
+    Function(Number b, Number c, Number d, Number e);
     // function of degree 4
     Function(Number a, Number b, Number c, Number d, Number e);
     
@@ -60,15 +60,30 @@ class Function
     
     void add(Number n);
     void multiply(Number n); 
-    */
-    static boolean test_all();
-    static boolean test_from_zeros();
     
     const static boolean default_debug = true;
-  
+
+    // tests
+    static boolean test_all();
+    static boolean test_from_zeros();
+    static boolean test_instanciation();
+    static boolean test_instanciation0();
+    static boolean test_instanciation1();
+    static boolean test_instanciation2();
+    static boolean test_instanciation3();
+    static boolean test_instanciation4();
+    static boolean test_instanciation5();
+    
+    
   private: 
-    Number _a, _b, _c, _d, _e;
-    Number _epsilon;
+    Number m_a;
+    Number m_b;
+    Number m_c;
+    Number m_d;
+    Number m_e;
+    Number m_epsilon;
+    
+    void set_coefficients(Number a, Number b, Number c, Number d, Number e);
 
 };
 
