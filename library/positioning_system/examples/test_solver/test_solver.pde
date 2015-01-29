@@ -6,8 +6,10 @@ void setup() {
   Serial.begin(9600);
   while (!Serial);
   
-  if (Function<double>::test_all()) {
-    Serial.println("ok... all tests passed.");
+  test_success = true;
+  test_coefficients();
+  if (test_success) {
+    Serial.println("ok... all tests passed.")
   }
   
 }
@@ -16,4 +18,3 @@ void loop() {
   
   
 }
-

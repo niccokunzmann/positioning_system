@@ -10,7 +10,6 @@
 #include "Arduino.h"
 #include "solver.h"
 
-#include "test_solver.cpp"
 
 // Member functions of template classes 
 // https://msdn.microsoft.com/en-us/library/80dx1bas.aspx
@@ -60,22 +59,25 @@ template<typename Number> Number const& Function<Number>::e() const {
   return m_e;
 }
 
+template<typename Number> Number Function<Number>::operator()(Number x) const {
+  return (((a() * x + b()) * x + c()) * x + d()) * x + e();
+}
 
 // constant
 template<typename Number> Function<Number> Function<Number>::from_zeros(){
-  
+  return Function<Number>(0);
 }
 template<typename Number> Function<Number> Function<Number>::from_zeros(Number zero1){
-  
+  return Function<Number>(1, -zero1);
 }
 template<typename Number> Function<Number> Function<Number>::from_zeros(Number zero1, Number zero2){
-  
+  return Function<Number>(1, -zero1 -zero2, zero1 * zero2);
 }
 template<typename Number> Function<Number> Function<Number>::from_zeros(Number zero1, Number zero2, Number zero3){
-  
+  return Function<Number>(1, -zero1 - zero2 - zero3, zero1 * zero2);
 }
 template<typename Number> Function<Number> Function<Number>::from_zeros(Number zero1, Number zero2, Number zero3, Number zero4){
-  
+  return Function<Number>(1, -zero1 -zero2, zero1 * zero2);
 }
  
 

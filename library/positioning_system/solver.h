@@ -60,20 +60,10 @@ class Function
     
     void add(Number n);
     void multiply(Number n); 
-    
-    const static boolean default_debug = true;
 
     // tests
-    static boolean test_all();
-    static boolean test_from_zeros();
-    static boolean test_instanciation();
-    static boolean test_instanciation0();
-    static boolean test_instanciation1();
-    static boolean test_instanciation2();
-    static boolean test_instanciation3();
-    static boolean test_instanciation4();
-    static boolean test_instanciation5();
-    
+    const static boolean default_debug = true;
+    //static void test_debug_print(char* message, int line, char* file);
     
   private: 
     Number m_a;
@@ -91,6 +81,5 @@ class Function
 // http://stackoverflow.com/questions/8752837/undefined-reference-to-template-class-constructor
 typedef Function<double> FunctionDouble;
 typedef Function<float > FunctionFloat ;
-
 
 #endif
