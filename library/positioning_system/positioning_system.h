@@ -15,4 +15,7 @@
 #include "solve.h"
 #include "test_solve.h"
 
+
+#include "test.h"
+
 #endif // positioing_system_h

@@ -4,15 +4,19 @@
 
 #include "Arduino.h"
 
-void test_debug_print(const char* message, int line, const char* file);
+void test_succeeded(const char* message, int line, const char* file);
+void test_failed(const char* message, int line, const char* file);
 
 static boolean test_success;
+static boolean verbose_tests = true;
 
 // Macros
 // https://gcc.gnu.org/onlinedocs/cpp/Standard-Predefined-Macros.html#Standard-Predefined-Macros
 #define assert2(truth, Message) \
-  if (!(truth)) { \
-    test_debug_print(Message, __LINE__, __FILE__); \
+  if (truth) { \
+    test_succeeded(Message, __LINE__, __FILE__); \
+  } else { \
+    test_failed(Message, __LINE__, __FILE__); \
     test_success = false; \
   };
   
@@ -26,7 +30,7 @@ static boolean test_success;
 #define _assert_not_equals(A, B, Message) assert_not_equals2(A, B, #Message)
 #define assert_not_equals(A, B) _assert_not_equals(A, B, A != B)
 
-
+void test_all();
 
 #endif
 

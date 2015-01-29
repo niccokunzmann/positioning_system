@@ -1,5 +1,6 @@
 
 #include "solve.h"
+#include "Arduino.h"
 
 Coefficients get_coefficients() {
   return get_coefficients(0, 0, 0, 0, 0);

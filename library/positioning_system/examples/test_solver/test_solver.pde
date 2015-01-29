@@ -7,9 +7,9 @@ void setup() {
   while (!Serial);
   
   test_success = true;
-  test_coefficients();
+  test_all();
   if (test_success) {
-    Serial.println("ok... all tests passed.")
+    Serial.println("ok... all tests passed.");
   }
   
 }
