@@ -5,4 +5,4 @@ rem                     compile the file
 
 
 
-abuild.bat -c -r "positioning_system\example_positioning_system.cpp"
+abuild.bat -v -r -c "positioning_system\examples\test_solver\test_solver.pde"

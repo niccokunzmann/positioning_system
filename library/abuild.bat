@@ -1,4 +1,4 @@
-@echo off
+@echo on
 setlocal EnableDelayedExpansion
 REM ---------------------------------------------------------------------------
 REM     abuild.bat  -  by Don Cross  -  http://cosinekitty.com
@@ -95,10 +95,12 @@ if not exist !abuild_output! (
 if /i "!abuild_SketchName:~-4!" == ".pde" (
     REM     If we see .pde on the end, we will do a tiny amount of preprocessing,
     REM     but not as much as the Arduino IDE would do.
-    set abuild_cppname=!abuild_output!\!abuild_SketchName!.cpp
+    FOR /f %%i IN ("%abuild_SketchName%") DO (
+      set abuild_cppname=!abuild_output!\%%~ni.cpp
+    )
     set abuild_preprocess=true
     !abuild_report! found PDE file; will do minor preprocessing ==^>  !abuild_cppname!
-    > !abuild_cppname! echo.#include ^<WProgram.h^>
+    > !abuild_cppname! echo.#include ^<Arduino.h^>
     >>!abuild_cppname! type !abuild_SketchName!
     if exist "!arduino_runtime!\main.cxx" (
         REM     Getting here means we are using the library optimization patch.
