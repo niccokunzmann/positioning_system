@@ -31,6 +31,7 @@ if not defined arduino_path (
     goto end
 )
 
+
 REM ---------------------------------------------------------------------------
 REM     Verify that ARDUINO_PATH points to a valid Arduino-0011 installation...
 
@@ -43,6 +44,22 @@ for %%f in (
         !abuild_error! Expected file [%%f] was missing
         goto end
     )
+)
+
+REM ---------------------------------------------------------------------------
+REM     Check for ARDUINO_VARIANT environment variable
+if not defined ARDUINO_VARIANT (
+    !abuild_error! Must define environment variable ARDUINO_VARIANT to point to a variant of the arduino.
+    goto end
+)
+
+set arduino_variant_path="!arduino_path!\hardware\arduino\variants\!ARDUINO_VARIANT!"
+
+if not exist !arduino_variant_path! (
+    !abuild_error! The ARDUINO_VARIANT environment variable does not name a valid Arduino variant.
+    !abuild_error! See !arduino_path!\hardware\arduino\boards.txt
+    !abuild_error! %arduino_variant_path% is invalid.
+    goto end
 )
 
 REM ---------------------------------------------------------------------------

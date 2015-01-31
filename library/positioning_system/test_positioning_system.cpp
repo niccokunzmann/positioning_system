@@ -1,7 +1,4 @@
 
-void setup();
-void loop();
-
 #include "Arduino.h"
 #include "positioning_system.h"
 

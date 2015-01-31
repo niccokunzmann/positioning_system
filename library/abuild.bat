@@ -155,7 +155,7 @@ rem echo.!abuild_include_paths!
 REM ---------------------------------------------------------------------------
 REM     Compile the user's sketch first, to help her find errors quicker...
 
-set abuild_gcc_opts=-c -g -Os "-I!arduino_runtime!" !abuild_include_paths! -mmcu=!arduino_mcu! -DF_CPU=!arduino_fcpu! -DABUILD_BATCH=1
+set abuild_gcc_opts=-c -g -Os -I!arduino_variant_path! "-I!arduino_runtime!" !abuild_include_paths! -mmcu=!arduino_mcu! -DF_CPU=!arduino_fcpu! -DABUILD_BATCH=1
 set abuild_gpp_opts=!abuild_gcc_opts! -fno-exceptions
 set abuild_short_name=
 
