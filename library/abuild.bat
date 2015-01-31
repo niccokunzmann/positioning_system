@@ -152,7 +152,7 @@ if !abuild_nolibs! == false (
 	)
 	popd
 )
-rem echo.!abuild_include_paths!
+echo.!abuild_include_paths!
 
 REM ---------------------------------------------------------------------------
 REM     Compile the user's sketch first, to help her find errors quicker...

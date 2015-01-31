@@ -1,0 +1,11 @@
+The system cannot find the file specified.
+Name: !ARDUINO_NAME!
+Microcontroller: !ARDUINO_MCU!
+Variant: !ARDUINO_VARIANT!
+Programmer: !ARDUINO_PROGRAMMER!
+CPU Frequency: !ARDUINO_FCPU!
+Upload Rate: !ARDUINO_BURNRATE!
+Maximum file size for upload: !ARDUINO_MAXIMUM_UPLOAD_SIZE!
+abuild.bat: *** ERROR: The ARDUINO_PATH environment variable does not point to a valid Arduino installation.
+abuild.bat: *** ERROR: Expected file [""C:\Program] was missing
+aupload.bat:  exiting with return code 1
