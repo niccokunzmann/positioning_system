@@ -31,3 +31,5 @@ SET ARDUINO_BURNRATE=57600
 
 @rem The directory for user defined libraries
 SET ARDUINO_USER_LIBRARIES=C:\Users\cheche\Documents\Arduino\libraries
+
+@rem The maximum upload size of the arduino
