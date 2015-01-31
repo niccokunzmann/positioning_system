@@ -15,6 +15,7 @@
 #include "solve.h"
 #include "test_solve.h"
 
+void test_all();
 
 #include "test_positioning_system.h"
 

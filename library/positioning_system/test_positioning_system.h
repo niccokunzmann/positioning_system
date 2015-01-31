@@ -6,6 +6,7 @@
 
 void test_succeeded(const char* message, int line, const char* file);
 void test_failed(const char* message, int line, const char* file);
+void test_all();
 
 static boolean test_success;
 static boolean verbose_tests = true;
@@ -30,7 +31,6 @@ static boolean verbose_tests = true;
 #define _assert_not_equals(A, B, Message) assert_not_equals2(A, B, #Message)
 #define assert_not_equals(A, B) _assert_not_equals(A, B, A != B)
 
-void test_all();
 
 #endif
 

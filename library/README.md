@@ -21,6 +21,37 @@ got the output
 So it is expecting a library here: `C:\Program Files (x86)\Arduino\hardware\cores\arduino`  
 But the library is there: `C:\Program Files (x86)\Arduino\hardware\arduino\cores\arduino`
 
-So I ran
+So I changed that.
 
-    mklink /J "C:\Program Files (x86)\Arduino\hardware\cores" "C:\Program Files (x86)\Arduino\hardware\arduino\cores"
+Furthemore
+    
+    nano328.name=Arduino Nano w/ ATmega328
+    
+    nano328.upload.protocol=arduino
+    nano328.upload.maximum_size=30720
+    nano328.upload.speed=57600
+    
+    nano328.bootloader.low_fuses=0xFF
+    nano328.bootloader.high_fuses=0xDA
+    nano328.bootloader.extended_fuses=0x05
+    nano328.bootloader.path=atmega
+    nano328.bootloader.file=ATmegaBOOT_168_atmega328.hex
+    nano328.bootloader.unlock_bits=0x3F
+    nano328.bootloader.lock_bits=0x0F
+    
+    nano328.build.mcu=atmega328p
+    nano328.build.f_cpu=16000000L
+    nano328.build.core=arduino
+    nano328.build.variant=eightanaloginputs
+
+Describes 
+
+    nano328.build.core=arduino
+    nano328.build.variant=eightanaloginputs
+
+So 
+
+	SET ARDUINO_MCU=atmega168
+	SET ARDUINO_VARIANT=eightanaloginputs
+
+must be set accordingly.

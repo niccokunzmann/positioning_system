@@ -1,4 +1,4 @@
-@echo on
+@echo off
 setlocal EnableDelayedExpansion
 REM ---------------------------------------------------------------------------
 REM     abuild.bat  -  by Don Cross  -  http://cosinekitty.com
