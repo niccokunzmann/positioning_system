@@ -1,21 +1,33 @@
 
+#include "test_positioning_system.h"
 #include "Arduino.h"
-#include "positioning_system.h"
+#include "test_solve.h"
 
 
-void setup() {
-  Serial.begin(9600);
-  while (!Serial);
-  
-  test_success = true;
-  test_all();
-  if (test_success) {
-    Serial.println("ok... all tests passed.");
+void test_succeeded(const char* message, int line, const char* file) {
+  if (Serial) {
+    if (verbose_tests) {
+     Serial.print("."); 
+    };
+  };
+};
+
+void test_failed(const char* message, int line, const char* file) {
+  if (Serial) {
+    if (verbose_tests) {
+      Serial.print("In line "); 
+      Serial.print(line); 
+      Serial.print("\tin file "); 
+      Serial.println(file); 
+      Serial.print("AssertionError: "); 
+      Serial.println(message); 
+    } else {
+      Serial.print("F");
+    }
   }
-  
 }
 
-void loop() {
-  
-  
+void test_all() {
+  Serial.println("a2");
+  test_coefficients();
 }
