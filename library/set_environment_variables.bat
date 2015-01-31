@@ -25,3 +25,6 @@ SET ARDUINO_COMPORT=COM23
 
 @rem the baud rate at which the download is to occur (19200 seems to be a good starting point)
 SET ARDUINO_BURNRATE=19200
+
+@rem The directory for user defined libraries
+SET ARDUINO_USER_LIBRARIES=C:\Users\cheche\Documents\Arduino\libraries

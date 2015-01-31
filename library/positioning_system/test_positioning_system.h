@@ -1,6 +1,6 @@
 
-#ifndef test_h
-#define test_h
+#ifndef test_positioning_system_h
+#define test_positioning_system_h
 
 #include "Arduino.h"
 

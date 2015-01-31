@@ -1,6 +1,6 @@
 
 #include "test_solve.h"
-#include "test.h"
+#include "test_positioning_system.h"
 #include "solve.h"
 
 void test_coefficients() {

@@ -16,6 +16,6 @@
 #include "test_solve.h"
 
 
-#include "test.h"
+#include "test_positioning_system.h"
 
 #endif // positioing_system_h

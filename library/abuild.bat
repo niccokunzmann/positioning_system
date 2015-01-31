@@ -209,6 +209,7 @@ if exist !abuild_runtime_library! (
     del !abuild_runtime_library!
 )
 
+rem compile arduino runtime .c files
 for %%f in ("!arduino_runtime!\*.c") do (
     set abuild_objfile=!abuild_output!\%%~nf.c.o
     set abuild_cmd=avr-gcc !abuild_gcc_opts! "%%~f" "-o!abuild_objfile!"
@@ -224,6 +225,7 @@ for %%f in ("!arduino_runtime!\*.c") do (
     if not !errorlevel! == 0 (goto end)
 )
 
+rem compile arduino runtime .cpp files
 for %%f in ("!arduino_runtime!\*.cpp") do (
     set abuild_objfile=!abuild_output!\%%~nf.cpp.o
     set abuild_cmd=avr-g++ !abuild_gpp_opts! "%%~f" "-o!abuild_objfile!"
@@ -239,6 +241,8 @@ for %%f in ("!arduino_runtime!\*.cpp") do (
     if not !errorlevel! == 0 (goto end)
 )
 
+
+
 REM ---------------------------------------------------------------------------
 REM     Compile all the external libraries, and lump them into the runtime library...
 REM     (note that some symbols might not be stripped by the linker,
@@ -248,7 +252,7 @@ REM Once again, do the pushd/pop hack for the recursive for loop...
 REM Also, all abuild_cmd are CALL'ed below, otherwise the shell passes arguments incorrectly
 REM to the avr toolchain on the second iteration through the inner loops..!
 if !abuild_nolibs! == false (
-	for /D %%d in ("!arduino_path!\hardware\libraries\*.*") do (
+	for /D %%d in ("!arduino_path!\hardware\libraries\*.*" "!ARDUINO_USER_LIBRARIES!") do (
 		!abuild_report! Building library: %%d
 		
 		pushd %%d
@@ -302,6 +306,8 @@ if !abuild_nolibs! == false (
 		popd
 	)
 )
+
+
 
 REM ---------------------------------------------------------------------------
 REM     Link everything...
