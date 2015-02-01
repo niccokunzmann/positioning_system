@@ -1,16 +1,18 @@
 
-//#include "positioning_system.h"
+#include "positioning_system.h"
 
 
 void setup() {
   Serial.begin(9600);
   while (!Serial);
   
-  //test_success = true;
-  //test_all();
-  //if (test_success) {
-  //  Serial.println("ok... all tests passed.");
-  //}
+  Serial.println("Starting Tests");
+  test_success = true;
+  delay(1000);
+  test_all();
+//  if (test_success) {
+//    Serial.println("ok... all tests passed.");
+//  }
   
 }
 

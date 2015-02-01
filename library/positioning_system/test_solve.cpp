@@ -5,6 +5,7 @@
 
 void test_coefficients() {
   Coefficients c;
+  delay(100);
   Serial.println("a3");
   c = get_coefficients_from_zeros();
   Serial.println("a4");

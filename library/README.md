@@ -54,4 +54,10 @@ So
 	SET ARDUINO_MCU=atmega168
 	SET ARDUINO_VARIANT=eightanaloginputs
 
-must be set accordingly.
+must be set accordingly. This is done by `set_environment_variables.bat`.
+
+
+Serial communication
+--------------------
+
+Downloaded `serialterm.exe` form http://www.comp.lancs.ac.uk/~albrecht/sw/terminal/index.html

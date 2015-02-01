@@ -69,7 +69,7 @@ REM ---------------------------------------------------------------------------
 REM The old uisp command doesn't seem to do it for me - based on cursory investigation,
 REM it seems the arduino environment now uses avrdude as well
 rem set cmd=uisp -v=3 -dpart=!arduino_mcu! -dprog=!arduino_programmer! -dserial=/dev/!arduino_comport! -dspeed=!arduino_burnrate! --upload if=!hexfile!
-set cmd=avrdude -C "!arduino_path!\hardware\tools\avr\etc\avrdude.conf" -p !arduino_mcu! -P !arduino_comport! -c !arduino_programmer! -b !arduino_burnrate! -U "flash:w:!hexfile!"
+set cmd=avrdude -C "!arduino_path!\hardware\tools\avr\etc\avrdude.conf" -p !arduino_mcu! -P !arduino_comport! -c !arduino_programmer! -b !arduino_burnrate! -U "flash:w:!hexfile!:i"
 !abuild_report! !cmd!
 !cmd!
 set rc=!errorlevel!
