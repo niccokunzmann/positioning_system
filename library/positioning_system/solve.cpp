@@ -2,77 +2,51 @@
 #include "solve.h"
 #include "Arduino.h"
 
-Coefficients get_coefficients() {
-  return get_coefficients(0, 0, 0, 0, 0);
+void get_coefficients_from_zeros(double zero1, double *d, double* e) {
+  *d = 1;
+  *e = -zero1;
 };
-Coefficients get_coefficients(double e) {
-  return get_coefficients(0, 0, 0, 0, e);
+void get_coefficients_from_zeros(double zero1, double zero2, double *c, double *d, double *e) {
+  *c = 1;
+  *d = -zero1 - zero2;
+  *e = zero1 * zero2;
 };
-Coefficients get_coefficients(double d, double e) {
-  return get_coefficients(0, 0, 0, d, e);
+void get_coefficients_from_zeros(double zero1, double zero2, double zero3, double* b, double *c, double* d, double *e) {
+  *b = 1;
+  *c = -zero1 - zero2 - zero3;
+  *d = zero1 * zero2 + zero1 * zero3 + zero2 * zero3;
+  *e -zero1 * zero2 * zero3;
 };
-Coefficients get_coefficients(double c, double d, double e) {
-  return get_coefficients(0, 0, c, d, e);
-};
-Coefficients get_coefficients(double b, double c, double d, double e) {
-  return get_coefficients(0, b, c, d, e);
-};
-Coefficients get_coefficients(double a, double b, double c, double d, double e) {
-  return get_coefficients(a, b, c, d, e);
-};
-
-Coefficients get_coefficients_from_zeros() {
-  // const 
-  return get_coefficients(0);
-};
-Coefficients get_coefficients_from_zeros(double zero1) {
-  // (x - zero1)
-  return get_coefficients(1, -zero1);
-};
-Coefficients get_coefficients_from_zeros(double zero1, double zero2) {
-  // (x - zero1) * (x - zero2)
-  return get_coefficients(1, 
-                          -zero1 - zero2, 
-                          zero1 * zero2);
-};
-Coefficients get_coefficients_from_zeros(double zero1, double zero2, double zero3) {
-  // (x - zero1) * (x - zero2) * (x - zero3)
-  return get_coefficients(1, 
-                          -zero1 - zero2 - zero3, 
-                          zero1 * zero2 + zero1 * zero3 + zero2 * zero3, 
-                          -zero1 * zero2 * zero3);
-};
-Coefficients get_coefficients_from_zeros(double zero1, double zero2, double zero3, double zero4) {
-  // (x - zero1) * (x - zero2) * (x - zero3) * (x - zero4)
-  return get_coefficients(1, 
-                          -zero1 - zero2 - zero3 - zero4, 
-                          zero1 * zero2 + zero1 * zero3 + zero1 * zero4 + zero2 * zero3 + zero2 * zero4 +  + zero3 * zero4, 
-                          - zero2 * zero3 * zero4 - zero1 * zero3 * zero4 - zero1 * zero2 * zero4 - zero1 * zero2 * zero3,
-                          zero1 * zero2 * zero3 * zero4);
+void get_coefficients_from_zeros(double zero1, double zero2, double zero3, double zero4, double *a, double* b, double *c, double* d, double *e) {
+  *a = 1;
+  *b = -zero1 - zero2 - zero3 - zero4;
+  *c = zero1 * zero2 + zero1 * zero3 + zero1 * zero4 + zero2 * zero3 + zero2 * zero4 +  + zero3 * zero4;
+  *d = - zero2 * zero3 * zero4 - zero1 * zero3 * zero4 - zero1 * zero2 * zero4 - zero1 * zero2 * zero3;
+  *e = zero1 * zero2 * zero3 * zero4;
 };
 
-double call(const Coefficients coefficients, double x){
-  return (((coefficients.a * x + coefficients.b) * x + coefficients.c) * x + coefficients.d) * x + coefficients.e;
+double call(double a, double b, double c, double d, double e, double x){
+  return (((a * x + b) * x + c) * x + d) * x + e;
 };
 
-void print_coefficients_to_serial(const Coefficients coefficients){
-  if (coefficients.a != 0) {
-    Serial.print(coefficients.a);
+void print_coefficients_to_serial(double a, double b, double c, double d, double e){
+  if (a != 0) {
+    Serial.print(a);
     Serial.print("*x^4 + ");
   }
-  if (coefficients.b != 0) {
-    Serial.print(coefficients.b);
+  if (b != 0) {
+    Serial.print(b);
     Serial.print("*x^3 + ");
   }
-  if (coefficients.c != 0) {
-    Serial.print(coefficients.c);
+  if (c != 0) {
+    Serial.print(c);
     Serial.print("*x^2 + ");
   }
-  if (coefficients.d != 0) {
-    Serial.print(coefficients.d);
+  if (d != 0) {
+    Serial.print(d);
     Serial.print("*x + ");
   }
-  Serial.print(coefficients.e);
+  Serial.print(e);
 };
 
 

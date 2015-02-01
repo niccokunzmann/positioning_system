@@ -36,7 +36,7 @@ void test_all() {
 
 ////////////////////// Output //////////////////////
 
-void test_delay(char* bytes) {
+void test_delay(const char* bytes) {
   // strlen https://www.gnu.org/software/libc/manual/html_node/String-Length.html
   test_delay(strlen(bytes));
 } 
@@ -45,7 +45,7 @@ void test_delay(int bytes) {
 }
 
 
-void test_print(char* message){
+void test_print(const char* message){
   Serial.print(message);
   test_delay(message);
 }
@@ -53,12 +53,12 @@ void test_print(char* message){
 void test_println() {
   test_print("\n");
 }
-void test_println(char* message) {
+void test_println(const char* message) {
   test_print(message);
   test_println();
 }
 void test_print(int message) {
-  int digits = 1
+  int digits = 1;
   while (message) {
     ++digits;
     message /= 10;

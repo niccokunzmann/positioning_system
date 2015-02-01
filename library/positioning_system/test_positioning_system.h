@@ -9,11 +9,11 @@ void test_failed(const char* message, int line, const char* file);
 void test_all();
 
 void test_delay(char* bytes);
-void test_delay(int bytes)
+void test_delay(int bytes);
 
 void test_println();
-void test_print(char* message);
-void test_println(char* message);
+void test_print(const char* message);
+void test_println(const char* message);
 void test_print(int message);
 void test_println(int message);
 void test_print(double message);
