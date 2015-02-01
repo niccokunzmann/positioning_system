@@ -16,7 +16,7 @@ void get_coefficients_from_zeros(double zero1, double zero2, double zero3, doubl
   *b = 1;
   *c = -zero1 - zero2 - zero3;
   *d = zero1 * zero2 + zero1 * zero3 + zero2 * zero3;
-  *e = zero1 * zero2 * zero3;
+  *e = - zero1 * zero2 * zero3;
 };
 void get_coefficients_from_zeros(double zero1, double zero2, double zero3, double zero4, double *a, double* b, double *c, double* d, double *e) {
   *a = 1;
