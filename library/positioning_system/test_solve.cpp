@@ -23,6 +23,11 @@ void test_from_zeros() {
 
   get_coefficients_from_zeros(1, 2, 3, &b, &c, &d, &e);
   assert_not_equals(call(a, b, c, d, e, 0), 0);
+//  test_println();
+//  print_coefficients_to_serial(a, b, c, d, e);
+//  test_println();
+//  test_println("call(a, b, c, d, e, 1):", call(a, b, c, d, e, 1));
+  
   assert_equals(call(a, b, c, d, e, 1), 0);
   assert_equals(call(a, b, c, d, e, 2), 0);
   assert_equals(call(a, b, c, d, e, 3), 0);

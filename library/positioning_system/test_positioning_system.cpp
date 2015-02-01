@@ -79,3 +79,68 @@ void test_println(double message){
   test_print(message);
   test_println();
 }
+
+void test_print(const char* message1, double message2) {
+  test_print(message1);
+  test_print(message2);
+}
+void test_println(const char* message1, double message2) {
+  test_print(message1);
+  test_println(message2);
+}
+void test_print(const char* message1, double message2, const char* message3, double message4) {
+  test_print(message1, message2);
+  test_print(message3, message4);
+}
+void test_println(const char* message1, double message2, const char* message3, double message4) {
+  test_print(message1, message2);
+  test_println(message3, message4);
+}
+
+void test_print(const char* message1, double message2, const char* message3, double message4, 
+                const char* message5, double message6) {
+  test_print(message1, message2);
+  test_print(message3, message4);
+  test_print(message5, message6);
+}
+void test_println(const char* message1, double message2, const char* message3, double message4, 
+                  const char* message5, double message6) {
+  test_print(message1, message2);
+  test_print(message3, message4);
+  test_println(message5, message6);
+}
+void test_print(const char* message1, double message2, const char* message3, double message4, 
+                const char* message5, double message6, const char* message7, double message8) {
+  test_print(message1, message2);
+  test_print(message3, message4);
+  test_print(message5, message6);
+  test_print(message7, message8);
+}
+void test_println(const char* message1, double message2, const char* message3, double message4, 
+                  const char* message5, double message6, const char* message7, double message8) {
+  test_print(message1, message2);
+  test_print(message3, message4);
+  test_print(message5, message6);
+  test_println(message7, message8);
+}
+
+void test_print(const char* message1, double message2, const char* message3, double message4, 
+                const char* message5, double message6, const char* message7, double message8, 
+                const char* message9, double message10) {
+  test_print(message1, message2);
+  test_print(message3, message4);
+  test_print(message5, message6);
+  test_print(message7, message8);
+  test_print(message9, message10);
+}
+void test_println(const char* message1, double message2, const char* message3, double message4, 
+                  const char* message5, double message6, const char* message7, double message8, 
+                  const char* message9, double message10) {
+  test_print(message1, message2);
+  test_print(message3, message4);
+  test_print(message5, message6);
+  test_print(message7, message8);
+  test_println(message9, message10);
+}
+
+

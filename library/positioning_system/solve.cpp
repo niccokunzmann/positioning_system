@@ -1,6 +1,7 @@
 
 #include "solve.h"
 #include "Arduino.h"
+#include "test_positioning_system.h"
 
 void get_coefficients_from_zeros(double zero1, double *d, double* e) {
   *d = 1;
@@ -15,7 +16,7 @@ void get_coefficients_from_zeros(double zero1, double zero2, double zero3, doubl
   *b = 1;
   *c = -zero1 - zero2 - zero3;
   *d = zero1 * zero2 + zero1 * zero3 + zero2 * zero3;
-  *e -zero1 * zero2 * zero3;
+  *e = zero1 * zero2 * zero3;
 };
 void get_coefficients_from_zeros(double zero1, double zero2, double zero3, double zero4, double *a, double* b, double *c, double* d, double *e) {
   *a = 1;
@@ -31,22 +32,22 @@ double call(double a, double b, double c, double d, double e, double x){
 
 void print_coefficients_to_serial(double a, double b, double c, double d, double e){
   if (a != 0) {
-    Serial.print(a);
-    Serial.print("*x^4 + ");
+    test_print(a);
+    test_print("*x^4 + ");
   }
   if (b != 0) {
-    Serial.print(b);
-    Serial.print("*x^3 + ");
+    test_print(b);
+    test_print("*x^3 + ");
   }
   if (c != 0) {
-    Serial.print(c);
-    Serial.print("*x^2 + ");
+    test_print(c);
+    test_print("*x^2 + ");
   }
   if (d != 0) {
-    Serial.print(d);
-    Serial.print("*x + ");
+    test_print(d);
+    test_print("*x + ");
   }
-  Serial.print(e);
+  test_print(e);
 };
 
 

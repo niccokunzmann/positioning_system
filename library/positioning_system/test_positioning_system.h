@@ -19,6 +19,25 @@ void test_println(int message);
 void test_print(double message);
 void test_println(double message);
 
+void test_print(const char* message1, double message2);
+void test_println(const char* message1, double message2);
+void test_print(const char* message1, double message2, const char* message3, double message4);
+void test_println(const char* message1, double message2, const char* message3, double message4);
+void test_print(const char* message1, double message2, const char* message3, double message4, 
+                const char* message5, double message6);
+void test_println(const char* message1, double message2, const char* message3, double message4, 
+                  const char* message5, double message6);
+void test_print(const char* message1, double message2, const char* message3, double message4, 
+                const char* message5, double message6, const char* message7, double message8);
+void test_println(const char* message1, double message2, const char* message3, double message4, 
+                  const char* message5, double message6, const char* message7, double message8);
+void test_print(const char* message1, double message2, const char* message3, double message4, 
+                const char* message5, double message6, const char* message7, double message8, 
+                const char* message9, double message10);
+void test_println(const char* message1, double message2, const char* message3, double message4, 
+                  const char* message5, double message6, const char* message7, double message8, 
+                  const char* message9, double message10);
+
 
 static boolean test_success;
 static boolean verbose_tests = true;

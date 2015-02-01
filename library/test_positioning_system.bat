@@ -3,6 +3,9 @@
 rem ---------------------------------------------------------------------
 rem                     compile the file
 
+IF EXIST ".\obj" (
+    rmdir ".\obj" /s /q
+)
 
 call set_environment_variables.bat "C:\Program Files (x86)\Arduino" C:\Users\cheche\Documents\Arduino uno COM15
 
