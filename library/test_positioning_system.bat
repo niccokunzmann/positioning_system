@@ -8,12 +8,14 @@ call set_environment_variables.bat "C:\Program Files (x86)\Arduino" C:\Users\che
 
 call abuild.bat -r -c "positioning_system\examples\test_solver\test_solver.pde" 
 
-FOR %%A IN (obj\*.elf) DO set elf_file_size=%%~zA
+FOR %%A IN (obj\*.hex) DO set elf_file_size=%%~zA
 
+
+echo Binary Sketchsize: %elf_file_size% bytes (out of a maximum of %ARDUINO_MAXIMUM_UPLOAD_SIZE% bytes)
 rem comparing http://stackoverflow.com/questions/9278614/if-greater-than-batch-files
 if %elf_file_size% LEQ  %ARDUINO_MAXIMUM_UPLOAD_SIZE% (
-  call aupload.bat obj/test_solver.elf
+  call aupload.bat obj/test_solver.hex
 ) else (
-  echo %elf_file_size% is too big for the arduino. 30720 is allowed.
+  echo Binary Sketchsize too large
 )
 

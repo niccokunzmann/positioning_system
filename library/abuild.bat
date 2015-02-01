@@ -152,19 +152,19 @@ if !abuild_nolibs! == false (
 	)
 	popd
 )
-echo.!abuild_include_paths!
+rem echo !abuild_include_paths!
 
 REM ---------------------------------------------------------------------------
 REM     Compile the user's sketch first, to help her find errors quicker...
 
-set abuild_gcc_opts=-c -g -Os -I!arduino_variant_path! "-I!arduino_runtime!" !abuild_include_paths! -mmcu=!arduino_mcu! -DF_CPU=!arduino_fcpu! -DABUILD_BATCH=1
-set abuild_gpp_opts=!abuild_gcc_opts! -fno-exceptions
+set abuild_gcc_opts=-c -g -Os -Wall -fno-exceptions -ffunction-sections -fdata-sections -mmcu=!arduino_mcu! -DF_CPU=!arduino_fcpu! -MMD -DUSB_VID=null -DUSB_PID=null -DABUILD_BATCH=1 -I!arduino_variant_path! "-I!arduino_runtime!" !abuild_include_paths!
+set abuild_gpp_opts=!abuild_gcc_opts! 
 set abuild_short_name=
 
 for %%f in (!abuild_cppname!) do (
     set abuild_short_name=%%~nf
     set abuild_user_objfile=!abuild_output!\%%~nf.cpp.o
-    set abuild_cmd=avr-g++ !abuild_gpp_opts! %%f -o!abuild_user_objfile!
+    set abuild_cmd=avr-g++ !abuild_gpp_opts! %%f -o !abuild_user_objfile!
     !abuild_report! !abuild_cmd!
     if exist !abuild_user_objfile! (del !abuild_user_objfile!)
     !abuild_cmd!
@@ -214,7 +214,7 @@ if exist !abuild_runtime_library! (
 rem compile arduino runtime .c files
 for %%f in ("!arduino_runtime!\*.c") do (
     set abuild_objfile=!abuild_output!\%%~nf.c.o
-    set abuild_cmd=avr-gcc !abuild_gcc_opts! "%%~f" "-o!abuild_objfile!"
+    set abuild_cmd=avr-gcc !abuild_gcc_opts! "%%~f" -o "!abuild_objfile!"
     !abuild_report! !abuild_cmd!
     if exist !abuild_objfile! (del !abuild_objfile!)
     !abuild_cmd!
@@ -230,7 +230,7 @@ for %%f in ("!arduino_runtime!\*.c") do (
 rem compile arduino runtime .cpp files
 for %%f in ("!arduino_runtime!\*.cpp") do (
     set abuild_objfile=!abuild_output!\%%~nf.cpp.o
-    set abuild_cmd=avr-g++ !abuild_gpp_opts! "%%~f" "-o!abuild_objfile!"
+    set abuild_cmd=avr-g++ !abuild_gpp_opts! "%%~f" -o "!abuild_objfile!"
     !abuild_report! !abuild_cmd!
     if exist !abuild_objfile! (del !abuild_objfile!)
     !abuild_cmd!
@@ -267,7 +267,7 @@ if !abuild_nolibs! == false (
 			if NOT !test! EQU examples (
 				popd
 				set abuild_objfile=!abuild_output!\%%~nf.c.o
-				set abuild_cmd=avr-gcc !abuild_gcc_opts! "%%~f" "-o!abuild_objfile!"
+				set abuild_cmd=avr-gcc !abuild_gcc_opts! "%%~f" -o "!abuild_objfile!"
 				!abuild_report! !abuild_cmd!
 				if exist !abuild_objfile! (del !abuild_objfile!)
 				call !abuild_cmd!
@@ -291,7 +291,7 @@ if !abuild_nolibs! == false (
 			if NOT !test! EQU examples (
 				popd
 				set abuild_objfile=!abuild_output!\%%~nf.cpp.o
-				set abuild_cmd=avr-g++ !abuild_gpp_opts! "%%~f" "-o!abuild_objfile!"
+				set abuild_cmd=avr-g++ !abuild_gpp_opts! "%%~f" -o "!abuild_objfile!"
 				!abuild_report! !abuild_cmd!
 				if exist !abuild_objfile! (del !abuild_objfile!)
 				call !abuild_cmd!
@@ -318,7 +318,7 @@ REM     Link everything...
 
 REM     Link to an ELF file...
 set abuild_elf=!abuild_output!\!abuild_short_name!.elf
-set abuild_cmd=avr-gcc -Os "-Wl,-u,vfprintf -lprintf_flt -lm,-Map=!abuild_output!\!abuild_short_name!.map,--cref" -mmcu=!arduino_mcu! -o !abuild_elf! !abuild_user_objfile! !abuild_runtime_library! -L!abuild_output!
+set abuild_cmd=avr-gcc -Os -Wl,--gc-sections -lm -mmcu=!arduino_mcu! -o !abuild_elf! !abuild_user_objfile! !abuild_runtime_library! -L!abuild_output!
 !abuild_report! !abuild_cmd!
 !abuild_cmd!
 if not exist !abuild_elf! (goto end)
@@ -335,7 +335,7 @@ echo.abuild.bat: Successfully built !abuild_rom!
 REM     Convert ELF to HEX...
 
 set abuild_hex=!abuild_output!\!abuild_short_name!.hex
-set abuild_cmd=avr-objcopy -O ihex -R .flash !abuild_elf! !abuild_hex!
+set abuild_cmd=avr-objcopy -O ihex -R .eeprom !abuild_elf! !abuild_hex!
 !abuild_report! !abuild_cmd!
 !abuild_cmd!
 if not exist !abuild_hex! (goto end)
