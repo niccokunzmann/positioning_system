@@ -7,17 +7,22 @@
 int tests_succeeded;
 int tests_failed;
 boolean verbose_tests = false;
+boolean last_message_was_success;
 
 void test_succeeded(const char* message, int line, const char* file) {
   tests_succeeded++;
   if (Serial) {
     test_print("."); 
   }
+  last_message_was_success = true;
 }
 
 void test_failed(const char* message, int line, const char* file) {
   tests_failed++;
   if (Serial) {
+    if (last_message_was_success) {
+      test_println();
+    }
     if (verbose_tests) {
       test_print("In line "); 
       test_print(line); 
@@ -27,6 +32,7 @@ void test_failed(const char* message, int line, const char* file) {
     test_print("AssertionError: "); 
     test_println(message); 
   }
+  last_message_was_success = false;
 }
 
 int get_number_of_succeeded_tests() {
@@ -48,6 +54,7 @@ void test_all() {
 void setup_tests() {
   tests_succeeded = 0;
   tests_failed = 0;
+  last_message_was_success = true;
   test_println("Running tests: ");
 }
 
