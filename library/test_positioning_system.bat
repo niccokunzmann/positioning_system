@@ -19,11 +19,13 @@ if errorlevel 0 (
 
     call aupload.bat obj/test_solver.hex
     if errorlevel 0 (
-      rem http://serverfault.com/questions/432322/how-to-sleep-in-a-batch-file#432323
-      rem timeout /t 5 /nobreak
+      if exist obj/test_solver.hex (
+        rem http://serverfault.com/questions/432322/how-to-sleep-in-a-batch-file#432323
+        rem timeout /t 5 /nobreak
 
-      rem http://stackoverflow.com/questions/11775185/open-a-com-port-in-c-with-number-higher-that-9
-      ..\serialterm\serialterm.exe \\.\%ARDUINO_COMPORT% 9600
+        rem http://stackoverflow.com/questions/11775185/open-a-com-port-in-c-with-number-higher-that-9
+        ..\serialterm\serialterm.exe \\.\%ARDUINO_COMPORT% 9600
+      )
     )
   )
 )

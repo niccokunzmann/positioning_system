@@ -6,6 +6,10 @@
 
 void test_succeeded(const char* message, int line, const char* file);
 void test_failed(const char* message, int line, const char* file);
+
+void setup_tests();
+void run_tests();
+void teardown_tests();
 void test_all();
 
 void test_delay(char* bytes);
@@ -39,8 +43,10 @@ void test_println(const char* message1, double message2, const char* message3, d
                   const char* message9, double message10);
 
 
-static boolean test_success;
-static boolean verbose_tests = true;
+int get_number_of_succeeded_tests();
+int get_number_of_failed_tests();
+void use_verbose_test_output(boolean verbose);
+
 
 // Macros
 // https://gcc.gnu.org/onlinedocs/cpp/Standard-Predefined-Macros.html#Standard-Predefined-Macros
@@ -49,7 +55,6 @@ static boolean verbose_tests = true;
     test_succeeded(Message, __LINE__, __FILE__); \
   } else { \
     test_failed(Message, __LINE__, __FILE__); \
-    test_success = false; \
   };
   
 #define assert1(truth) assert2(truth, #truth)
@@ -62,6 +67,9 @@ static boolean verbose_tests = true;
 #define _assert_not_equals(A, B, Message) assert_not_equals2(A, B, #Message)
 #define assert_not_equals(A, B) _assert_not_equals(A, B, A != B)
 
+#define assert_approximates2(A, B, Message) assert2(approximates((A),(B)), #Message)
+#define _assert_approximates(A, B, Message) assert_approximates2(A, B, #Message)
+#define assert_approximates(A, B) _assert_approximates(A, B, A =~= B)
 
 #endif
 

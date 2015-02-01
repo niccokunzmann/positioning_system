@@ -4,34 +4,65 @@
 #include "test_solve.h"
 //#include "string.h"
 
+int tests_succeeded;
+int tests_failed;
+boolean verbose_tests = false;
 
 void test_succeeded(const char* message, int line, const char* file) {
+  tests_succeeded++;
   if (Serial) {
-    if (verbose_tests) {
-     test_print("."); 
-    };
-  };
-};
+    test_print("."); 
+  }
+}
 
 void test_failed(const char* message, int line, const char* file) {
+  tests_failed++;
   if (Serial) {
     if (verbose_tests) {
       test_print("In line "); 
       test_print(line); 
       test_print("\tin file "); 
       test_println(file); 
-      test_print("AssertionError: "); 
-      test_println(message); 
-    } else {
-      test_print("F");
-    }
+    }      
+    test_print("AssertionError: "); 
+    test_println(message); 
   }
 }
 
+int get_number_of_succeeded_tests() {
+  return tests_succeeded;
+}
+int get_number_of_failed_tests() {
+  return tests_failed;
+}
+void use_verbose_test_output(boolean verbose) {
+  verbose_tests = verbose;
+}
 
 void test_all() {
-  test_println("a2");
-  test_coefficients();
+  setup_tests();
+  run_tests();
+  teardown_tests();
+}
+
+void setup_tests() {
+  tests_succeeded = 0;
+  tests_failed = 0;
+  test_println("Running tests: ");
+}
+
+void run_tests() {
+  test_solve();
+}
+
+void teardown_tests() {
+  test_println();
+  test_print(tests_succeeded);
+  test_print(" tests passed. ");
+  test_print(tests_failed);
+  test_print(" tests failed. Ran ");
+  test_print(tests_succeeded + tests_failed);
+  test_println(" tests.");
 }
 
 ////////////////////// Output //////////////////////
@@ -58,12 +89,12 @@ void test_println(const char* message) {
   test_println();
 }
 void test_print(int message) {
+  Serial.print(message);
   int digits = 1;
   while (message) {
     ++digits;
     message /= 10;
   }
-  Serial.print(message);
   test_delay(digits);
 }
 void test_println(int message) {

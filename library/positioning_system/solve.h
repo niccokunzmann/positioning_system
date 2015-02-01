@@ -14,7 +14,20 @@ void get_coefficients_from_zeros(double zero1, double zero2, double zero3, doubl
 
 double call(double a, double b, double c, double d, double e, double x);
 
-
 void print_coefficients_to_serial(double a, double b, double c, double d, double e);
+
+double get_epsilon();
+void set_epsilon(double epsilon);
+boolean approximates(double a, double b);
+
+void solve(double e, double *zero1);
+void solve(double d, double e, double *zero1);
+void solve(double c, double d, double e, double *zero1, double *zero2);
+void solve(double b, double c, double d, double e, double *zero1, double *zero2, double *zero3);
+void solve(double a, double b, double c, double d, double e, double *zero1, double *zero2, double *zero3, double *zero4);
+
+double get_infinity();
+double get_not_a_number();
+boolean is_not_a_number(double number);
 
 #endif
