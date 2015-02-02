@@ -318,7 +318,9 @@ REM     Link everything...
 
 REM     Link to an ELF file...
 set abuild_elf=!abuild_output!\!abuild_short_name!.elf
-set abuild_cmd=avr-gcc -Os -Wl,--gc-sections -lm -mmcu=!arduino_mcu! -o !abuild_elf! !abuild_user_objfile! !abuild_runtime_library! -L!abuild_output!
+rem http://avr.2057.n7.nabble.com/AVR-gcc-linker-error-relocation-truncated-to-fit-R-AVR-13-PCREL-td17961.html
+rem Typically -lm goes at the end of the command line.
+set abuild_cmd=avr-gcc -Os -Wl,--gc-sections -mmcu=!arduino_mcu! -o !abuild_elf! !abuild_user_objfile! !abuild_runtime_library! -L!abuild_output! -lm 
 !abuild_report! !abuild_cmd!
 !abuild_cmd!
 if not exist !abuild_elf! (goto end)

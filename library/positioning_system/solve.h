@@ -30,4 +30,10 @@ double get_infinity();
 double get_not_a_number();
 boolean is_not_a_number(double number);
 
+double nth_root(double x, int n);
+double curt_1(double x);
+double curt_2(double x);
+double curt_3(double x);
+double curt(double x);
+
 #endif
