@@ -12,8 +12,8 @@
 
 typedef String TEST_PRINT_STRING;
 
-void test_succeeded(const TEST_PRINT_STRING message, int line, const TEST_PRINT_STRING file);
-void test_failed(const TEST_PRINT_STRING message, int line, const TEST_PRINT_STRING file);
+void test_succeeded(const __FlashStringHelper* message);
+void test_failed(const __FlashStringHelper* message);
 
 void setup_tests();
 void teardown_tests();
@@ -59,15 +59,17 @@ int get_number_of_succeeded_tests();
 int get_number_of_failed_tests();
 void use_verbose_test_output(boolean verbose);
 
-
 // Macros
 // https://gcc.gnu.org/onlinedocs/cpp/Standard-Predefined-Macros.html#Standard-Predefined-Macros
 #define assert2(truth, Message) \
-  if (truth) { \
-    test_succeeded(Message, __LINE__, __FILE__); \
-  } else { \
-    test_failed(Message, __LINE__, __FILE__); \
-  };
+  if (true) { \
+    const __FlashStringHelper* __assertion_message = F(Message); \
+    if (truth) { \
+      test_succeeded(__assertion_message); \
+    } else { \
+      test_failed(__assertion_message); \
+    }\
+  }
   
 #define assert1(truth) assert2(truth, #truth)
 

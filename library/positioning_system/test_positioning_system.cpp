@@ -10,7 +10,7 @@ boolean verbose_tests = false;
 boolean last_message_was_success;
 
 
-void test_succeeded(const TEST_PRINT_STRING message, int line, const TEST_PRINT_STRING file) {
+void test_succeeded(const __FlashStringHelper* message) {
   tests_succeeded++;
   if (Serial) {
     if (verbose_tests) {
@@ -23,20 +23,18 @@ void test_succeeded(const TEST_PRINT_STRING message, int line, const TEST_PRINT_
   last_message_was_success = true;
 }
 
-void test_failed(const TEST_PRINT_STRING message, int line, const TEST_PRINT_STRING file) {
+void test_failed(const __FlashStringHelper* message) {
   tests_failed++;
   if (Serial) {
-    if (last_message_was_success) {
-      test_println();
+    if (verbose_tests) {
+      if (last_message_was_success) {
+        test_println();
+      }
+      test_print(F("AssertionError: ")); 
+      test_println(message); 
+    } else {
+      test_print(F("F"));
     }
-    if (true || verbose_tests) {
-      test_print(F("In line ")); 
-      test_print(line); 
-      test_print(F("\tin file ")); 
-      test_println(file); 
-    }      
-    test_print(F("AssertionError: ")); 
-    test_println(message); 
   }
   last_message_was_success = false;
 }

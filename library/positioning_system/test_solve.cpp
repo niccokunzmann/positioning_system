@@ -35,9 +35,10 @@ void test_from_zeros() {
   assert_equals(call(a, b, c, d, e, 36), 0);
   assert_equals(call(a, b, c, d, e, -33), 0);
   assert_equals(call(a, b, c, d, e, -33), 0);
-  //assert_equals(call(a, b, c, d, e, 33), 0);
+  assert_equals(call(a, b, c, d, e, -33), 0);
+  assert_equals(call(a, b, c, d, e, 33), 0);
   assert_not_equals(call(a, b, c, d, e, 4), 0);
-/*  
+  
   // 4 zeros
   get_coefficients_from_zeros(1, 2, 3, 4, &a, &b, &c, &d, &e);
   assert_not_equals(call(a, b, c, d, e, 0), 0);
@@ -45,7 +46,7 @@ void test_from_zeros() {
   assert_equals(call(a, b, c, d, e, 2), 0);
   assert_equals(call(a, b, c, d, e, 3), 0);
   assert_equals(call(a, b, c, d, e, 4), 0);
-  assert_not_equals(call(a, b, c, d, e, 5), 0); */
+  assert_not_equals(call(a, b, c, d, e, 5), 0); 
 }
 
 void test_epsilon() {
@@ -287,14 +288,14 @@ void test_refine_zero() {
 
 void test_solve_1() {
   test_from_zeros();
-/*  test_epsilon();
+  test_epsilon();
   test_nan();
   test_infinity();
   test_equation_0();
   test_equation_1();
   test_equation_2();
-  //test_curt();
-  //test_refine_zero();/**/
+  test_curt();
+  test_refine_zero();/**/
 }
 
 void test_solve_2() {
