@@ -10,23 +10,34 @@ void test_from_zeros() {
   double d = 0;
   double e = 0;
   
+  // 1 zero
   get_coefficients_from_zeros(1, &d, &e);
   assert_not_equals(call(a, b, c, d, e, 0), 0);
   assert_equals(call(a, b, c, d, e, 1), 0);
   
+  // 2 zeros
   get_coefficients_from_zeros(1, 2, &c, &d, &e);
   assert_not_equals(call(a, b, c, d, e, 0), 0);
   assert_equals(call(a, b, c, d, e, 1), 0);
   assert_equals(call(a, b, c, d, e, 2), 0);
   assert_not_equals(call(a, b, c, d, e, 3), 0);
 
+  // 3 zeros
   get_coefficients_from_zeros(1, 2, 3, &b, &c, &d, &e);
   assert_not_equals(call(a, b, c, d, e, 0), 0);  
   assert_equals(call(a, b, c, d, e, 1), 0);
   assert_equals(call(a, b, c, d, e, 2), 0);
   assert_equals(call(a, b, c, d, e, 3), 0);
   assert_not_equals(call(a, b, c, d, e, 4), 0);
+
+  get_coefficients_from_zeros(36, -33, 33, &b, &c, &d, &e);
+  assert_not_equals(call(a, b, c, d, e, 0), 0);  
+  assert_equals(call(a, b, c, d, e, 36), 0);
+  assert_equals(call(a, b, c, d, e, -33), 0);
+  assert_equals(call(a, b, c, d, e, 33), 0);
+  assert_not_equals(call(a, b, c, d, e, 4), 0);
   
+  // 4 zeros
   get_coefficients_from_zeros(1, 2, 3, 4, &a, &b, &c, &d, &e);
   assert_not_equals(call(a, b, c, d, e, 0), 0);
   assert_equals(call(a, b, c, d, e, 1), 0);
@@ -139,8 +150,15 @@ void test_solve_2() {
 void sort_zeros(double *zero1, double *zero2, double *zero3) {
   // bubblesort
   sort_zeros(zero1, zero2);
-  sort_zeros(zero3, zero2);
+  sort_zeros(zero2, zero3);
   sort_zeros(zero1, zero2);
+}
+
+void test_curt() {
+  assert_equals(curt(0), 0);
+  assert_equals(curt(1), 1);
+  assert_equals(curt(-1), -1);
+  assert_equals(curt(-8), -2);
 }
 
 void test_solve_3() {
@@ -152,43 +170,52 @@ void test_solve_3() {
   double zero2;
   double zero3;
   
-  get_coefficients_from_zeros(31, 311, 33, &b, &d, &d, &e);
+  // test cubic solving
+  set_epsilon(0.0003);
+
+  get_coefficients_from_zeros(36, 311, 33, &b, &c, &d, &e);
   solve(b, c, d, e, &zero1, &zero2, &zero3);
   sort_zeros(&zero1, &zero2, &zero3);
-  assert_equals(zero1, 31);
-  assert_equals(zero2, 33);
-  assert_equals(zero3, 311);
+  assert_approximates(zero1, 33);
+  assert_approximates(zero2, 36);
+  assert_approximates(zero3, 311);
+ 
+  set_epsilon(get_default_epsilon());
 
-  get_coefficients_from_zeros(31, 31, 33, &b, &d, &d, &e);
+  get_coefficients_from_zeros(31, 31, 37, &b, &c, &d, &e);
   solve(b, c, d, e, &zero1, &zero2, &zero3);
   sort_zeros(&zero1, &zero2);
   assert_equals(zero1, 31);
-  assert_equals(zero2, 33);
+  assert_equals(zero2, 37);
   assert1(is_not_a_number(zero3));
 
-  get_coefficients_from_zeros(31, 31, 31, &b, &d, &d, &e);
+  get_coefficients_from_zeros(30, 30, 30, &b, &c, &d, &e);
   solve(b, c, d, e, &zero1, &zero2, &zero3);
-  assert_equals(zero1, 31);
+  assert_equals(zero1, 30);
   assert1(is_not_a_number(zero2));
   assert1(is_not_a_number(zero3));
 
-  solve(1, 0, 1, 30, &zero1, &zero2, &zero3); // one solution only
-  assert_equals(zero1, -3);
-  assert1(is_not_a_number(zero2));
-  assert1(is_not_a_number(zero3));
+  set_epsilon(0.00002);
   
-  // test quadratic solving
-  get_coefficients_from_zeros(22, 24, &c, &d, &e);
-  solve(0, c, d, e, &zero1, &zero2, &zero3);
-  sort_zeros(&zero1, &zero2);
-  assert_equals(zero1, 22);
-  assert_equals(zero2, 24);
+  solve(1, 0, 1, 30, &zero1, &zero2, &zero3); // one solution only
+  assert_approximates(zero1, -3);
+  assert1(is_not_a_number(zero2));
   assert1(is_not_a_number(zero3));
 
-  get_coefficients_from_zeros(33, 33, &c, &d, &e);
+  set_epsilon(get_default_epsilon());
+
+  // test quadratic solving
+  get_coefficients_from_zeros(32, 34, &c, &d, &e);
   solve(0, c, d, e, &zero1, &zero2, &zero3);
   sort_zeros(&zero1, &zero2);
-  assert_equals(zero1, 33);
+  assert_equals(zero1, 32);
+  assert_equals(zero2, 34);
+  assert1(is_not_a_number(zero3));
+
+  get_coefficients_from_zeros(38, 38, &c, &d, &e);
+  solve(0, c, d, e, &zero1, &zero2, &zero3);
+  sort_zeros(&zero1, &zero2);
+  assert_equals(zero1, 38);
   assert1(is_not_a_number(zero2));
   assert1(is_not_a_number(zero3));
 
@@ -198,9 +225,9 @@ void test_solve_3() {
   assert1(is_not_a_number(zero3));
   
   // test linear solving
-  get_coefficients_from_zeros(33, &d, &e);
+  get_coefficients_from_zeros(399, &d, &e);
   solve(0, 0, d, e, &zero1, &zero2, &zero3);
-  assert_equals(zero1, 33);
+  assert_equals(zero1, 399);
   assert1(is_not_a_number(zero2));
   assert1(is_not_a_number(zero3));
 
@@ -241,5 +268,6 @@ void test_solve() {
   test_solve_0();
   test_solve_1();
   test_solve_2();
+  test_curt();
   test_solve_3();
 }

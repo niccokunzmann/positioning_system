@@ -51,13 +51,20 @@ void print_coefficients_to_serial(double a, double b, double c, double d, double
   test_print(e);
 };
 
-double epsilon = 0.00000001;
+const double default_epsilon = 0.00000001;
+double get_default_epsilon() {
+  return default_epsilon;
+}
+double epsilon = default_epsilon;
 double get_epsilon() {
   return epsilon;
 }
+
 void set_epsilon(double new_epsilon) {
   epsilon = new_epsilon;
 }
+
+
 
 boolean approximates(double a, double b) {
   if (a < b) {
@@ -189,7 +196,7 @@ double curt_3(double x) {
 double curt(double x) {
   // see the benchmark example for the decision
   //return curt_3(x); // fastest
-  return curt_2(x);
+  return curt_3(x);
 };
 
 void solve(double A, double B, double C, double D, double *zero1, double *zero2, double *zero3) {
@@ -210,7 +217,7 @@ void solve(double A, double B, double C, double D, double *zero1, double *zero2,
     
     D = q*q / 4 + p*p*p / 27;
     if (D > 0) {
-      test_print("{solve_3} -> D > 0");
+//      test_println("{solve_3} -> D > 0");
       double sqrt_of_D = sqrt(D);
       double u = curt(- q / 2 + sqrt_of_D);
       double v = curt(- q / 2 - sqrt_of_D);
@@ -219,13 +226,13 @@ void solve(double A, double B, double C, double D, double *zero1, double *zero2,
       *zero2 = get_not_a_number();
       *zero3 = get_not_a_number();
     } else if (p == 0 and q == 0) {
-      test_print("{solve_3} -> p == 0 and q == 0");
+//      test_println("{solve_3} -> p == 0 and q == 0");
       // z = 0
       *zero1 = - a / 3;
       *zero2 = get_not_a_number();
       *zero3 = get_not_a_number();
     } else if (D == 0) { // and (p != 0 or q != 0)
-      test_print("{solve_3} -> D == 0 and (p != 0 or q != 0)");
+//      test_println("{solve_3} -> D == 0 and (p != 0 or q != 0)");
       double u = curt(- q / 2);
       double z1 = 2 * u;
       double z23 = - u;
@@ -233,14 +240,24 @@ void solve(double A, double B, double C, double D, double *zero1, double *zero2,
       *zero2 = z23 - a/3;
       *zero3 = get_not_a_number();
     } else { // D < 0
-      test_print("{solve_3} -> D < 0");
-      double sqp3 = sqrt(-p / 3);
-      double m = 2 * sqp3;
-      double n = 1 / 3 * acos(-q/2 / sqp3 / sqp3 / sqp3);
+//      test_println("{solve_3} -> D < 0");
+      double sq3p = sqrt(-3 / p);
+//      test_println("sq3p: ", sq3p);
+      double m = 2 / sq3p;
+//      test_println("m: ", m);
+      double n1 = -q/2 * sq3p * sq3p * sq3p;
+//      test_println("n1: ", n1);
+      double n2 = acos(n1);
+//      test_println("n2: ", n2);
+      double n = n2 / 3;
+//      test_println("n: ", n);
       // the following can be more optimized, I guess
       double z2 = -m * cos(n + PI / 3);
       double z1 =  m * cos(n);
       double z3 = -m * cos(n - PI / 3);
+//      test_println("z2: ", z2);
+//      test_println("z1: ", z1);
+//      test_println("z3: ", z3);
       *zero1 = z1 - a/3;
       *zero2 = z2 - a/3;
       *zero3 = z3 - a/3;

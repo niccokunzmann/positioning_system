@@ -110,8 +110,8 @@ void test_println(int message) {
 }
 void test_print(double message){
   // 0.3333333333333333 18 bytes
-  Serial.print(message);
-  test_delay(18);
+  Serial.print(message, 8);
+  test_delay(30);
 }
 void test_println(double message){
   test_print(message);

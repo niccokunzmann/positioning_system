@@ -18,6 +18,7 @@ void print_coefficients_to_serial(double a, double b, double c, double d, double
 
 double get_epsilon();
 void set_epsilon(double epsilon);
+double get_default_epsilon();
 boolean approximates(double a, double b);
 
 void solve(double e, double *zero1);

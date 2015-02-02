@@ -10,7 +10,7 @@ IF EXIST ".\obj" (
 call set_environment_variables.bat "C:\Program Files (x86)\Arduino" C:\Users\cheche\Documents\Arduino uno COM15
 
 if errorlevel 0 (
-  call abuild.bat -r -c -v "positioning_system\examples\test_solver\test_solver.pde" 
+  call abuild.bat -r -c "positioning_system\examples\test_solver\test_solver.pde" 
 
   if errorlevel 0 (
     rem does not work:
