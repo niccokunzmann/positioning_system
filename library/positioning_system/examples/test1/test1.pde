@@ -7,7 +7,7 @@ void setup() {
   Serial.begin(9600);
   while (!Serial);
   
-  test_all();
+  test_positioning_system_1();
 
 }
 

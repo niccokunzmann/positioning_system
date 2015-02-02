@@ -20,6 +20,7 @@ double get_epsilon();
 void set_epsilon(double epsilon);
 double get_default_epsilon();
 boolean approximates(double a, double b);
+boolean approximates(double a, double b, double epsilon);
 
 void solve(double e, double *zero1);
 void solve(double d, double e, double *zero1);
@@ -36,5 +37,14 @@ double curt_1(double x);
 double curt_2(double x);
 double curt_3(double x);
 double curt(double x);
+
+void sort_numbers(double *a, double *b);
+void sort_numbers(double *a, double *b, double *c);
+
+double newton(double a, double b, double c, double d, double e, double x, double epsilon);
+double newton(double a, double b, double c, double d, double e, double x, double epsilon, long maximum_iterations);
+
+void refine_zeros_of_order_3_with_D_greater_0(double b, double c, double d, double e, double *zero1, double *zero2, double *zero3);
+double refine_zero(double a, double b, double c, double d, double e, double upper_bound, double lower_bound);
 
 #endif
