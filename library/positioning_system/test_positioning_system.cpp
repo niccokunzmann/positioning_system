@@ -6,7 +6,7 @@
 
 int tests_succeeded;
 int tests_failed;
-boolean verbose_tests = false;
+boolean verbose_tests = true;
 boolean last_message_was_success;
 
 

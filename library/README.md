@@ -1,3 +1,17 @@
+Testing
+-------
+
+edit `test_positioning_system.bat` to contain the COM-port, library path and arduino type and Arduino install directory.
+then you can rum
+
+    test_positioning_system.bat test1
+    test_positioning_system.bat test2
+    test_positioning_system.bat test3
+    test_positioning_system.bat test4
+
+And see the output of the examples in the examples folder.
+
+
 Setup Hacks
 -----------
 

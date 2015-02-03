@@ -160,26 +160,17 @@ void test_equation_3() {
   // test cubic solving
   set_epsilon(0.0003);
 
-  get_coefficients_from_zeros(36, 311, 33, &b, &c, &d, &e);
+  get_coefficients_from_zeros(36., 311., 33., &b, &c, &d, &e);
   solve(b, c, d, e, &zero1, &zero2, &zero3);
   sort_numbers(&zero1, &zero2, &zero3);
-  assert_approximates(zero1, 33);
-  assert_approximates(zero2, 36);
-  assert_approximates(zero3, 311);
-  
-
-  //test_println("zero1: ", zero1, "zero2: ", zero2, "zero3: ", zero3);
-  
-  refine_zeros_of_order_3_with_D_greater_0(b, c, d, e, &zero1, &zero2, &zero3);
-  
-  set_epsilon(0.0003);
-  
   assert_approximates(zero1, 33);
   assert_equals(call(0, b, c, d, e, zero1), 0);
   assert_approximates(zero2, 36);
   assert_equals(call(0, b, c, d, e, zero2), 0);
   assert_approximates(zero3, 311);
   assert_equals(call(0, b, c, d, e, zero3), 0);
+
+  //test_println("zero1: ", zero1, "zero2: ", zero2, "zero3: ", zero3);
   
   set_epsilon(get_default_epsilon());
  
@@ -240,6 +231,76 @@ void test_equation_3() {
 
 }
 
+void setup_numbers(double* a, double* b, double* c, double* n) {
+  *a = 1;
+  *b = 2;
+  *c = 3;
+  *n = get_not_a_number();
+}
+
+void test_sort_numbers() {
+  double a;
+  double b;
+  double c;
+  double n;
+  
+  // 2
+  setup_numbers(&a, &b, &c, &n);
+  sort_numbers(&a, &b);
+  assert_equals(a, 1);
+  assert_equals(b, 2);
+
+  setup_numbers(&a, &b, &c, &n);
+  sort_numbers(&b, &a);
+  assert_equals(b, 1);
+  assert_equals(a, 2);
+
+  setup_numbers(&a, &b, &c, &n);
+  sort_numbers(&b, &n);
+  assert_equals(b, 2);
+  assert1(is_not_a_number(n));
+
+  setup_numbers(&a, &b, &c, &n);
+  sort_numbers(&n, &b);
+  assert_equals(n, 2);
+  assert1(is_not_a_number(b));
+  
+  // 3
+  setup_numbers(&a, &b, &c, &n);
+  sort_numbers(&a, &b, &c);
+  assert_equals(a, 1);
+  assert_equals(b, 2);
+  assert_equals(c, 3);
+
+  setup_numbers(&a, &b, &c, &n);
+  sort_numbers(&b, &a, &n);
+  assert_equals(b, 1);
+  assert_equals(a, 2);
+  assert1(is_not_a_number(n));
+
+  setup_numbers(&a, &b, &c, &n);
+  sort_numbers(&n, &b, &a);
+  assert_equals(n, 1);
+  assert_equals(b, 2);
+  assert1(is_not_a_number(a));
+  
+  setup_numbers(&a, &b, &c, &n);
+  c = get_not_a_number();
+  sort_numbers(&n, &b, &c);
+  assert_equals(n, 1);
+  assert1(is_not_a_number(b));
+  assert1(is_not_a_number(c));
+  
+  // 4
+  setup_numbers(&a, &b, &c, &n);
+  sort_numbers(&n, &b, &a, &c);
+  assert_equals(n, 1);
+  assert_equals(b, 2);
+  assert_equals(a, 3);
+  assert1(is_not_a_number(c));
+  
+}
+
 void test_refine_zero() {
   double a = 0;
   double b = 0;
@@ -265,7 +326,7 @@ void test_refine_zero() {
 //  test_println("call: ", call(a, b, c, d, e, zero));
   assert_equals(zero, 888);
 }
-/*void test_solve_2() {
+void test_equation_4() {
   double a = 0;
   double b = 0;
   double c = 0;
@@ -276,14 +337,18 @@ void test_refine_zero() {
   double zero3;
   double zero4;
   
-  get_coefficients_from_zeros(3, &d, &e);
-  solve(d, e, &zero1);
-  assert_equals(zero1, 3);
+  // q == 0
+  get_coefficients_from_zeros(41, 42, 43, 44, &a, &b, &c, &d, &e);
+  solve(a, b, c, d, e, &zero1, &zero2, &zero3, &zero4);
+  assert_equals(zero1, 41);
+  assert_equals(zero2, 42);
+  assert_equals(zero3, 43);
+  assert_equals(zero4, 44);
 
-  get_coefficients_from_zeros(0, &d, &e);
-  solve(d, e, &zero1);
-  assert_approximates(zero1, 0);
-}*/
+  test_println("zero1: ", zero1, " zero2: ", zero2, " zero3: ", zero3, " zero4: ", zero4);
+
+}
+
 
 
 void test_solve_1() {
@@ -295,9 +360,11 @@ void test_solve_1() {
   test_equation_1();
   test_equation_2();
   test_curt();
-  test_refine_zero();/**/
+  test_refine_zero();
 }
 
 void test_solve_2() {
-  test_equation_3();
+//  test_equation_3();
+//  test_sort_numbers();
+  test_equation_4();
 }

@@ -223,10 +223,10 @@ void solve(double A, double B, double C, double D, double *zero1, double *zero2,
     double p = b - a*a / 3;
     double q = 2 * a*a*a / 27 - a * b / 3 + c;
     
-    D = q*q / 4 + p*p*p / 27;
-    if (D > 0) {
-//      test_println("{solve_3} -> D > 0");
-      double sqrt_of_D = sqrt(D);
+    double discriminant = q*q / 4 + p*p*p / 27;
+    if (discriminant > 0) {
+//      test_println("{solve_3} -> discriminant > 0");
+      double sqrt_of_D = sqrt(discriminant);
       double u = curt(- q / 2 + sqrt_of_D);
       double v = curt(- q / 2 - sqrt_of_D);
       double z = u + v;
@@ -239,16 +239,16 @@ void solve(double A, double B, double C, double D, double *zero1, double *zero2,
       *zero1 = - a / 3;
       *zero2 = get_not_a_number();
       *zero3 = get_not_a_number();
-    } else if (D == 0) { // and (p != 0 or q != 0)
-//      test_println("{solve_3} -> D == 0 and (p != 0 or q != 0)");
+    } else if (discriminant == 0) { // and (p != 0 or q != 0)
+//      test_println("{solve_3} -> discriminant == 0 and (p != 0 or q != 0)");
       double u = curt(- q / 2);
       double z1 = 2 * u;
       double z23 = - u;
       *zero1 = z1 - a/3;
       *zero2 = z23 - a/3;
       *zero3 = get_not_a_number();
-    } else { // D < 0
-//      test_println("{solve_3} -> D < 0");
+    } else { // discriminant < 0
+//      test_println("{solve_3} -> discriminant < 0");
       double sq3p = sqrt(-3 / p);
 //      test_println("sq3p: ", sq3p);
       double m = 2 / sq3p;
@@ -269,6 +269,7 @@ void solve(double A, double B, double C, double D, double *zero1, double *zero2,
       *zero1 = z1 - a/3;
       *zero2 = z2 - a/3;
       *zero3 = z3 - a/3;
+      refine_zeros_of_order_3_with_3_solutions(A, B, C, D, zero1, zero2, zero3);
     }
   }
 }
@@ -323,7 +324,7 @@ void switch_numbers(double *a, double *b) {
 }
 
 void sort_numbers(double *a, double *b) {
-  if (*a > *b) {
+  if ((*a > *b) || is_not_a_number(*a)) {
     switch_numbers(a, b);
   }
 }
@@ -335,7 +336,15 @@ void sort_numbers(double *a, double *b, double *c) {
   sort_numbers(a, b);
 }
 
-void refine_zeros_of_order_3_with_D_greater_0(double b, double c, double d, double e, double *zero1, double *zero2, double *zero3) {
+void sort_numbers(double *a, double *b, double *c, double *d) {
+  // bubblesort
+  sort_numbers(a, b);
+  sort_numbers(b, c);
+  sort_numbers(c, d);
+  sort_numbers(a, b, c);
+}
+
+void refine_zeros_of_order_3_with_3_solutions(double b, double c, double d, double e, double *zero1, double *zero2, double *zero3) {
   sort_numbers(zero1, zero2, zero3);
   double difference1 = (*zero2 - *zero1) / 2;
   double difference2 = (*zero3 - *zero2) / 2;
@@ -357,7 +366,10 @@ double refine_zero(double a, double b, double c, double d, double e, double uppe
     return lower_bound;
   }
   if (((lower_y > 0) && (upper_y > 0)) || ((lower_y < 0) && (upper_y < 0))) {
-    test_println("refine_zero: upper and lower bound have same sign - can not refine zero");
+    test_print("refine_zero: upper and lower bound have same sign - can not refine zero ");
+    test_println(" -> upper_bound: ", upper_bound, " lower_bound: ", lower_bound);
+    test_println(" -> upper_y: ", upper_y, " lower_y: ", lower_y);
+    test_print(" -> "); print_coefficients_to_serial(0, b, c, d, e); test_println();
     return get_not_a_number();
   }
   if (lower_y > 0) {
@@ -382,7 +394,171 @@ double refine_zero(double a, double b, double c, double d, double e, double uppe
   }
 }
 
-void solve(double a, double b, double c, double d, double e, double *zero1, double *zero2, double *zero3, double *zero4) {
-  
-};
+void solve(double e, double f, double g, double h, double i, double *zero1, double *zero2, double *zero3, double *zero4) {
+  if (e == 0) {
+    solve(f, g, h, i, zero1, zero2, zero3);
+    *zero4 = get_not_a_number();
+  } else {
+    test_print("Solving "); print_coefficients_to_serial(e, f, g, h, i); test_println(" = 0");
+    double a = f / e;
+    double b = g / e;
+    double c = h / e;
+    double d = i / e;
+    test_print("Solving "); print_coefficients_to_serial(1, a, b, c, d); test_println(" = 0");
+    
+    double a_2 = a * a;
+    double a_3 = a_2 * a;
+    double a_4 = a_2 * a_2;
+
+    // x = z - a/4    
+    double p = b - 3. / 8. * a_2;
+    double q = a_3 / 8. - a * b / 2. + c;
+    double r = (-3. /256. + d / a_4 * 3) * a_4;
+    test_println("r: ", r);
+    r += a_2 * (b / 16. - 3 * d / a_2);
+    test_println("r: ", r);
+    r -= a * (c / 4. - d / a);
+    test_println("r: ", r);
+    //r += d;
+    
+    test_println("p: ", p, " q: ", q, " r: ", r);
+    
+    if (approximates(p, 0) && approximates(q, 0)) {
+      test_println("{solve_4} -> p == 0 and q == 0");
+      if (approximates(r, 0)) {
+        test_println("{solve_4} -> r == 0");
+        *zero1 = 0;
+      } else if (r > 0){
+        test_println("{solve_4} -> r > 0");
+        *zero1 = get_not_a_number();
+      } else {
+        test_println("{solve_4} -> r < 0");
+        *zero1 = sqrt(-r);
+      }
+      *zero2 = get_not_a_number();
+      *zero3 = get_not_a_number();
+      *zero4 = get_not_a_number();
+    } else if (approximates(q, 0)) {
+      test_println("{solve_4} -> q == 0");
+      // v = z²
+      double vs[2];
+      solve(1, p, r, &vs[1], &vs[2]);
+      double *zeros[4] = {zero1, zero2, zero3, zero4};
+      int zero_index = 0;
+      double minus_a_4 = - a / 4;
+      for (int i = 0; i < 2; ++i) {
+        double v = vs[i];
+        if (is_not_a_number(v)) {
+          continue;
+        } else if (approximates(v, 0)) {
+          *(zeros[zero_index]) = minus_a_4;
+          ++zero_index;
+        } else if (v < 0) {
+          continue;
+        } else {
+          double z1 = sqrt(v);
+          double z2 = -z1;
+          *(zeros[zero_index]) = z1 + minus_a_4;
+          ++zero_index;
+          *(zeros[zero_index]) = z2 + minus_a_4;
+          ++zero_index;
+        }
+      }
+      for (; zero_index < 4; ++zero_index) {
+        *(zeros[zero_index]) = get_not_a_number();
+      }
+    } else {
+      test_println("{solve_4} -> q != 0");
+      double Ps[3];
+      double Pb = 8;
+      double Pc = -4*p;
+      double Pd = -8*r;
+      double Pe = 4*p*r - q*q;
+      test_print("Solving order 3:"); print_coefficients_to_serial(0, Pb, Pc, Pd, Pe); test_println();
+      solve(Pb, Pc, Pd, Pe, &(Ps[0]), &(Ps[1]), &(Ps[2]));
+      boolean has_solution = false;
+      double P;
+      double Q;
+      double R;
+      for (int i = 0; i < 3; ++i) {
+        P = Ps[i];
+        if (is_not_a_number(P)) {
+          continue;
+        } 
+        double Q_squared = 2 * P - p;
+        double R_squared = P * P - r;
+        if (approximates(Q_squared, 0)) {
+          Q_squared = 0;
+        } else if (Q_squared < 0) {
+          continue;
+        }
+        if (approximates(R_squared, 0)) {
+          R_squared = 0;
+        } else if (R_squared < 0) {
+          continue;
+        }
+        double Q1 = sqrt(Q_squared);
+        double Q2 = -Q1;
+        double R1 = sqrt(R_squared);
+        double R2 = -R1;
+        double minus_q_half = -q / 2;
+        double QR[8] = {Q1, R1, Q2, R1, Q1, R2, Q2, R2};
+        for (int QR_i = 0; QR_i < 8; ++QR_i) {
+          Q = QR[QR_i];
+          ++QR_i;
+          R = QR[QR_i];
+          
+          has_solution = approximates(R * Q, minus_q_half);
+          if (has_solution) {
+            break;
+          }
+        }
+        // found suitable solution
+        break; 
+      }
+      if (!has_solution) {
+        *zero1 = *zero2 = *zero3 = *zero4 = get_not_a_number();
+      } else {
+        double minus_a_4 = - a / 4;
+        double Zs[4];
+        double *zeros[4] = {zero1, zero2, zero3, zero4};
+        solve(1, Q, P + R, &(Zs[0]), &(Zs[1]));
+        solve(1, -Q, P - R, &(Zs[2]), &(Zs[3]));
+        int zero_index = 0;
+        for (int i = 0; i < 4; ++i) {
+          double z = Zs[i];
+          if (is_not_a_number(z)) {
+            continue;
+          } else {
+            double x = z + minus_a_4;
+            *(zeros[zero_index]) = x;
+            ++zero_index;
+          }
+        }
+        for (; zero_index < 4; ++zero_index) {
+          *(zeros[zero_index]) = get_not_a_number();
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
