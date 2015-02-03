@@ -1,7 +1,7 @@
 
-#include "test_positioning_system.h"
+#include "test_positioning_system.hpp"
 #include "Arduino.h"
-#include "test_solve.h"
+#include "test_solve.hpp"
 //#include "string.h"
 
 int tests_succeeded;

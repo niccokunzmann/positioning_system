@@ -253,10 +253,15 @@ REM     so we provide the -n option to minimize code size)
 REM Once again, do the pushd/pop hack for the recursive for loop...
 REM Also, all abuild_cmd are CALL'ed below, otherwise the shell passes arguments incorrectly
 REM to the avr toolchain on the second iteration through the inner loops..!
+
+set ARDUINO_USER_LIBRARY_DIRECTORIES=!ARDUINO_USER_LIBRARIES!\libraries\*
+
 if !abuild_nolibs! == false (
-	for /D %%d in ("!arduino_path!\hardware\libraries\*.*" "!ARDUINO_USER_LIBRARIES!") do (
+	for /D %%d in ("!arduino_path!\hardware\libraries\*.*" "!ARDUINO_USER_LIBRARY_DIRECTORIES!") do (
 		!abuild_report! Building library: %%d
-		
+    
+    set currently_building_library_directory=%%d
+    
 		pushd %%d
 		for /R %%f in ("*.c") do (
 			rem Make sure we're not building an example
@@ -267,7 +272,7 @@ if !abuild_nolibs! == false (
 			if NOT !test! EQU examples (
 				popd
 				set abuild_objfile=!abuild_output!\%%~nf.c.o
-				set abuild_cmd=avr-gcc !abuild_gcc_opts! "%%~f" -o "!abuild_objfile!"
+				set abuild_cmd=avr-gcc "-I!currently_building_library_directory!" !abuild_gcc_opts!  "%%~f" -o "!abuild_objfile!"
 				!abuild_report! !abuild_cmd!
 				if exist !abuild_objfile! (del !abuild_objfile!)
 				call !abuild_cmd!
@@ -291,7 +296,7 @@ if !abuild_nolibs! == false (
 			if NOT !test! EQU examples (
 				popd
 				set abuild_objfile=!abuild_output!\%%~nf.cpp.o
-				set abuild_cmd=avr-g++ !abuild_gpp_opts! "%%~f" -o "!abuild_objfile!"
+				set abuild_cmd=avr-g++ "-I!currently_building_library_directory!" !abuild_gpp_opts! "%%~f" -o "!abuild_objfile!"
 				!abuild_report! !abuild_cmd!
 				if exist !abuild_objfile! (del !abuild_objfile!)
 				call !abuild_cmd!

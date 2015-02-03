@@ -1,7 +1,7 @@
 
-#include "test_solve.h"
-#include "test_positioning_system.h"
-#include "solve.h"
+#include "test_solve.hpp"
+#include "test_positioning_system.hpp"
+#include "solve.hpp"
 
 void test_from_zeros() {
   double a = 0;

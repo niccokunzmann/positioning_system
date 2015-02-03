@@ -1,7 +1,8 @@
 
-#include "solve.h"
+#include "xreal.hpp"
+#include "solve.hpp"
 #include "Arduino.h"
-#include "test_positioning_system.h"
+#include "test_positioning_system.hpp"
 #include "math.h"
 
 void get_coefficients_from_zeros(double zero1, double *d, double* e) {
