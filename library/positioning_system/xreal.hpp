@@ -41,7 +41,7 @@ class xreal {
   friend xreal operator- (const xreal& x1, const xreal& x2);
   friend xreal operator* (const xreal& x1, const xreal& x2);
   friend xreal operator/ (const xreal& x1, const xreal& x2);
-  friend xreal operator% (const xreal& x1, int n);
+  friend xreal operator% (const xreal& x1, INT32 n);
   friend int operator== (const xreal& x1, const xreal& x2);
   friend int operator!= (const xreal& x1, const xreal& x2);
   friend int operator<= (const xreal& x1, const xreal& x2);
@@ -54,10 +54,10 @@ class xreal {
   friend int compare (const xreal& x1, const xreal& x2);
   friend int isNaN (const xreal& x);
   friend xreal abs (const xreal& s);
-  friend xreal frexp (const xreal& s, int *p);
+  friend xreal frexp (const xreal& s, INT32 *p);
   friend xreal qfmod (const xreal& s, const xreal& t, xreal& q);
   friend xreal fmod (const xreal& s, const xreal& t);
-  friend xreal sfmod (const xreal& s, int *p);
+  friend xreal sfmod (const xreal& s, INT32 *p);
   friend xreal frac (const xreal& x);
   friend xreal trunc (const xreal& x);
   friend xreal round (const xreal& x);
@@ -143,10 +143,10 @@ class xreal {
     br = xdiv (br, x.br);
     return *this;
   }
-  xreal& operator%= (int n) {
-    br = xpr2 (br, n);
-    return *this;
-  }
+//  xreal& operator%= (INT32 n) {
+//    br = xpr2 (br, n);
+//    return *this;
+//  }
   /* Increment operators */
   xreal& operator++ () {
     br = xadd (br, xOne, 0); 
@@ -169,7 +169,7 @@ class xreal {
     br = xZero;
   }
   /* Integer exponent power */
-  xreal operator() (int n) const {
+  xreal operator() (INT32 n) const {
     return xpwr (br, n);
   }
   /* Negation */
@@ -182,7 +182,7 @@ class xreal {
   int isneg() const {
     return x_neg ((struct xpr*)&br);
   }
-  int exp() const {
+  INT32 exp() const {
     return x_exp ((struct xpr*)&br);
   }
   /* Functions for conversions */
@@ -248,7 +248,5 @@ class xreal {
  extern const xreal xLN2, xLN10, xLOG2_E, xLOG2_10, xLOG10_E;
 
 } /* End namespace HPA */
-
-
 
 #endif /* _XREAL_H_ */

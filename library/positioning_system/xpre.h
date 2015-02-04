@@ -95,14 +95,14 @@ extern "C"
   int xis0 (const struct xpr *u);
   int xnot0 (const struct xpr *u);
   int xsgn (const struct xpr *u);
-  int x_neg (const struct xpr *p);
-  int x_exp (const struct xpr *p);
-  struct xpr xsfmod (struct xpr t, int *p);
-  struct xpr xpwr (struct xpr s, int n);
-  struct xpr xpr2 (struct xpr s, int n);
+  INT32 x_neg (const struct xpr *p);
+  INT32 x_exp (const struct xpr *p);
+  struct xpr xsfmod (struct xpr t, INT32 *p);
+  struct xpr xpwr (struct xpr s, INT32 n);
+  struct xpr xpr2 (struct xpr s, INT32 n);
   struct xpr xneg (struct xpr s);
   struct xpr xabs (struct xpr s);
-  struct xpr xfrexp (struct xpr s, int *p);
+  struct xpr xfrexp (struct xpr s, INT32 *p);
 /* xfmod() has been modified by Ivano Primi - 01/30/2005 */
   struct xpr xfmod (struct xpr s, struct xpr t, struct xpr *q);
 /* xfrac() and xtrunc() have been added by Ivano Primi - 12/11/2004 */
@@ -140,8 +140,8 @@ extern "C"
   struct xpr xacosh (struct xpr v);
   struct xpr xpow (struct xpr x, struct xpr y);
 
-  struct xpr* xchcof (int m, struct xpr (*xfunc) (struct xpr));
-  struct xpr xevtch (struct xpr z, struct xpr *a, int m);
+  struct xpr* xchcof (INT32 m, struct xpr (*xfunc) (struct xpr));
+  struct xpr xevtch (struct xpr z, struct xpr *a, INT32 m);
 /* The following 4 functions have been added */
 /* by Ivano Primi 11/29/2004                 */
 
@@ -153,8 +153,8 @@ extern "C"
   void xbprint (FILE * stream, struct xpr u);
   void xprxpr (struct xpr u, int m);
   void xprint (FILE * stream, struct xpr u);
-  void xlshift (int i, unsigned short *p, int k);
-  void xrshift (int i, unsigned short *p, int k);
+  void xlshift (INT32 i, unsigned short *p, INT32 k);
+  void xrshift (INT32 i, unsigned short *p, INT32 k);
 
 /* The next special output functions have been added by Ivano Primi, */
 /* 01/06/2005.                                                       */
