@@ -2,7 +2,7 @@
 #ifndef positioning_system_h
 #define positioning_system_h
 
-#include "hpa.h"
+#include "_hpa.h"
 #include "Arduino.h"
 
 // from http://forum.arduino.cc/index.php/topic,85840.0.html
@@ -194,6 +194,56 @@ void print10(Type1 message1, Type2 message2,
              Type9 message9, Type10 message10) {
   print8(message1, message2, message3, message4, message5, message6, message7, message8);
   print2(message9, message10);
+}
+
+template <typename Type1, typename Type2, typename Type3, typename Type4, 
+          typename Type5, typename Type6, typename Type7, typename Type8, 
+          typename Type9, typename Type10, typename Type11>
+void println11(Type1 message1, Type2 message2, 
+               Type3 message3, Type4 message4,  
+               Type5 message5, Type6 message6,  
+               Type7 message7, Type8 message8,  
+               Type9 message9, Type10 message10, 
+               Type11 message11) {
+  print11(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10, message11);
+  println0();
+}
+template <typename Type1, typename Type2, typename Type3, typename Type4, 
+          typename Type5, typename Type6, typename Type7, typename Type8, 
+          typename Type9, typename Type10, typename Type11>
+void print11(Type1 message1, Type2 message2, 
+             Type3 message3, Type4 message4,  
+             Type5 message5, Type6 message6,  
+             Type7 message7, Type8 message8,  
+             Type9 message9, Type10 message10, 
+             Type11 message11) {
+  print8(message1, message2, message3, message4, message5, message6, message7, message8);
+  print3(message9, message10, message11);
+}
+
+template <typename Type1, typename Type2, typename Type3, typename Type4, 
+          typename Type5, typename Type6, typename Type7, typename Type8, 
+          typename Type9, typename Type10, typename Type11, typename Type12>
+void println12(Type1 message1, Type2 message2, 
+               Type3 message3, Type4 message4,  
+               Type5 message5, Type6 message6,  
+               Type7 message7, Type8 message8,  
+               Type9 message9, Type10 message10, 
+               Type11 message11, Type12 message12) {
+  print12(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10, message11, message12);
+  println0();
+}
+template <typename Type1, typename Type2, typename Type3, typename Type4, 
+          typename Type5, typename Type6, typename Type7, typename Type8, 
+          typename Type9, typename Type10, typename Type11, typename Type12>
+void print12(Type1 message1, Type2 message2, 
+             Type3 message3, Type4 message4,  
+             Type5 message5, Type6 message6,  
+             Type7 message7, Type8 message8,  
+             Type9 message9, Type10 message10, 
+             Type11 message11, Type12 message12) {
+  print8(message1, message2, message3, message4, message5, message6, message7, message8);
+  print4(message9, message10, message11, message12);
 }
 
 extern int tests_succeeded;

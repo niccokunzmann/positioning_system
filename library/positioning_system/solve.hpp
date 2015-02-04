@@ -4,7 +4,7 @@
 #define solve_h
 
 #include "Arduino.h"
-#include "hpa.h"
+#include "_hpa.h"
 
 typedef HPA::xreal       Number;
 typedef const HPA::xreal NumberArgument;

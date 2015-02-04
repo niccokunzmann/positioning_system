@@ -37,6 +37,8 @@ Number call(NumberArgument a, NumberArgument b, NumberArgument c, NumberArgument
   result += d;
   result *= x;
   result += e;
+  //println12("a: ", a, " b: ", b, " c: ", c, " d: ", d, " e: ", e, " x: ", x);
+  println2("result: ", result);
   return result;
 }
 Number call(NumberArgument a, NumberArgument b, NumberArgument c, NumberArgument d, NumberArgument e, double x){
