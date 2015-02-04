@@ -301,31 +301,7 @@ void test_sort_numbers() {
   
 }
 
-void test_refine_zero() {
-  double a = 0;
-  double b = 0;
-  double c = 0;
-  double d = 0;
-  double e = 0;
-  double zero = 0;
 
-  get_coefficients_from_zeros(88, 8, 888, &b, &c, &d, &e);
-  
-  zero = refine_zero(a, b, c, d, e, 40, 400);
-//  test_println("zero: ", zero);
-//  test_println("call: ", call(a, b, c, d, e, zero));
-  assert_equals(zero, 88);
-  
-  zero = refine_zero(a, b, c, d, e, -40, 40);
-//  test_println("zero: ", zero);
-//  test_println("call: ", call(a, b, c, d, e, zero));
-  assert_equals(zero, 8);
-  
-  zero = refine_zero(a, b, c, d, e, 400, 1200);
-//  test_println("zero: ", zero);
-//  test_println("call: ", call(a, b, c, d, e, zero));
-  assert_equals(zero, 888);
-}
 void test_equation_4() {
   double a = 0;
   double b = 0;
@@ -340,6 +316,7 @@ void test_equation_4() {
   // q == 0
   get_coefficients_from_zeros(41, 42, 43, 44, &a, &b, &c, &d, &e);
   solve(a, b, c, d, e, &zero1, &zero2, &zero3, &zero4);
+  sort_numbers(&zero1, &zero2, &zero3, &zero4);
   assert_equals(zero1, 41);
   assert_equals(zero2, 42);
   assert_equals(zero3, 43);
@@ -348,8 +325,6 @@ void test_equation_4() {
   test_println("zero1: ", zero1, " zero2: ", zero2, " zero3: ", zero3, " zero4: ", zero4);
 
 }
-
-
 
 void test_solve_1() {
   test_from_zeros();
@@ -360,11 +335,11 @@ void test_solve_1() {
   test_equation_1();
   test_equation_2();
   test_curt();
-  test_refine_zero();
+//  test_refine_zero();
 }
 
 void test_solve_2() {
-//  test_equation_3();
-//  test_sort_numbers();
-  test_equation_4();
+  test_equation_3();
+  test_sort_numbers();
+//  test_equation_4();
 }

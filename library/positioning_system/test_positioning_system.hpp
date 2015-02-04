@@ -2,6 +2,7 @@
 #ifndef test_positioning_system_h
 #define test_positioning_system_h
 
+#include "hpa.h"
 #include "Arduino.h"
 
 // from http://forum.arduino.cc/index.php/topic,85840.0.html
@@ -22,10 +23,11 @@ void test_positioning_system_2();
 void test_positioning_system_3();
 void test_positioning_system_4();
 
-void test_delay(const TEST_PRINT_STRING bytes);
-void test_delay(int bytes);
+int get_number_of_succeeded_tests();
+int get_number_of_failed_tests();
+void use_verbose_test_output(boolean verbose);
 
-void test_println();
+
 void test_print(const TEST_PRINT_STRING message);
 void test_println(const TEST_PRINT_STRING message);
 void test_print(const __FlashStringHelper* message);
@@ -34,30 +36,198 @@ void test_print(int message);
 void test_println(int message);
 void test_print(double message);
 void test_println(double message);
-
-void test_print(const TEST_PRINT_STRING message1, double message2);
-void test_println(const TEST_PRINT_STRING message1, double message2);
-void test_print(const TEST_PRINT_STRING message1, double message2, const TEST_PRINT_STRING message3, double message4);
-void test_println(const TEST_PRINT_STRING message1, double message2, const TEST_PRINT_STRING message3, double message4);
-void test_print(const TEST_PRINT_STRING message1, double message2, const TEST_PRINT_STRING message3, double message4, 
-                const TEST_PRINT_STRING message5, double message6);
-void test_println(const TEST_PRINT_STRING message1, double message2, const TEST_PRINT_STRING message3, double message4, 
-                  const TEST_PRINT_STRING message5, double message6);
-void test_print(const TEST_PRINT_STRING message1, double message2, const TEST_PRINT_STRING message3, double message4, 
-                const TEST_PRINT_STRING message5, double message6, const TEST_PRINT_STRING message7, double message8);
-void test_println(const TEST_PRINT_STRING message1, double message2, const TEST_PRINT_STRING message3, double message4, 
-                  const TEST_PRINT_STRING message5, double message6, const TEST_PRINT_STRING message7, double message8);
-void test_print(const TEST_PRINT_STRING message1, double message2, const TEST_PRINT_STRING message3, double message4, 
-                const TEST_PRINT_STRING message5, double message6, const TEST_PRINT_STRING message7, double message8, 
-                const TEST_PRINT_STRING message9, double message10);
-void test_println(const TEST_PRINT_STRING message1, double message2, const TEST_PRINT_STRING message3, double message4, 
-                  const TEST_PRINT_STRING message5, double message6, const TEST_PRINT_STRING message7, double message8, 
-                  const TEST_PRINT_STRING message9, double message10);
+void test_print(const char* message);
+void test_println(const char* message);
+void test_print(const HPA::xreal message);
+void test_println(const HPA::xreal message);
 
 
-int get_number_of_succeeded_tests();
-int get_number_of_failed_tests();
-void use_verbose_test_output(boolean verbose);
+
+
+
+const char* message3  = "";
+const char* message4  = "";
+const char* message5  = "";
+const char* message6  = "";
+const char* message7  = "";
+const char* message8  = "";
+const char* message9  = "";
+const char* message10 = "";
+
+template <typename Type1, typename Type2>
+void test_println(const Type1 message1, const Type2 message2) {
+  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
+  test_println();
+}                 
+template <typename Type1, typename Type2>
+void test_print(const Type1 message1, const Type2 message2) {
+  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
+}
+
+template <typename Type1, typename Type2, typename Type3>
+void test_println(const Type1 message1, const Type2 message2, 
+                  const Type1 message3){
+  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
+  test_println();
+}                  
+template <typename Type1, typename Type2, typename Type3>
+void test_print(const Type1 message1, const Type2 message2, 
+                  const Type1 message3){
+  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
+}                  
+
+template <typename Type1, typename Type2, typename Type3, typename Type4>
+void test_println(const Type1 message1, const Type2 message2, 
+                  const Type1 message3, const Type2 message4){
+  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
+  test_println();
+}                  
+template <typename Type1, typename Type2, typename Type3, typename Type4>
+void test_print(const Type1 message1, const Type2 message2, 
+                  const Type1 message3, const Type2 message4){
+  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
+}                  
+
+template <typename Type1, typename Type2, typename Type3, typename Type4, 
+          typename Type5>
+void test_println(const Type1 message1, const Type2 message2, 
+                  const Type1 message3, const Type2 message4,  
+                  const Type1 message5){
+  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
+  test_println();
+}                  
+template <typename Type1, typename Type2, typename Type3, typename Type4, 
+          typename Type5>
+void test_print(const Type1 message1, const Type2 message2, 
+                  const Type1 message3, const Type2 message4,  
+                  const Type1 message5){
+  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
+}                  
+
+template <typename Type1, typename Type2, typename Type3, typename Type4, 
+          typename Type5, typename Type6>
+void test_println(const Type1 message1, const Type2 message2, 
+                  const Type1 message3, const Type2 message4,  
+                  const Type1 message5, const Type2 message6){
+  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
+  test_println();
+}                 
+template <typename Type1, typename Type2, typename Type3, typename Type4, 
+          typename Type5, typename Type6>
+void test_print(const Type1 message1, const Type2 message2, 
+                  const Type1 message3, const Type2 message4,  
+                  const Type1 message5, const Type2 message6){
+  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
+}                  
+
+template <typename Type1, typename Type2, typename Type3, typename Type4, 
+          typename Type5, typename Type6, typename Type7>
+void test_println(const Type1 message1, const Type2 message2, 
+                  const Type1 message3, const Type2 message4,  
+                  const Type1 message5, const Type2 message6,  
+                  const Type1 message7){
+  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
+  test_println();
+}                  
+template <typename Type1, typename Type2, typename Type3, typename Type4, 
+          typename Type5, typename Type6, typename Type7>
+void test_print(const Type1 message1, const Type2 message2, 
+                  const Type1 message3, const Type2 message4,  
+                  const Type1 message5, const Type2 message6,  
+                  const Type1 message7){
+  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
+}                  
+
+template <typename Type1, typename Type2, typename Type3, typename Type4, 
+          typename Type5, typename Type6, typename Type7, typename Type8>
+void test_println(const Type1 message1, const Type2 message2, 
+                  const Type1 message3, const Type2 message4,  
+                  const Type1 message5, const Type2 message6,  
+                  const Type1 message7, const Type2 message8){
+  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
+  test_println();
+}                  
+template <typename Type1, typename Type2, typename Type3, typename Type4, 
+          typename Type5, typename Type6, typename Type7, typename Type8>
+void test_print(const Type1 message1, const Type2 message2, 
+                  const Type1 message3, const Type2 message4,  
+                  const Type1 message5, const Type2 message6,  
+                  const Type1 message7, const Type2 message8){
+  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
+}                  
+
+template <typename Type1, typename Type2, typename Type3, typename Type4, 
+          typename Type5, typename Type6, typename Type7, typename Type8, 
+          typename Type9>
+void test_println(const Type1 message1, const Type2 message2, 
+                  const Type1 message3, const Type2 message4,  
+                  const Type1 message5, const Type2 message6,  
+                  const Type1 message7, const Type2 message8,  
+                  const Type1 message9){
+  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
+  test_println();
+}                  
+template <typename Type1, typename Type2, typename Type3, typename Type4, 
+          typename Type5, typename Type6, typename Type7, typename Type8, 
+          typename Type9>
+void test_print(const Type1 message1, const Type2 message2, 
+                  const Type1 message3, const Type2 message4,  
+                  const Type1 message5, const Type2 message6,  
+                  const Type1 message7, const Type2 message8,  
+                  const Type1 message9){
+  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
+}                  
+
+template <typename Type1, typename Type2, typename Type3, typename Type4, 
+          typename Type5, typename Type6, typename Type7, typename Type8, 
+          typename Type9, typename Type10>
+void test_println(const Type1 message1, const Type2 message2, 
+                  const Type1 message3, const Type2 message4,  
+                  const Type1 message5, const Type2 message6,  
+                  const Type1 message7, const Type2 message8,  
+                  const Type1 message9, const Type2 message10);                  
+template <typename Type1, typename Type2, typename Type3, typename Type4, 
+          typename Type5, typename Type6, typename Type7, typename Type8, 
+          typename Type9, typename Type10>
+void test_print(const Type1 message1, const Type2 message2, 
+                  const Type1 message3, const Type2 message4,  
+                  const Type1 message5, const Type2 message6,  
+                  const Type1 message7, const Type2 message8,  
+                  const Type1 message9, const Type2 message10);                  
+
+
+template <typename Type1, typename Type2, typename Type3, typename Type4, 
+          typename Type5, typename Type6, typename Type7, typename Type8, 
+          typename Type9, typename Type10>
+void test_println(const Type1 message1, const Type2 message2, 
+                  const Type1 message3, const Type2 message4,  
+                  const Type1 message5, const Type2 message6,  
+                  const Type1 message7, const Type2 message8,  
+                  const Type1 message9, const Type2 message10) {
+  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
+  test_println();
+}
+template <typename Type1, typename Type2, typename Type3, typename Type4, 
+          typename Type5, typename Type6, typename Type7, typename Type8, 
+          typename Type9, typename Type10>
+void test_print(const Type1 message1, const Type2 message2, 
+                  const Type1 message3, const Type2 message4,  
+                  const Type1 message5, const Type2 message6,  
+                  const Type1 message7, const Type2 message8,  
+                  const Type1 message9, const Type2 message10) {
+  test_print(message1);
+  test_print(message2);
+  test_print(message3);
+  test_print(message4);
+  test_print(message5);
+  test_print(message6);
+  test_print(message7);
+  test_print(message8);
+  test_print(message9);
+  test_print(message10);
+}
+                  
+                  
 
 // Macros
 // https://gcc.gnu.org/onlinedocs/cpp/Standard-Predefined-Macros.html#Standard-Predefined-Macros

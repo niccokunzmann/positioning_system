@@ -92,19 +92,8 @@ void teardown_tests() {
 
 ////////////////////// Output //////////////////////
 
-void test_delay(const TEST_PRINT_STRING bytes) {
-  // strlen https://www.gnu.org/software/libc/manual/html_node/String-Length.html
-  // 
-  test_delay(bytes.length());
-} 
-void test_delay(int bytes) {
-  delay(1 + bytes / 9);
-}
-
-
-void test_print(const TEST_PRINT_STRING message){
+void _test_print(const TEST_PRINT_STRING message){
   Serial.print(message);
-  test_delay(message);
   Serial.flush();
 }
 
@@ -117,12 +106,6 @@ void test_println(const TEST_PRINT_STRING message) {
 }
 void test_print(int message) {
   Serial.print(message);
-  int digits = 1;
-  while (message) {
-    ++digits;
-    message /= 10;
-  }
-  test_delay(digits);
   Serial.flush();
 }
 void test_println(int message) {
@@ -130,9 +113,7 @@ void test_println(int message) {
   test_println();
 }
 void test_print(double message){
-  // 0.3333333333333333 18 bytes
   Serial.print(message, 8);
-  test_delay(30);
   Serial.flush();
 }
 void test_println(double message){
@@ -149,67 +130,19 @@ void test_println(const __FlashStringHelper* message) {
   Serial.flush();
 };
 
-void test_print(const TEST_PRINT_STRING message1, double message2) {
-  test_print(message1);
-  test_print(message2);
+void test_print(const char* message) {
+  Serial.print(message);
+  Serial.flush();
 }
-void test_println(const TEST_PRINT_STRING message1, double message2) {
-  test_print(message1);
-  test_println(message2);
-}
-void test_print(const TEST_PRINT_STRING message1, double message2, const TEST_PRINT_STRING message3, double message4) {
-  test_print(message1, message2);
-  test_print(message3, message4);
-}
-void test_println(const TEST_PRINT_STRING message1, double message2, const TEST_PRINT_STRING message3, double message4) {
-  test_print(message1, message2);
-  test_println(message3, message4);
-}
+void test_println(const char* message) {
+  Serial.println(message);
+  Serial.flush();
+};
 
-void test_print(const TEST_PRINT_STRING message1, double message2, const TEST_PRINT_STRING message3, double message4, 
-                const TEST_PRINT_STRING message5, double message6) {
-  test_print(message1, message2);
-  test_print(message3, message4);
-  test_print(message5, message6);
+void test_print(HPA::xreal message){
+  test_print(message._2double());
 }
-void test_println(const TEST_PRINT_STRING message1, double message2, const TEST_PRINT_STRING message3, double message4, 
-                  const TEST_PRINT_STRING message5, double message6) {
-  test_print(message1, message2);
-  test_print(message3, message4);
-  test_println(message5, message6);
+void test_println(HPA::xreal message){
+  test_println(message._2double());
 }
-void test_print(const TEST_PRINT_STRING message1, double message2, const TEST_PRINT_STRING message3, double message4, 
-                const TEST_PRINT_STRING message5, double message6, const TEST_PRINT_STRING message7, double message8) {
-  test_print(message1, message2);
-  test_print(message3, message4);
-  test_print(message5, message6);
-  test_print(message7, message8);
-}
-void test_println(const TEST_PRINT_STRING message1, double message2, const TEST_PRINT_STRING message3, double message4, 
-                  const TEST_PRINT_STRING message5, double message6, const TEST_PRINT_STRING message7, double message8) {
-  test_print(message1, message2);
-  test_print(message3, message4);
-  test_print(message5, message6);
-  test_println(message7, message8);
-}
-
-void test_print(const TEST_PRINT_STRING message1, double message2, const TEST_PRINT_STRING message3, double message4, 
-                const TEST_PRINT_STRING message5, double message6, const TEST_PRINT_STRING message7, double message8, 
-                const TEST_PRINT_STRING message9, double message10) {
-  test_print(message1, message2);
-  test_print(message3, message4);
-  test_print(message5, message6);
-  test_print(message7, message8);
-  test_print(message9, message10);
-}
-void test_println(const TEST_PRINT_STRING message1, double message2, const TEST_PRINT_STRING message3, double message4, 
-                  const TEST_PRINT_STRING message5, double message6, const TEST_PRINT_STRING message7, double message8, 
-                  const TEST_PRINT_STRING message9, double message10) {
-  test_print(message1, message2);
-  test_print(message3, message4);
-  test_print(message5, message6);
-  test_print(message7, message8);
-  test_println(message9, message10);
-}
-
 

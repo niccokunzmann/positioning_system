@@ -1,38 +1,37 @@
 
-#include "xreal.hpp"
+
 #include "solve.hpp"
-#include "Arduino.h"
 #include "test_positioning_system.hpp"
 #include "math.h"
 
-void get_coefficients_from_zeros(double zero1, double *d, double* e) {
-  *d = 1;
+void get_coefficients_from_zeros(xreal zero1, xreal *d, xreal *e) {
+  *d = HPA::xONE;
   *e = -zero1;
 };
-void get_coefficients_from_zeros(double zero1, double zero2, double *c, double *d, double *e) {
-  *c = 1;
+void get_coefficients_from_zeros(xreal zero1, xreal zero2, xreal *c, xreal *d, xreal *e) {
+  *c = HPA::xONE;
   *d = -zero1 - zero2;
   *e = zero1 * zero2;
 };
-void get_coefficients_from_zeros(double zero1, double zero2, double zero3, double* b, double *c, double* d, double *e) {
-  *b = 1;
+void get_coefficients_from_zeros(xreal zero1, xreal zero2, xreal zero3, xreal *b, xreal *c, xreal *d, xreal *e) {
+  *b = HPA::xONE;
   *c = -zero1 - zero2 - zero3;
   *d = zero1 * zero2 + zero1 * zero3 + zero2 * zero3;
   *e = - zero1 * zero2 * zero3;
 };
-void get_coefficients_from_zeros(double zero1, double zero2, double zero3, double zero4, double *a, double* b, double *c, double* d, double *e) {
-  *a = 1;
+void get_coefficients_from_zeros(xreal zero1, xreal zero2, xreal zero3, xreal zero4, xreal *a, xreal *b, xreal *c, xreal *d, xreal *e) {
+  *a = HPA::xONE;
   *b = -zero1 - zero2 - zero3 - zero4;
-  *c = zero1 * zero2 + zero1 * zero3 + zero1 * zero4 + zero2 * zero3 + zero2 * zero4 +  + zero3 * zero4;
+  *c = zero1 * zero2 + zero1 * zero3 + zero1 * zero4 + zero2 * zero3 + zero2 * zero4 + zero3 * zero4;
   *d = - zero2 * zero3 * zero4 - zero1 * zero3 * zero4 - zero1 * zero2 * zero4 - zero1 * zero2 * zero3;
   *e = zero1 * zero2 * zero3 * zero4;
 };
 
-double call(double a, double b, double c, double d, double e, double x){
+xreal call(xreal a, xreal b, xreal c, xreal d, xreal e, xreal x){
   return (((a * x + b) * x + c) * x + d) * x + e;
 };
 
-void print_coefficients_to_serial(double a, double b, double c, double d, double e){
+void print_coefficients_to_serial(xreal a, xreal b, xreal c, xreal d, xreal e){
   if (a != 0) {
     test_print(a);
     test_print(F("*x^4 + "));
@@ -52,26 +51,26 @@ void print_coefficients_to_serial(double a, double b, double c, double d, double
   test_print(e);
 };
 
-const double default_epsilon = 0.00000001;
-double get_default_epsilon() {
+const xreal default_epsilon = xreal(0.00000001);
+xreal get_default_epsilon() {
   return default_epsilon;
 }
-double epsilon = default_epsilon;
-double get_epsilon() {
+xreal epsilon = default_epsilon;
+xreal get_epsilon() {
   return epsilon;
 }
 
-void set_epsilon(double new_epsilon) {
+void set_epsilon(xreal new_epsilon) {
   epsilon = new_epsilon;
 }
 
 
 
-boolean approximates(double a, double b) {
+boolean approximates(xreal a, xreal b) {
   return approximates(a, b, get_epsilon());
 }
 
-boolean approximates(double a, double b, double epsilon) {
+boolean approximates(xreal a, xreal b, xreal epsilon) {
   if (a < b) {
     return b - a <= epsilon;
   } else {
@@ -79,12 +78,12 @@ boolean approximates(double a, double b, double epsilon) {
   }
 }
 
-double get_infinity() {
+xreal get_infinity() {
   // http://www.nongnu.org/avr-libc/user-manual/group__avr__math.html
 #ifdef INFINITY
   return INFINITY;
 #else
-  static double infinity;
+  static xreal infinity;
   if (infinity + infinity + 1 == infinity) {
     return infinity;
   }
@@ -97,14 +96,14 @@ double get_infinity() {
 }
 
 
-double get_not_a_number() {
+xreal get_not_a_number() {
   // http://www.nongnu.org/avr-libc/user-manual/group__avr__math.html
 #ifdef NAN
   return NAN;
 #else
-  static double not_a_number;
+  static xreal not_a_number;
   if (not_a_number - not_a_number == 0) {
-    double infinity = get_infinity();
+    xreal infinity = get_infinity();
     not_a_number = infinity - infinity;
     return not_a_number;
   }
@@ -112,7 +111,7 @@ double get_not_a_number() {
 #endif
 }
 
-boolean is_not_a_number(double number) {
+boolean is_not_a_number(xreal number) {
 #ifdef isnan
   return isnan(number);
 #else
@@ -120,7 +119,7 @@ boolean is_not_a_number(double number) {
 #endif
 }
 
-void solve(double e, double *zero1) {
+void solve(xreal e, xreal *zero1) {
   if (approximates(e, 0)) {
     *zero1 = 0;
   } else {
@@ -128,7 +127,7 @@ void solve(double e, double *zero1) {
   }
 }
 
-void solve(double d, double e, double *zero1) {
+void solve(xreal d, xreal e, xreal *zero1) {
   if (d == 0) {
     solve(e, zero1);
   } else {
@@ -136,14 +135,14 @@ void solve(double d, double e, double *zero1) {
   }
 }
 
-void solve(double c, double d, double e, double *zero1, double *zero2) {
+void solve(xreal c, xreal d, xreal e, xreal *zero1, xreal *zero2) {
   if (c == 0) {
     solve(d, e, zero1);
     *zero2 = get_not_a_number();
   } else {
-    double p = d / c;
-    double q = e / c;
-    double D = p * p / 4 - q;
+    xreal p = d / c;
+    xreal q = e / c;
+    xreal D = p * p / 4 - q;
     if (D < 0) {
       // no solution
       *zero1 = get_not_a_number();
@@ -154,15 +153,15 @@ void solve(double c, double d, double e, double *zero1, double *zero2) {
       *zero2 = get_not_a_number();
     } else {
       // two solutions
-      double root_of_D = sqrt(D);
-      double minus_p_half = - p / 2;
+      xreal root_of_D = sqrt(D);
+      xreal minus_p_half = - p / 2;
       *zero1 = minus_p_half + root_of_D;
       *zero2 = minus_p_half - root_of_D;
     }
   }
 }
 
-double nth_root(double x, int n) {
+xreal nth_root(xreal x, int n) {
   // http://stackoverflow.com/a/10441069/1320237
   if (!(n%2) || x<0){
     return get_not_a_number(); // even root from negative is fail
@@ -172,19 +171,19 @@ double nth_root(double x, int n) {
   return sign ? x : -x;
 }
 
-double curt_1(double x) {
+xreal curt_1(xreal x) {
   return nth_root(x, 3);
 }
 
-double curt_2(double x) {
+xreal curt_2(xreal x) {
   // http://stackoverflow.com/a/28273079/1320237
   if (x == 0) {
     // would otherwise return something like 4.257959840008151e-109
     return 0;
   }
-  double b = 1; // use any value except 0
-  double last_b_1 = 0;
-  double last_b_2 = 0;
+  xreal b = 1; // use any value except 0
+  xreal last_b_1 = 0;
+  xreal last_b_2 = 0;
   while (last_b_1 != b && last_b_2 != b) {
     last_b_1 = b;
     b = (b + x / b / b) / 2;
@@ -194,7 +193,7 @@ double curt_2(double x) {
   return b;
 }
 
-double curt_3(double x) {
+xreal curt_3(xreal x) {
   // http://stackoverflow.com/a/4269145/1320237
   if (x < 0)
     return -1.0 * pow(-1.0*x, 1.0 / 3.0);
@@ -202,35 +201,37 @@ double curt_3(double x) {
     return pow(x, 1.0 / 3.0);
 }
 
-double curt(double x) {
+xreal curt(xreal x) {
   // see the benchmark example for the decision
   //return curt_3(x); // fastest
   return curt_3(x);
 };
 
-void solve(double A, double B, double C, double D, double *zero1, double *zero2, double *zero3) {
+void solve(xreal A, xreal B, xreal C, xreal D, xreal *zero1, xreal *zero2, xreal *zero3) {
   // https://de.wikipedia.org/wiki/Cardanische_Formeln
   if (A == 0) {
     solve(B, C, D, zero1, zero2);
     *zero3 = get_not_a_number();
   } else {
     // x³ + ax² + bx + c = 0
-    double a = B / A;
-    double b = C / A;
-    double c = D / A;
+    xreal a = B / A;
+    xreal b = C / A;
+    xreal c = D / A;
     
+    xreal a_2 = a*a;
     // x = z - a / 3
     // z³ + pz + q = 0
-    double p = b - a*a / 3;
-    double q = 2 * a*a*a / 27 - a * b / 3 + c;
+    xreal p = b - a_2 / 3;
+    xreal q = 2 * a_2*a / 27 - a * b / 3 + c;
     
-    double discriminant = q*q / 4 + p*p*p / 27;
+    xreal discriminant = q*q / 4 + p*p*p / 27;
     if (discriminant > 0) {
 //      test_println("{solve_3} -> discriminant > 0");
-      double sqrt_of_D = sqrt(discriminant);
-      double u = curt(- q / 2 + sqrt_of_D);
-      double v = curt(- q / 2 - sqrt_of_D);
-      double z = u + v;
+      xreal sqrt_of_D = sqrt(discriminant);
+      xreal mins_q_half = - q / 2;
+      xreal u = curt(mins_q_half + sqrt_of_D);
+      xreal v = curt(mins_q_half - sqrt_of_D);
+      xreal z = u + v;
       *zero1 = z - a/3;
       *zero2 = get_not_a_number();
       *zero3 = get_not_a_number();
@@ -242,179 +243,61 @@ void solve(double A, double B, double C, double D, double *zero1, double *zero2,
       *zero3 = get_not_a_number();
     } else if (discriminant == 0) { // and (p != 0 or q != 0)
 //      test_println("{solve_3} -> discriminant == 0 and (p != 0 or q != 0)");
-      double u = curt(- q / 2);
-      double z1 = 2 * u;
-      double z23 = - u;
-      *zero1 = z1 - a/3;
-      *zero2 = z23 - a/3;
+      xreal u = curt(- q / 2);
+      xreal z1 = 2 * u;
+      xreal z23 = - u;
+      xreal minus_a_third =  - a/3;
+      *zero1 = z1 + minus_a_third;
+      *zero2 = z23 + minus_a_third;
       *zero3 = get_not_a_number();
     } else { // discriminant < 0
 //      test_println("{solve_3} -> discriminant < 0");
-      double sq3p = sqrt(-3 / p);
+      xreal sq3p = sqrt(-3 / p);
 //      test_println("sq3p: ", sq3p);
-      double m = 2 / sq3p;
+      xreal m = 2 / sq3p;
 //      test_println("m: ", m);
-      double n1 = -q/2 * sq3p * sq3p * sq3p;
+      xreal n1 = -q/2 * sq3p * sq3p * sq3p;
 //      test_println("n1: ", n1);
-      double n2 = acos(n1);
+      xreal n2 = acos(n1);
 //      test_println("n2: ", n2);
-      double n = n2 / 3;
+      xreal n = n2 / 3;
 //      test_println("n: ", n);
+      xreal PI_3 = PI / 3;
       // the following can be more optimized, I guess
-      double z2 = -m * cos(n + PI / 3);
-      double z1 =  m * cos(n);
-      double z3 = -m * cos(n - PI / 3);
+      xreal z2 = -m * cos(n + PI_3);
+      xreal z1 =  m * cos(n);
+      xreal z3 = -m * cos(n - PI_3);
 //      test_println("z2: ", z2);
 //      test_println("z1: ", z1);
 //      test_println("z3: ", z3);
-      *zero1 = z1 - a/3;
-      *zero2 = z2 - a/3;
-      *zero3 = z3 - a/3;
-      refine_zeros_of_order_3_with_3_solutions(A, B, C, D, zero1, zero2, zero3);
-    }
-  }
-}
-double newton(double a, double b, double c, double d, double e, double x, double epsilon) {
-  return newton(a, b, c, d, e, x, epsilon, 100000);
-}
-
-double newton(double a, double b, double c, double d, double e, double x, double epsilon, long maximum_iterations) {
-  // differenciation
-  double da = 0;
-  double db = 4 * a;
-  double dc = 3 * b;
-  double dd = 2 * c;
-  double de = d;
-
-  double y;    
-  double last_x1 = x;
-  double last_x2 = x;
-  while (maximum_iterations > 0) {
-    --maximum_iterations;
-    //test_println("y: ", y);
-    y = call(a, b, c, d, e, x);
-    if (y == 0) {
-      break;
-    }
-    double slope = call(da, db, dc, dd, de, x);
-    //test_println("slope: ", slope);
-    if (slope == 0) {
-      return x;
-    }
-    last_x2 = last_x1;
-    last_x1 = x;
-    x = (slope * x - y) / slope;
-    //test_println("x: ", x);
-    if (last_x1 == x) {
-      break;
-    }
-    if (abs(last_x1 - x) > abs(last_x2 - last_x1)) {
-      // hypothesis: if the step size increased we shot over our goal.
-      test_println("step increased x: ", x, " last_x1: ", last_x1, " last_x2: ", last_x2);
-    }
-  }
-  test_println("maximum_iterations: ", maximum_iterations);
-  return x;
-}
-
-void switch_numbers(double *a, double *b) {
-  double temp;
-  temp = *a;
-  *a = *b;
-  *b = temp;
-}
-
-void sort_numbers(double *a, double *b) {
-  if ((*a > *b) || is_not_a_number(*a)) {
-    switch_numbers(a, b);
-  }
-}
-
-void sort_numbers(double *a, double *b, double *c) {
-  // bubblesort
-  sort_numbers(a, b);
-  sort_numbers(b, c);
-  sort_numbers(a, b);
-}
-
-void sort_numbers(double *a, double *b, double *c, double *d) {
-  // bubblesort
-  sort_numbers(a, b);
-  sort_numbers(b, c);
-  sort_numbers(c, d);
-  sort_numbers(a, b, c);
-}
-
-void refine_zeros_of_order_3_with_3_solutions(double b, double c, double d, double e, double *zero1, double *zero2, double *zero3) {
-  sort_numbers(zero1, zero2, zero3);
-  double difference1 = (*zero2 - *zero1) / 2;
-  double difference2 = (*zero3 - *zero2) / 2;
-  double new_zero1 = refine_zero(0, b, c, d, e, *zero1 - difference1, *zero1 + difference1);
-  double new_zero2 = refine_zero(0, b, c, d, e, *zero2 - difference1, *zero2 + difference2);
-  double new_zero3 = refine_zero(0, b, c, d, e, *zero3 - difference2, *zero3 + difference2);
-  *zero1 = new_zero1;
-  *zero2 = new_zero2;
-  *zero3 = new_zero3;
-}
-
-double refine_zero(double a, double b, double c, double d, double e, double upper_bound, double lower_bound) {
-  double lower_y = call(a, b, c, d, e, lower_bound);
-  double upper_y = call(a, b, c, d, e, upper_bound);
-  if (upper_y == 0) {
-    return upper_bound;
-  }
-  if (lower_y == 0) {
-    return lower_bound;
-  }
-  if (((lower_y > 0) && (upper_y > 0)) || ((lower_y < 0) && (upper_y < 0))) {
-    test_print("refine_zero: upper and lower bound have same sign - can not refine zero ");
-    test_println(" -> upper_bound: ", upper_bound, " lower_bound: ", lower_bound);
-    test_println(" -> upper_y: ", upper_y, " lower_y: ", lower_y);
-    test_print(" -> "); print_coefficients_to_serial(0, b, c, d, e); test_println();
-    return get_not_a_number();
-  }
-  if (lower_y > 0) {
-    switch_numbers(&upper_bound, &lower_bound);
-  }
-  double last_bound = lower_bound;
-  double new_bound = upper_bound;
-  while (1) {
-    last_bound = new_bound;
-    new_bound = (lower_bound + upper_bound) / 2;
-    if (last_bound == new_bound) {
-      return new_bound;
-    }
-    double new_y = call(a, b, c, d, e, new_bound);
-    if (new_y == 0) {
-      return new_bound;
-    } else if (new_y < 0) {
-      lower_bound = new_bound;
-    } else {
-      upper_bound = new_bound;
+      xreal minus_a_third =  - a/3;
+      *zero1 = z1 + minus_a_third;
+      *zero2 = z2 + minus_a_third;
+      *zero3 = z3 + minus_a_third;
     }
   }
 }
 
-void solve(double e, double f, double g, double h, double i, double *zero1, double *zero2, double *zero3, double *zero4) {
+void solve(xreal e, xreal f, xreal g, xreal h, xreal i, xreal *zero1, xreal *zero2, xreal *zero3, xreal *zero4) {
   if (e == 0) {
     solve(f, g, h, i, zero1, zero2, zero3);
     *zero4 = get_not_a_number();
   } else {
     test_print("Solving "); print_coefficients_to_serial(e, f, g, h, i); test_println(" = 0");
-    double a = f / e;
-    double b = g / e;
-    double c = h / e;
-    double d = i / e;
+    xreal a = f / e;
+    xreal b = g / e;
+    xreal c = h / e;
+    xreal d = i / e;
     test_print("Solving "); print_coefficients_to_serial(1, a, b, c, d); test_println(" = 0");
     
-    double a_2 = a * a;
-    double a_3 = a_2 * a;
-    double a_4 = a_2 * a_2;
+    xreal a_2 = a * a;
+    xreal a_3 = a_2 * a;
+    xreal a_4 = a_2 * a_2;
 
     // x = z - a/4    
-    double p = b - 3. / 8. * a_2;
-    double q = a_3 / 8. - a * b / 2. + c;
-    double r = (-3. /256. + d / a_4 * 3) * a_4;
+    xreal p = b - 3. / 8. * a_2;
+    xreal q = a_3 / 8. - a * b / 2. + c;
+    xreal r = (-3. /256. + d / a_4 * 3) * a_4;
     test_println("r: ", r);
     r += a_2 * (b / 16. - 3 * d / a_2);
     test_println("r: ", r);
@@ -442,13 +325,13 @@ void solve(double e, double f, double g, double h, double i, double *zero1, doub
     } else if (approximates(q, 0)) {
       test_println("{solve_4} -> q == 0");
       // v = z²
-      double vs[2];
+      xreal vs[2];
       solve(1, p, r, &vs[1], &vs[2]);
-      double *zeros[4] = {zero1, zero2, zero3, zero4};
+      xreal *zeros[4] = {zero1, zero2, zero3, zero4};
       int zero_index = 0;
-      double minus_a_4 = - a / 4;
+      xreal minus_a_4 = - a / 4;
       for (int i = 0; i < 2; ++i) {
-        double v = vs[i];
+        xreal v = vs[i];
         if (is_not_a_number(v)) {
           continue;
         } else if (approximates(v, 0)) {
@@ -457,8 +340,8 @@ void solve(double e, double f, double g, double h, double i, double *zero1, doub
         } else if (v < 0) {
           continue;
         } else {
-          double z1 = sqrt(v);
-          double z2 = -z1;
+          xreal z1 = sqrt(v);
+          xreal z2 = -z1;
           *(zeros[zero_index]) = z1 + minus_a_4;
           ++zero_index;
           *(zeros[zero_index]) = z2 + minus_a_4;
@@ -470,24 +353,24 @@ void solve(double e, double f, double g, double h, double i, double *zero1, doub
       }
     } else {
       test_println("{solve_4} -> q != 0");
-      double Ps[3];
-      double Pb = 8;
-      double Pc = -4*p;
-      double Pd = -8*r;
-      double Pe = 4*p*r - q*q;
+      xreal Ps[3];
+      xreal Pb = 8;
+      xreal Pc = -4*p;
+      xreal Pd = -8*r;
+      xreal Pe = 4*p*r - q*q;
       test_print("Solving order 3:"); print_coefficients_to_serial(0, Pb, Pc, Pd, Pe); test_println();
       solve(Pb, Pc, Pd, Pe, &(Ps[0]), &(Ps[1]), &(Ps[2]));
       boolean has_solution = false;
-      double P;
-      double Q;
-      double R;
+      xreal P;
+      xreal Q;
+      xreal R;
       for (int i = 0; i < 3; ++i) {
         P = Ps[i];
         if (is_not_a_number(P)) {
           continue;
         } 
-        double Q_squared = 2 * P - p;
-        double R_squared = P * P - r;
+        xreal Q_squared = 2 * P - p;
+        xreal R_squared = P * P - r;
         if (approximates(Q_squared, 0)) {
           Q_squared = 0;
         } else if (Q_squared < 0) {
@@ -498,12 +381,12 @@ void solve(double e, double f, double g, double h, double i, double *zero1, doub
         } else if (R_squared < 0) {
           continue;
         }
-        double Q1 = sqrt(Q_squared);
-        double Q2 = -Q1;
-        double R1 = sqrt(R_squared);
-        double R2 = -R1;
-        double minus_q_half = -q / 2;
-        double QR[8] = {Q1, R1, Q2, R1, Q1, R2, Q2, R2};
+        xreal Q1 = sqrt(Q_squared);
+        xreal Q2 = -Q1;
+        xreal R1 = sqrt(R_squared);
+        xreal R2 = -R1;
+        xreal minus_q_half = -q / 2;
+        xreal QR[8] = {Q1, R1, Q2, R1, Q1, R2, Q2, R2};
         for (int QR_i = 0; QR_i < 8; ++QR_i) {
           Q = QR[QR_i];
           ++QR_i;
@@ -520,18 +403,18 @@ void solve(double e, double f, double g, double h, double i, double *zero1, doub
       if (!has_solution) {
         *zero1 = *zero2 = *zero3 = *zero4 = get_not_a_number();
       } else {
-        double minus_a_4 = - a / 4;
-        double Zs[4];
-        double *zeros[4] = {zero1, zero2, zero3, zero4};
+        xreal minus_a_4 = - a / 4;
+        xreal Zs[4];
+        xreal *zeros[4] = {zero1, zero2, zero3, zero4};
         solve(1, Q, P + R, &(Zs[0]), &(Zs[1]));
         solve(1, -Q, P - R, &(Zs[2]), &(Zs[3]));
         int zero_index = 0;
         for (int i = 0; i < 4; ++i) {
-          double z = Zs[i];
+          xreal z = Zs[i];
           if (is_not_a_number(z)) {
             continue;
           } else {
-            double x = z + minus_a_4;
+            xreal x = z + minus_a_4;
             *(zeros[zero_index]) = x;
             ++zero_index;
           }
@@ -544,7 +427,33 @@ void solve(double e, double f, double g, double h, double i, double *zero1, doub
   }
 }
 
+void switch_numbers(xreal *a, xreal *b) {
+  xreal temp;
+  temp = *a;
+  *a = *b;
+  *b = temp;
+}
 
+void sort_numbers(xreal *a, xreal *b) {
+  if ((*a > *b) || is_not_a_number(*a)) {
+    switch_numbers(a, b);
+  }
+}
+
+void sort_numbers(xreal *a, xreal *b, xreal *c) {
+  // bubblesort
+  sort_numbers(a, b);
+  sort_numbers(b, c);
+  sort_numbers(a, b);
+}
+
+void sort_numbers(xreal *a, xreal *b, xreal *c, xreal *d) {
+  // bubblesort
+  sort_numbers(a, b);
+  sort_numbers(b, c);
+  sort_numbers(c, d);
+  sort_numbers(a, b, c);
+}
 
 
 

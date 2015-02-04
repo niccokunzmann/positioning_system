@@ -53,14 +53,14 @@ class xreal {
   friend const char* bget (const char* buff, xreal& x);
   friend int compare (const xreal& x1, const xreal& x2);
   friend int isNaN (const xreal& x);
-  friend xreal abs (const xreal& s);
+  friend xreal abs (const xreal& s); // arduino macro influence
   friend xreal frexp (const xreal& s, int *p);
   friend xreal qfmod (const xreal& s, const xreal& t, xreal& q);
   friend xreal fmod (const xreal& s, const xreal& t);
   friend xreal sfmod (const xreal& s, int *p);
   friend xreal frac (const xreal& x);
   friend xreal trunc (const xreal& x);
-  friend xreal round (const xreal& x);
+  friend xreal round (const xreal& x); // arduino macro influence
   friend xreal ceil (const xreal& x);
   friend xreal floor (const xreal& x);
   friend xreal fix (const xreal& x);
