@@ -32,6 +32,8 @@ void print1(Type1 message1) {
 }
 template <>
 void print1<HPA::xreal> (HPA::xreal message1);
+template <>
+void print1<struct xpr> (const struct xpr message1);
 
 template <typename Type1> 
 void println1(Type1 message1) {

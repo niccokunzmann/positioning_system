@@ -6,9 +6,9 @@
 #include "Arduino.h"
 #include "_hpa.h"
 
-typedef HPA::xreal       Number;
-typedef const HPA::xreal NumberArgument;
-typedef HPA::xreal*      NumberPointer;
+typedef struct xpr       Number;
+typedef const struct xpr NumberArgument;
+typedef struct xpr*      NumberPointer;
 
 
 // a*x^4 + b * x^3 + c * x^2 + d * x + e

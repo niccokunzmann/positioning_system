@@ -6,20 +6,26 @@
 using namespace HPA;
 
 void test_from_zeros() {
-  Number a = 0;
-  Number b = 0;
-  Number c = 0;
-  Number d = 0;
-  Number e = 0;
+  Number a = inttox(0);
+  Number b = a;
+  Number c = a;
+  Number d = a;
+  Number e = a;
   
   // 1 zero
-  get_coefficients_from_zeros(1, &d, &e);
+/*  get_coefficients_from_zeros(inttox(1), &d, &e);
   println10("a: ", a, " b: ", b, " c: ", c, " d: ", d, " e: ", e);
-  assert_not_equals(call(a, b, c, d, e, 0), 0);
+  assert_not_equals(call(a, b, c, d, e, 0), xZero);
   println2("call(a, b, c, d, e, 0):", call(a, b, c, d, e, 0));
-  assert_equals(call(a, b, c, d, e, 1), 0);
-  println2("call(a, b, c, d, e, 1):", call(a, b, c, d, e, 1));
-  println2("call(a, b, c, d, e, xONE):", call(a, b, c, d, e, xONE));
+  assert_equals(call(a, b, c, d, e, 1), xZero);
+  println2("call(a, b, c, d, e, 1):", call(a, b, c, d, e, 1));*/
+  e = xOne;
+  a = xOne;
+  println2("(a) 1 + 1 = ", a + e);
+  e = xOne;
+  a = xOne;
+  c = xadd(a, e, 0);
+  println2("(b) 1 + 1 = ", c);
 }/*  
   // 2 zeros
   get_coefficients_from_zeros(1, 2, &c, &d, &e);

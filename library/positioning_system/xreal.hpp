@@ -96,7 +96,7 @@ class xreal {
     br = dbltox (x);
   }
   xreal (float x) {
-    br = dbltox (x);
+    br = flttox (x);
   }
   xreal (int n) {
     br = inttox (n);
@@ -248,5 +248,7 @@ class xreal {
  extern const xreal xLN2, xLN10, xLOG2_E, xLOG2_10, xLOG10_E;
 
 } /* End namespace HPA */
+
+
 
 #endif /* _XREAL_H_ */

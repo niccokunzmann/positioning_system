@@ -2,10 +2,9 @@
 
 #include "solve.hpp"
 #include "test_positioning_system.hpp"
-#include "math.h"
 
 void get_coefficients_from_zeros(NumberArgument zero1, NumberPointer d, NumberPointer e) {
-  *d = 1;
+  *d = xOne;
   *e = -zero1;
 };/*
 void get_coefficients_from_zeros(NumberArgument zero1, NumberArgument zero2, NumberPointer c, NumberPointer d, NumberPointer e) {
@@ -28,24 +27,39 @@ void get_coefficients_from_zeros(NumberArgument zero1, NumberArgument zero2, Num
 };
 */
 Number call(NumberArgument a, NumberArgument b, NumberArgument c, NumberArgument d, NumberArgument e, NumberArgument x){
+  return (((a * x + b) * x + c) * x + d) * x + e;
+/*  println2("x: ", x);
   Number result = a;
+  println2("1: ", result);
   result *= x;
+  println2("2: ", result);
   result += b;
+  println2("3: ", result);
   result *= x;
+  println2("4: ", result);
   result += c;
+  println2("5: ", result);
   result *= x;
+  println2("6: ", result);
   result += d;
+  println2("7: ", result);
   result *= x;
+  println2("8: ", result);
+  println2("e: ", e);
+  println2("r + e: ", result + e);
+  println2("r + e: ", HPA::xONE + HPA::xONE);
+  println2("r + e: ", HPA::xONE + HPA::xTWO);
+//  println2("r + e: ", (HPA::xONE + HPA::xONE)._2double());
+//  println2("r + e: ", (HPA::xONE + HPA::xTWO)._2double());
   result += e;
-  //println12("a: ", a, " b: ", b, " c: ", c, " d: ", d, " e: ", e, " x: ", x);
-  println2("result: ", result);
-  return result;
+  println2("9: ", result);
+  return result;*/
 }
 Number call(NumberArgument a, NumberArgument b, NumberArgument c, NumberArgument d, NumberArgument e, double x){
-  return call(a, b, c, d, e, Number(x));
+  return call(a, b, c, d, e, dbltox(x));
 }
 Number call(NumberArgument a, NumberArgument b, NumberArgument c, NumberArgument d, NumberArgument e, int x){
-  return call(a, b, c, d, e, Number(x));
+  return call(a, b, c, d, e, inttox(x));
 }
 /*
 void print_coefficients_to_serial(NumberArgument a, NumberArgument b, NumberArgument c, NumberArgument d, NumberArgument e){

@@ -3,3 +3,4 @@
 #include "fix_arduino_macros.h"
 #include "xpre.h"
 #include "xreal.hpp"
+#include "xoperations.hpp"
