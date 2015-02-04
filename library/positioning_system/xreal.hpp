@@ -53,14 +53,14 @@ class xreal {
   friend const char* bget (const char* buff, xreal& x);
   friend int compare (const xreal& x1, const xreal& x2);
   friend int isNaN (const xreal& x);
-  friend xreal abs (const xreal& s); // arduino macro influence
+  friend xreal abs (const xreal& s);
   friend xreal frexp (const xreal& s, int *p);
   friend xreal qfmod (const xreal& s, const xreal& t, xreal& q);
   friend xreal fmod (const xreal& s, const xreal& t);
   friend xreal sfmod (const xreal& s, int *p);
   friend xreal frac (const xreal& x);
   friend xreal trunc (const xreal& x);
-  friend xreal round (const xreal& x); // arduino macro influence
+  friend xreal round (const xreal& x);
   friend xreal ceil (const xreal& x);
   friend xreal floor (const xreal& x);
   friend xreal fix (const xreal& x);
@@ -93,10 +93,10 @@ class xreal {
   xreal (const struct xpr* px = &xZero) : br(*px) { }
   xreal (struct xpr x) : br(x) { }
   xreal (double x) {
-    br = flttox (x);
+    br = dbltox (x);
   }
   xreal (float x) {
-    br = flttox (x);
+    br = dbltox (x);
   }
   xreal (int n) {
     br = inttox (n);
@@ -120,6 +120,9 @@ class xreal {
     br = x.br;
   }
   /* Assignment operators */
+  void set (const xreal& x) {
+    br = x.br; 
+  }
   xreal& operator= (const xreal& x) {
     br = x.br; 
     return *this;
@@ -184,7 +187,7 @@ class xreal {
   }
   /* Functions for conversions */
   double _2double () const {
-    return xtoflt(br);
+    return xtodbl(br);
   }
   float _2float() const {
     return xtoflt(br);

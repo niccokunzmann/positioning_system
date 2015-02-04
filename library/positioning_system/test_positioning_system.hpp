@@ -1,6 +1,6 @@
 
-#ifndef test_positioning_system_h
-#define test_positioning_system_h
+#ifndef positioning_system_h
+#define positioning_system_h
 
 #include "hpa.h"
 #include "Arduino.h"
@@ -11,10 +11,6 @@
 #define PROGMEM __attribute__((section(".progmem.data")))
 #endif
 
-typedef String TEST_PRINT_STRING;
-
-void test_succeeded(const __FlashStringHelper* message);
-void test_failed(const __FlashStringHelper* message);
 
 void setup_tests();
 void teardown_tests();
@@ -25,234 +21,239 @@ void test_positioning_system_4();
 
 int get_number_of_succeeded_tests();
 int get_number_of_failed_tests();
-void use_verbose_test_output(boolean verbose);
+void use_verbose_output(boolean verbose);
 
+void println0();
 
-void test_print(const TEST_PRINT_STRING message);
-void test_println(const TEST_PRINT_STRING message);
-void test_print(const __FlashStringHelper* message);
-void test_println(const __FlashStringHelper* message);
-void test_print(int message);
-void test_println(int message);
-void test_print(double message);
-void test_println(double message);
-void test_print(const char* message);
-void test_println(const char* message);
-void test_print(const HPA::xreal message);
-void test_println(const HPA::xreal message);
+template <typename Type1> 
+void print1(Type1 message1) {
+  Serial.print(message1);
+  Serial.flush();
+}
+template <>
+void print1<HPA::xreal> (HPA::xreal message1);
 
+template <typename Type1> 
+void println1(Type1 message1) {
+  print1(message1);
+  println0();
+}
 
-
-
-
-const char* message3  = "";
-const char* message4  = "";
-const char* message5  = "";
-const char* message6  = "";
-const char* message7  = "";
-const char* message8  = "";
-const char* message9  = "";
-const char* message10 = "";
 
 template <typename Type1, typename Type2>
-void test_println(const Type1 message1, const Type2 message2) {
-  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
-  test_println();
+void println2(Type1 message1, Type2 message2) {
+  print2(message1, message2);
+  println0();
 }                 
+
 template <typename Type1, typename Type2>
-void test_print(const Type1 message1, const Type2 message2) {
-  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
+void print2(Type1 message1, Type2 message2) {
+  print1(message1);
+  print1(message2);  
 }
 
 template <typename Type1, typename Type2, typename Type3>
-void test_println(const Type1 message1, const Type2 message2, 
-                  const Type1 message3){
-  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
-  test_println();
+void println3(Type1 message1, Type2 message2, 
+              Type3 message3){
+  print3(message1, message2, message3);
+  println0();
 }                  
 template <typename Type1, typename Type2, typename Type3>
-void test_print(const Type1 message1, const Type2 message2, 
-                  const Type1 message3){
-  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
+void print3(Type1 message1, Type2 message2, 
+            Type3 message3){
+  print2(message1, message2);
+  print1(message3);
 }                  
 
 template <typename Type1, typename Type2, typename Type3, typename Type4>
-void test_println(const Type1 message1, const Type2 message2, 
-                  const Type1 message3, const Type2 message4){
-  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
-  test_println();
+void println4(Type1 message1, Type2 message2, 
+              Type3 message3, Type4 message4){
+  print4(message1, message2, message3, message4);
+  println0();
 }                  
 template <typename Type1, typename Type2, typename Type3, typename Type4>
-void test_print(const Type1 message1, const Type2 message2, 
-                  const Type1 message3, const Type2 message4){
-  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
+void print4(Type1 message1, Type2 message2, 
+            Type3 message3, Type4 message4){
+  print2(message1, message2);
+  print2(message3, message4);
 }                  
 
 template <typename Type1, typename Type2, typename Type3, typename Type4, 
           typename Type5>
-void test_println(const Type1 message1, const Type2 message2, 
-                  const Type1 message3, const Type2 message4,  
-                  const Type1 message5){
-  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
-  test_println();
+void println5(Type1 message1, Type2 message2, 
+              Type3 message3, Type4 message4,  
+              Type5 message5){
+  print5(message1, message2, message3, message4, message5);
+  println0();
 }                  
 template <typename Type1, typename Type2, typename Type3, typename Type4, 
           typename Type5>
-void test_print(const Type1 message1, const Type2 message2, 
-                  const Type1 message3, const Type2 message4,  
-                  const Type1 message5){
-  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
+void print5(Type1 message1, Type2 message2, 
+            Type3 message3, Type4 message4,  
+            Type5 message5){
+  print4(message1, message2, message3, message4);
+  print1(message5);
 }                  
 
 template <typename Type1, typename Type2, typename Type3, typename Type4, 
           typename Type5, typename Type6>
-void test_println(const Type1 message1, const Type2 message2, 
-                  const Type1 message3, const Type2 message4,  
-                  const Type1 message5, const Type2 message6){
-  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
-  test_println();
+void println6(Type1 message1, Type2 message2, 
+              Type3 message3, Type4 message4,  
+              Type5 message5, Type6 message6){
+  print6(message1, message2, message3, message4, message5, message6);
+  println0();
 }                 
 template <typename Type1, typename Type2, typename Type3, typename Type4, 
           typename Type5, typename Type6>
-void test_print(const Type1 message1, const Type2 message2, 
-                  const Type1 message3, const Type2 message4,  
-                  const Type1 message5, const Type2 message6){
-  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
+void print6(Type1 message1, Type2 message2, 
+            Type3 message3, Type4 message4,  
+            Type5 message5, Type6 message6){
+  print4(message1, message2, message3, message4);
+  print2(message5, message6);
 }                  
 
 template <typename Type1, typename Type2, typename Type3, typename Type4, 
           typename Type5, typename Type6, typename Type7>
-void test_println(const Type1 message1, const Type2 message2, 
-                  const Type1 message3, const Type2 message4,  
-                  const Type1 message5, const Type2 message6,  
-                  const Type1 message7){
-  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
-  test_println();
+void println7(Type1 message1, Type2 message2, 
+              Type3 message3, Type4 message4,  
+              Type5 message5, Type6 message6,  
+              Type7 message7){
+  print7(message1, message2, message3, message4, message5, message6, message7);
+  println0();
 }                  
 template <typename Type1, typename Type2, typename Type3, typename Type4, 
           typename Type5, typename Type6, typename Type7>
-void test_print(const Type1 message1, const Type2 message2, 
-                  const Type1 message3, const Type2 message4,  
-                  const Type1 message5, const Type2 message6,  
-                  const Type1 message7){
-  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
+void print7(Type1 message1, Type2 message2, 
+            Type3 message3, Type4 message4,  
+            Type5 message5, Type6 message6,  
+            Type7 message7){
+  print4(message1, message2, message3, message4);
+  print3(message5, message6, message7);
 }                  
 
 template <typename Type1, typename Type2, typename Type3, typename Type4, 
           typename Type5, typename Type6, typename Type7, typename Type8>
-void test_println(const Type1 message1, const Type2 message2, 
-                  const Type1 message3, const Type2 message4,  
-                  const Type1 message5, const Type2 message6,  
-                  const Type1 message7, const Type2 message8){
-  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
-  test_println();
+void println8(Type1 message1, Type2 message2, 
+              Type3 message3, Type4 message4,  
+              Type5 message5, Type6 message6,  
+              Type7 message7, Type8 message8){
+  print8(message1, message2, message3, message4, message5, message6, message7, message8);
+  println0();
 }                  
 template <typename Type1, typename Type2, typename Type3, typename Type4, 
           typename Type5, typename Type6, typename Type7, typename Type8>
-void test_print(const Type1 message1, const Type2 message2, 
-                  const Type1 message3, const Type2 message4,  
-                  const Type1 message5, const Type2 message6,  
-                  const Type1 message7, const Type2 message8){
-  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
+void print8(Type1 message1, Type2 message2, 
+            Type3 message3, Type4 message4,  
+            Type5 message5, Type6 message6,  
+            Type7 message7, Type8 message8){
+  print4(message1, message2, message3, message4);
+  print4(message5, message6, message7, message8);
 }                  
 
 template <typename Type1, typename Type2, typename Type3, typename Type4, 
           typename Type5, typename Type6, typename Type7, typename Type8, 
           typename Type9>
-void test_println(const Type1 message1, const Type2 message2, 
-                  const Type1 message3, const Type2 message4,  
-                  const Type1 message5, const Type2 message6,  
-                  const Type1 message7, const Type2 message8,  
-                  const Type1 message9){
-  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
-  test_println();
+void println9(Type1 message1, Type2 message2, 
+              Type3 message3, Type4 message4,  
+              Type5 message5, Type6 message6,  
+              Type7 message7, Type8 message8,  
+              Type9 message9){
+  print9(message1, message2, message3, message4, message5, message6, message7, message8, message9);
+  println0();
 }                  
 template <typename Type1, typename Type2, typename Type3, typename Type4, 
           typename Type5, typename Type6, typename Type7, typename Type8, 
           typename Type9>
-void test_print(const Type1 message1, const Type2 message2, 
-                  const Type1 message3, const Type2 message4,  
-                  const Type1 message5, const Type2 message6,  
-                  const Type1 message7, const Type2 message8,  
-                  const Type1 message9){
-  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
+void print9(Type1 message1, Type2 message2, 
+            Type3 message3, Type4 message4,  
+            Type5 message5, Type6 message6,  
+            Type7 message7, Type8 message8,  
+            Type9 message9){
+  print8(message1, message2, message3, message4, message5, message6, message7, message8);
+  print1(message9);
 }                  
 
 template <typename Type1, typename Type2, typename Type3, typename Type4, 
           typename Type5, typename Type6, typename Type7, typename Type8, 
           typename Type9, typename Type10>
-void test_println(const Type1 message1, const Type2 message2, 
-                  const Type1 message3, const Type2 message4,  
-                  const Type1 message5, const Type2 message6,  
-                  const Type1 message7, const Type2 message8,  
-                  const Type1 message9, const Type2 message10);                  
-template <typename Type1, typename Type2, typename Type3, typename Type4, 
-          typename Type5, typename Type6, typename Type7, typename Type8, 
-          typename Type9, typename Type10>
-void test_print(const Type1 message1, const Type2 message2, 
-                  const Type1 message3, const Type2 message4,  
-                  const Type1 message5, const Type2 message6,  
-                  const Type1 message7, const Type2 message8,  
-                  const Type1 message9, const Type2 message10);                  
-
-
-template <typename Type1, typename Type2, typename Type3, typename Type4, 
-          typename Type5, typename Type6, typename Type7, typename Type8, 
-          typename Type9, typename Type10>
-void test_println(const Type1 message1, const Type2 message2, 
-                  const Type1 message3, const Type2 message4,  
-                  const Type1 message5, const Type2 message6,  
-                  const Type1 message7, const Type2 message8,  
-                  const Type1 message9, const Type2 message10) {
-  test_print(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
-  test_println();
+void println10(Type1 message1, Type2 message2, 
+               Type3 message3, Type4 message4,  
+               Type5 message5, Type6 message6,  
+               Type7 message7, Type8 message8,  
+               Type9 message9, Type10 message10) {
+  print10(message1, message2, message3, message4, message5, message6, message7, message8, message9, message10);
+  println0();
 }
 template <typename Type1, typename Type2, typename Type3, typename Type4, 
           typename Type5, typename Type6, typename Type7, typename Type8, 
           typename Type9, typename Type10>
-void test_print(const Type1 message1, const Type2 message2, 
-                  const Type1 message3, const Type2 message4,  
-                  const Type1 message5, const Type2 message6,  
-                  const Type1 message7, const Type2 message8,  
-                  const Type1 message9, const Type2 message10) {
-  test_print(message1);
-  test_print(message2);
-  test_print(message3);
-  test_print(message4);
-  test_print(message5);
-  test_print(message6);
-  test_print(message7);
-  test_print(message8);
-  test_print(message9);
-  test_print(message10);
+void print10(Type1 message1, Type2 message2, 
+             Type3 message3, Type4 message4,  
+             Type5 message5, Type6 message6,  
+             Type7 message7, Type8 message8,  
+             Type9 message9, Type10 message10) {
+  print8(message1, message2, message3, message4, message5, message6, message7, message8);
+  print2(message9, message10);
+}
+
+extern int tests_succeeded;
+extern int tests_failed;
+extern boolean verbose_tests;
+extern boolean last_message_was_success;
+
+template <typename MessageType>
+void succeeded(MessageType message) {
+  tests_succeeded++;
+  if (Serial) {
+    if (verbose_tests) {
+      println2(F("Success: "), message);
+    } else {
+      print1(F(".")); 
+    }
+  }
+  last_message_was_success = true;
+}
+
+template <typename MessageType>
+void failed(MessageType message) {
+  tests_failed++;
+  if (Serial) {
+    if (verbose_tests) {
+      if (last_message_was_success) {
+        println0();
+      }
+      println2(F("AssertionError: "), message); 
+    } else {
+      print1(F("F"));
+    }
+  }
+  last_message_was_success = false;
 }
                   
-                  
+template <typename MessageType>
+void assert2(boolean truth, MessageType assertion_message) {
+  if (truth) { 
+    succeeded(assertion_message); 
+  } else { 
+    failed(assertion_message); 
+  }
+}
 
 // Macros
 // https://gcc.gnu.org/onlinedocs/cpp/Standard-Predefined-Macros.html#Standard-Predefined-Macros
-#define assert2(truth, Message) \
-  if (true) { \
-    const __FlashStringHelper* __assertion_message = F(Message); \
-    if (truth) { \
-      test_succeeded(__assertion_message); \
-    } else { \
-      test_failed(__assertion_message); \
-    }\
-  }
   
-#define assert1(truth) assert2(truth, #truth)
+#define assert1(truth) assert2(truth, F(#truth))
 
 #define assert_equals2(A, B, Message) assert2((A) == (B), Message)
-#define _assert_equals(A, B, Message) assert_equals2(A, B, #Message)
+#define _assert_equals(A, B, Message) assert_equals2(A, B, F(#Message))
 #define assert_equals(A, B) _assert_equals(A, B, A == B)
 
 #define assert_not_equals2(A, B, Message) assert2((A) != (B), Message)
-#define _assert_not_equals(A, B, Message) assert_not_equals2(A, B, #Message)
+#define _assert_not_equals(A, B, Message) assert_not_equals2(A, B, F(#Message))
 #define assert_not_equals(A, B) _assert_not_equals(A, B, A != B)
 
 #define assert_approximates2(A, B, Message) assert2(approximates((A),(B)), Message)
-#define _assert_approximates(A, B, Message) assert_approximates2(A, B, #Message)
+#define _assert_approximates(A, B, Message) assert_approximates2(A, B, F(#Message))
 #define assert_approximates(A, B) _assert_approximates(A, B, A =~= B)
 
 #endif

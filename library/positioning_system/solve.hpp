@@ -3,53 +3,58 @@
 #ifndef solve_h
 #define solve_h
 
+#include "Arduino.h"
 #include "hpa.h"
 
-#include "Arduino.h"
+typedef HPA::xreal       Number;
+typedef const HPA::xreal NumberArgument;
+typedef HPA::xreal*      NumberPointer;
+
 
 // a*x^4 + b * x^3 + c * x^2 + d * x + e
 
-typedef HPA::xreal xreal;
+void get_coefficients_from_zeros(NumberArgument zero1, NumberPointer d, NumberPointer e);
+/*
+void get_coefficients_from_zeros(NumberArgument zero1, NumberArgument zero2, NumberPointer c, NumberPointer d, NumberPointer e);
+void get_coefficients_from_zeros(NumberArgument zero1, NumberArgument zero2, NumberArgument zero3, NumberPointer b, NumberPointer c, NumberPointer d, NumberPointer e);
+void get_coefficients_from_zeros(NumberArgument zero1, NumberArgument zero2, NumberArgument zero3, NumberArgument zero4, NumberPointer a, NumberPointer b, NumberPointer c, NumberPointer d, NumberPointer e);
+*/
+Number call(NumberArgument a, NumberArgument b, NumberArgument c, NumberArgument d, NumberArgument e, int x);
+Number call(NumberArgument a, NumberArgument b, NumberArgument c, NumberArgument d, NumberArgument e, double x);
+Number call(NumberArgument a, NumberArgument b, NumberArgument c, NumberArgument d, NumberArgument e, NumberArgument x);
+/*
+void print_coefficients_to_serial(NumberArgument a, NumberArgument b, NumberArgument c, NumberArgument d, NumberArgument e);
 
-void get_coefficients_from_zeros(xreal zero1, xreal *d, xreal* e);
-void get_coefficients_from_zeros(xreal zero1, xreal zero2, xreal *c, xreal *d, xreal *e);
-void get_coefficients_from_zeros(xreal zero1, xreal zero2, xreal zero3, xreal *b, xreal *c, xreal *d, xreal *e);
-void get_coefficients_from_zeros(xreal zero1, xreal zero2, xreal zero3, xreal zero4, xreal *a, xreal *b, xreal *c, xreal *d, xreal *e);
+Number get_epsilon();
+void set_epsilon(NumberArgument epsilon);
+Number get_default_epsilon();
+boolean approximates(NumberArgument a, NumberArgument b);
+boolean approximates(NumberArgument a, NumberArgument b, NumberArgument epsilon);
 
-xreal call(xreal a, xreal b, xreal c, xreal d, xreal e, xreal x);
+void solve(NumberArgument e, NumberPointer zero1);
+void solve(NumberArgument d, NumberArgument e, NumberPointer zero1);
+void solve(NumberArgument c, NumberArgument d, NumberArgument e, NumberPointer zero1, NumberPointer zero2);
+void solve(NumberArgument b, NumberArgument c, NumberArgument d, NumberArgument e, NumberPointer zero1, NumberPointer zero2, NumberPointer zero3);
+void solve(NumberArgument a, NumberArgument b, NumberArgument c, NumberArgument d, NumberArgument e, NumberPointer zero1, NumberPointer zero2, NumberPointer zero3, NumberPointer zero4);
 
-void print_coefficients_to_serial(xreal a, xreal b, xreal c, xreal d, xreal e);
+Number get_infinity();
+Number get_not_a_number();
+boolean is_not_a_number(NumberArgument number);
 
-xreal get_epsilon();
-void set_epsilon(xreal epsilon);
-xreal get_default_epsilon();
-boolean approximates(xreal a, xreal b);
-boolean approximates(xreal a, xreal b, xreal epsilon);
+Number nth_root(NumberArgument x, int n);
+Number curt_1(NumberArgument x);
+Number curt_2(NumberArgument x);
+Number curt_3(NumberArgument x);
+Number curt(NumberArgument x);
 
-void solve(xreal e, xreal *zero1);
-void solve(xreal d, xreal e, xreal *zero1);
-void solve(xreal c, xreal d, xreal e, xreal *zero1, xreal *zero2);
-void solve(xreal b, xreal c, xreal d, xreal e, xreal *zero1, xreal *zero2, xreal *zero3);
-void solve(xreal a, xreal b, xreal c, xreal d, xreal e, xreal *zero1, xreal *zero2, xreal *zero3, xreal *zero4);
+void sort_numbers(NumberPointer a, NumberPointer b);
+void sort_numbers(NumberPointer a, NumberPointer b, NumberPointer c);
+void sort_numbers(NumberPointer a, NumberPointer b, NumberPointer c, NumberPointer d);
 
-xreal get_infinity();
-xreal get_not_a_number();
-boolean is_not_a_number(xreal number);
+Number newton(NumberArgument a, NumberArgument b, NumberArgument c, NumberArgument d, NumberArgument e, NumberArgument x, NumberArgument epsilon);
+Number newton(NumberArgument a, NumberArgument b, NumberArgument c, NumberArgument d, NumberArgument e, NumberArgument x, NumberArgument epsilon, long maximum_iterations);
 
-xreal nth_root(xreal x, int n);
-xreal curt_1(xreal x);
-xreal curt_2(xreal x);
-xreal curt_3(xreal x);
-xreal curt(xreal x);
-
-void sort_numbers(xreal *a, xreal *b);
-void sort_numbers(xreal *a, xreal *b, xreal *c);
-void sort_numbers(xreal *a, xreal *b, xreal *c, xreal *d);
-
-xreal newton(xreal a, xreal b, xreal c, xreal d, xreal e, xreal x, xreal epsilon);
-xreal newton(xreal a, xreal b, xreal c, xreal d, xreal e, xreal x, xreal epsilon, long maximum_iterations);
-
-void refine_zeros_of_order_3_with_3_solutions(xreal b, xreal c, xreal d, xreal e, xreal *zero1, xreal *zero2, xreal *zero3);
-xreal refine_zero(xreal a, xreal b, xreal c, xreal d, xreal e, xreal upper_bound, xreal lower_bound);
-
+void refine_zeros_of_order_3_with_3_solutions(NumberArgument b, NumberArgument c, NumberArgument d, NumberArgument e, NumberPointer zero1, NumberPointer zero2, NumberPointer zero3);
+Number refine_zero(NumberArgument a, NumberArgument b, NumberArgument c, NumberArgument d, NumberArgument e, NumberArgument upper_bound, NumberArgument lower_bound);
+*/
 #endif

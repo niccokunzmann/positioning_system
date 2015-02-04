@@ -3,18 +3,24 @@
 #include "test_positioning_system.hpp"
 #include "solve.hpp"
 
+using namespace HPA;
+
 void test_from_zeros() {
-  double a = 0;
-  double b = 0;
-  double c = 0;
-  double d = 0;
-  double e = 0;
+  Number a = 0;
+  Number b = 0;
+  Number c = 0;
+  Number d = 0;
+  Number e = 0;
   
   // 1 zero
   get_coefficients_from_zeros(1, &d, &e);
+  println10("a: ", a, " b: ", b, " c: ", c, " d: ", d, " e: ", e);
   assert_not_equals(call(a, b, c, d, e, 0), 0);
+  println2("call(a, b, c, d, e, 0):", call(a, b, c, d, e, 0));
   assert_equals(call(a, b, c, d, e, 1), 0);
-  
+  println2("call(a, b, c, d, e, 1):", call(a, b, c, d, e, 1));
+  println2("call(a, b, c, d, e, xONE):", call(a, b, c, d, e, xONE));
+}/*  
   // 2 zeros
   get_coefficients_from_zeros(1, 2, &c, &d, &e);
   assert_not_equals(call(a, b, c, d, e, 0), 0);
@@ -316,7 +322,7 @@ void test_equation_4() {
   // q == 0
   get_coefficients_from_zeros(41, 42, 43, 44, &a, &b, &c, &d, &e);
   solve(a, b, c, d, e, &zero1, &zero2, &zero3, &zero4);
-  sort_numbers(&zero1, &zero2, &zero3, &zero4);
+  sort_numbers(&zero1, &zero2);
   assert_equals(zero1, 41);
   assert_equals(zero2, 42);
   assert_equals(zero3, 43);
@@ -325,10 +331,10 @@ void test_equation_4() {
   test_println("zero1: ", zero1, " zero2: ", zero2, " zero3: ", zero3, " zero4: ", zero4);
 
 }
-
+*/
 void test_solve_1() {
   test_from_zeros();
-  test_epsilon();
+/*  test_epsilon();
   test_nan();
   test_infinity();
   test_equation_0();
@@ -341,5 +347,5 @@ void test_solve_1() {
 void test_solve_2() {
   test_equation_3();
   test_sort_numbers();
-//  test_equation_4();
+//  test_equation_4();*/
 }
