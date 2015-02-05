@@ -3,63 +3,42 @@
 #include "solve.hpp"
 #include "test_positioning_system.hpp"
 
-void get_coefficients_from_zeros(NumberArgument zero1, NumberPointer d, NumberPointer e) {
-  *d = xOne;
+void get_coefficients_from_zeros(NumberArgument zero1, 
+                                 NumberPointer d, NumberPointer e) {
+  *d = 1;
   *e = -zero1;
-};/*
-void get_coefficients_from_zeros(NumberArgument zero1, NumberArgument zero2, NumberPointer c, NumberPointer d, NumberPointer e) {
-  *c = HPA::xONE;
+}
+void get_coefficients_from_zeros(NumberArgument zero1, NumberArgument zero2, 
+                                 NumberPointer c, NumberPointer d, NumberPointer e) {
+  *c = 1;
   *d = -zero1 - zero2;
   *e = zero1 * zero2;
-};
-void get_coefficients_from_zeros(NumberArgument zero1, NumberArgument zero2, NumberArgument zero3, NumberPointer b, NumberPointer c, NumberPointer d, NumberPointer e) {
-  *b = HPA::xONE;
+}
+void get_coefficients_from_zeros(NumberArgument zero1, NumberArgument zero2, NumberArgument zero3, 
+                                 NumberPointer b, NumberPointer c, NumberPointer d, NumberPointer e) {
+  *b = 1;
   *c = -zero1 - zero2 - zero3;
   *d = zero1 * zero2 + zero1 * zero3 + zero2 * zero3;
   *e = - zero1 * zero2 * zero3;
-};
-void get_coefficients_from_zeros(NumberArgument zero1, NumberArgument zero2, NumberArgument zero3, NumberArgument zero4, NumberPointer a, NumberPointer b, NumberPointer c, NumberPointer d, NumberPointer e) {
-  *a = HPA::xONE;
+}
+void get_coefficients_from_zeros(NumberArgument zero1, NumberArgument zero2, NumberArgument zero3, NumberArgument zero4, 
+                                 NumberPointer a, NumberPointer b, NumberPointer c, NumberPointer d, NumberPointer e) {
+  *a = 1;
   *b = -zero1 - zero2 - zero3 - zero4;
   *c = zero1 * zero2 + zero1 * zero3 + zero1 * zero4 + zero2 * zero3 + zero2 * zero4 + zero3 * zero4;
   *d = - zero2 * zero3 * zero4 - zero1 * zero3 * zero4 - zero1 * zero2 * zero4 - zero1 * zero2 * zero3;
   *e = zero1 * zero2 * zero3 * zero4;
-};
-*/
-Number call(NumberArgument a, NumberArgument b, NumberArgument c, NumberArgument d, NumberArgument e, NumberArgument x){
-  return (((a * x + b) * x + c) * x + d) * x + e;
-/*  println2("x: ", x);
-  Number result = a;
-  println2("1: ", result);
-  result *= x;
-  println2("2: ", result);
-  result += b;
-  println2("3: ", result);
-  result *= x;
-  println2("4: ", result);
-  result += c;
-  println2("5: ", result);
-  result *= x;
-  println2("6: ", result);
-  result += d;
-  println2("7: ", result);
-  result *= x;
-  println2("8: ", result);
-  println2("e: ", e);
-  println2("r + e: ", result + e);
-  println2("r + e: ", HPA::xONE + HPA::xONE);
-  println2("r + e: ", HPA::xONE + HPA::xTWO);
-//  println2("r + e: ", (HPA::xONE + HPA::xONE)._2double());
-//  println2("r + e: ", (HPA::xONE + HPA::xTWO)._2double());
-  result += e;
-  println2("9: ", result);
-  return result;*/
+}
+
+Number call(NumberArgument a, NumberArgument b, NumberArgument c, NumberArgument d, NumberArgument e, NumberArgument x) {
+  return HPA::xONE;
+  //return (((a * x + b) * x + c) * x + d) * x + e;
 }
 Number call(NumberArgument a, NumberArgument b, NumberArgument c, NumberArgument d, NumberArgument e, double x){
-  return call(a, b, c, d, e, dbltox(x));
+  return call(a, b, c, d, e, Number(x));
 }
 Number call(NumberArgument a, NumberArgument b, NumberArgument c, NumberArgument d, NumberArgument e, int x){
-  return call(a, b, c, d, e, inttox(x));
+  return call(a, b, c, d, e, Number(x));
 }
 /*
 void print_coefficients_to_serial(NumberArgument a, NumberArgument b, NumberArgument c, NumberArgument d, NumberArgument e){

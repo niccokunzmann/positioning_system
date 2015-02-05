@@ -6,19 +6,23 @@
 #include "Arduino.h"
 #include "_hpa.h"
 
-typedef struct xpr       Number;
-typedef const struct xpr NumberArgument;
-typedef struct xpr*      NumberPointer;
+typedef HPA::xreal       Number;
+typedef const HPA::xreal NumberArgument;
+typedef HPA::xreal*      NumberPointer;
 
 
 // a*x^4 + b * x^3 + c * x^2 + d * x + e
 
-void get_coefficients_from_zeros(NumberArgument zero1, NumberPointer d, NumberPointer e);
-/*
-void get_coefficients_from_zeros(NumberArgument zero1, NumberArgument zero2, NumberPointer c, NumberPointer d, NumberPointer e);
-void get_coefficients_from_zeros(NumberArgument zero1, NumberArgument zero2, NumberArgument zero3, NumberPointer b, NumberPointer c, NumberPointer d, NumberPointer e);
-void get_coefficients_from_zeros(NumberArgument zero1, NumberArgument zero2, NumberArgument zero3, NumberArgument zero4, NumberPointer a, NumberPointer b, NumberPointer c, NumberPointer d, NumberPointer e);
-*/
+void get_coefficients_from_zeros(NumberArgument zero1, 
+                                 NumberPointer d, NumberPointer e);
+
+void get_coefficients_from_zeros(NumberArgument zero1, NumberArgument zero2, 
+                                 NumberPointer c, NumberPointer d, NumberPointer e);
+void get_coefficients_from_zeros(NumberArgument zero1, NumberArgument zero2, NumberArgument zero3, 
+                                 NumberPointer b, NumberPointer c, NumberPointer d, NumberPointer e);
+void get_coefficients_from_zeros(NumberArgument zero1, NumberArgument zero2, NumberArgument zero3, NumberArgument zero4, 
+                                 NumberPointer a, NumberPointer b, NumberPointer c, NumberPointer d, NumberPointer e);
+
 Number call(NumberArgument a, NumberArgument b, NumberArgument c, NumberArgument d, NumberArgument e, int x);
 Number call(NumberArgument a, NumberArgument b, NumberArgument c, NumberArgument d, NumberArgument e, double x);
 Number call(NumberArgument a, NumberArgument b, NumberArgument c, NumberArgument d, NumberArgument e, NumberArgument x);

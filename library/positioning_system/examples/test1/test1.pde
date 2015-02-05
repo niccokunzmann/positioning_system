@@ -1,4 +1,13 @@
 
+
+
+#include <fix_arduino_macros.h>
+#include <_hpa.h>
+#include <hpaconf.h>
+#include <xpre.h>
+
+#include <positioning_system.h>
+
 #include "positioning_system.h"
 
 
