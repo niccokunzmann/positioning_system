@@ -23,7 +23,7 @@
 #ifndef _XPRE_H_
 #define _XPRE_H_
 
-#include"hpaconf.h"
+#include "hpaconf.h"
 
 /* This macro has been added by Ivano Primi - 12/21/2004 */
 #define XMAX_10EX  4931

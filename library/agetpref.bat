@@ -7,6 +7,8 @@ REM     This batch file makes sure all the right environment variables are set.
 REM		
 
 set rc=1
+set ARDUINO_CMD_BIN_DIRECTORY=%~p0
+
 if not "%1" == "agetpref_internal" (
     echo.
     echo.This batch file is designed for use by abuild.bat and aupload.bat.

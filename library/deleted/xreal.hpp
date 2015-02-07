@@ -23,6 +23,8 @@
 #ifndef _XREAL_H_
 #define _XREAL_H_
 
+#include "Arduino.h"
+#include "fix_arduino_macros.h"
 #include <xpre.h>
 //#include <iostream>
 //#include <string>
@@ -204,6 +206,13 @@ class xreal {
   }
   int getfrom (istream& is);
   int print (ostream& os, int sc_not, int sign, int lim) const; */
+  String _2String() const {
+    char* s = xpr_asprint (br, 1, 1, (XDIM * 48) / 10 - 2);
+    String str = String(s);
+
+    free ((void*) s);
+    return str;
+  }
   char* asprint (int sc_not, int sign, int lim) const {
     return xpr_asprint (br, sc_not, sign, lim);
   }

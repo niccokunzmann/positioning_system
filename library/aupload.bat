@@ -3,6 +3,7 @@ setlocal EnableDelayedExpansion
 REM     aupload.bat  -  Don Cross  -  http://cosinekitty.com
 rem		(some slight modifications for 0011 by raptorofaxys)
 
+set ARDUINO_CMD_BIN_DIRECTORY=%~p0
 set rc=1
 
 REM ---------------------------------------------------------------------------
@@ -59,7 +60,7 @@ if "%1" == "*" (
     )
 )
 
-call agetpref.bat agetpref_internal
+call !ARDUINO_CMD_BIN_DIRECTORY!\agetpref.bat agetpref_internal
 if not !errorlevel! == 0 (
     goto end
 )

@@ -5,214 +5,36 @@
 
 using namespace HPA;
 
-void test_from_zeros() {
-  // Number a = 0;
-  // Number b = 0;
-  // Number c = 0;
-  // Number d = 0;
-  Number e = 0;
-/*  
-  // 1 zero
+Number a = 0;
+Number b = 0;
+Number c = 0;
+Number d = 0;
+Number e = 0;
+
+void test_from_zeros_1() {
   get_coefficients_from_zeros(1, &d, &e);
   assert_not_equals(call(a, b, c, d, e, 0), 0);
   assert_equals(call(a, b, c, d, e, 1), 0);
+}
 
-  // 2 zeros
+void test_from_zeros_2() {
   get_coefficients_from_zeros(1, 2, &c, &d, &e);
   assert_not_equals(call(a, b, c, d, e, 0), 0);
   assert_equals(call(a, b, c, d, e, 1), 0);
   assert_equals(call(a, b, c, d, e, 2), 0);
   assert_not_equals(call(a, b, c, d, e, 3), 0);
+}
 
-
-  // 3 zeros
+void test_from_zeros_3_1() {
   get_coefficients_from_zeros(1, 2, 3, &b, &c, &d, &e);
   assert_not_equals(call(a, b, c, d, e, 0), 0);  
-  assert_equals(call(a, b, c, d, e, 1), 0);*/
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0); Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0); Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0); Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-  Number(0);
-}/*  assert_equals(call(a, b, c, d, e, 2), 0);
+  assert_equals(call(a, b, c, d, e, 1), 0);
+  assert_equals(call(a, b, c, d, e, 2), 0);
   assert_equals(call(a, b, c, d, e, 3), 0);
   assert_not_equals(call(a, b, c, d, e, 4), 0);
+}
 
+void test_from_zeros_3_2() {
   get_coefficients_from_zeros(36, -33, 33, &b, &c, &d, &e);
   assert_not_equals(call(a, b, c, d, e, 0), 0);  
   assert_equals(call(a, b, c, d, e, 36), 0);
@@ -221,8 +43,9 @@ void test_from_zeros() {
   assert_equals(call(a, b, c, d, e, -33), 0);
   assert_equals(call(a, b, c, d, e, 33), 0);
   assert_not_equals(call(a, b, c, d, e, 4), 0);
-  
-  // 4 zeros
+}
+
+void test_from_zeros_4() {
   get_coefficients_from_zeros(1, 2, 3, 4, &a, &b, &c, &d, &e);
   assert_not_equals(call(a, b, c, d, e, 0), 0);
   assert_equals(call(a, b, c, d, e, 1), 0);
@@ -231,6 +54,15 @@ void test_from_zeros() {
   assert_equals(call(a, b, c, d, e, 4), 0);
   assert_not_equals(call(a, b, c, d, e, 5), 0); 
 }
+
+void test_from_zeros() {
+  test_from_zeros_1();
+  test_from_zeros_2();
+  test_from_zeros_3_1();
+  test_from_zeros_3_2();
+  test_from_zeros_4();
+}
+
 /*
 void test_epsilon() {
   assert_not_equals(get_epsilon(), 0);

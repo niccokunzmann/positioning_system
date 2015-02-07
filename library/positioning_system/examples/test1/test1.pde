@@ -1,25 +1,26 @@
 
+#include <ArduinoUnit.h>
 
-
-#include <fix_arduino_macros.h>
-#include <_hpa.h>
-#include <hpaconf.h>
-#include <xpre.h>
-
-#include <positioning_system.h>
-
-#include "positioning_system.h"
-
-
-void setup() {
-
-  Serial.begin(9600);
-  while (!Serial);
-  
-  test_positioning_system_1();
-
+test(ok) 
+{
+  int x=3;
+  int y=3;
+  assertEqual(x,y);
 }
 
-void loop() {
-  
+test(bad)
+{
+  int x=3;
+  int y=3;
+  assertNotEqual(x,y);
+}
+
+void setup()
+{
+  Serial.begin(9600);
+}
+
+void loop()
+{
+  Test::run();
 }
