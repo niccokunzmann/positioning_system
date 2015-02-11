@@ -5,5 +5,7 @@
 #include "positioning_system.h"
 
 void sort_numbers(NumberPointer a, NumberPointer b);
+void sort_numbers(NumberPointer a, NumberPointer b, NumberPointer c);
+void sort_numbers(NumberPointer a, NumberPointer b, NumberPointer c, NumberPointer d);
 
 #endif
