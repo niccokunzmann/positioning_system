@@ -1,8 +1,8 @@
 
 #include "positioning_system_test.h"
 
-Number d = 0;
-Number e = 0;
+Number d;
+Number e;
 Number zero1;
 
 test(equation_0_zero) {
