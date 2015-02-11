@@ -6,5 +6,6 @@
 #include "get_coefficients.hpp"
 #include "call_coefficients.hpp"
 #include "sorting.hpp"
+#include "test_print.hpp"
 
 #endif

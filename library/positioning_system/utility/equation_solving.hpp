@@ -2,6 +2,7 @@
 #ifndef equation_solving_hpp
 #define equation_solving_hpp
 
+#include "hpa.h"
 #include "numbers.hpp"
 
 void solve_equation(NumberArgument e, 

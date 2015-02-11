@@ -16,9 +16,9 @@ test(equation_3_with_D_lower_0) {
   
   sort_numbers(&zero1, &zero2, &zero3);
   
-  assertApproximately(zero1, 33);
-  assertApproximately(zero2, 36);
-  assertApproximately(zero3, 11);
+  assertApproximately(zero1, 11);
+  assertApproximately(zero2, 33);
+  assertApproximately(zero3, 36);
 
   assertEqual(call(0, b, c, d, e, zero1), 0);
   assertEqual(call(0, b, c, d, e, zero2), 0);
@@ -26,7 +26,7 @@ test(equation_3_with_D_lower_0) {
 
   //test_println("zero1: ", zero1, "zero2: ", zero2, "zero3: ", zero3);
 }
-
+/*
 test(equation_3_with_D_is_0_and_2_zeros) {
   get_coefficients_from_zeros(31, 31, 37, &b, &c, &d, &e);
   solve_equation(b, c, d, e, &zero1, &zero2, &zero3);
@@ -94,7 +94,7 @@ test(equation_0_with_0_zeros) {
   assertTrue(is_not_a_number(zero3));
 
 }
-
+*/
 void setup() {
   Serial.begin(9600);
 }
