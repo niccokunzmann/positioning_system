@@ -1,6 +1,7 @@
 
 #include "numbers.hpp"
 #include "equation_solving.hpp"
+#include "approximation.hpp"
 #include "math.h"
 
 void solve_equation(NumberArgument e, 
