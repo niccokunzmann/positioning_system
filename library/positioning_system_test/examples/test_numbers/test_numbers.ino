@@ -1,5 +1,5 @@
 
-#include "test_positioning_system.h"
+#include "positioning_system_test.h"
 
 test(infinity) {
   assertEqual(get_infinity(), get_infinity() + 1);

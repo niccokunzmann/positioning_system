@@ -7,8 +7,14 @@ typedef const double NumberArgument;
 typedef double*      NumberPointer;
 
 Number get_infinity();
-int is_infinity(NumberArgument a_number);
+bool is_infinity(NumberArgument a_number);
 Number get_not_a_number();
-int is_not_a_number(NumberArgument a_number);
+bool is_not_a_number(NumberArgument a_number);
+
+bool approximates(NumberArgument a, NumberArgument b);
+bool approximates(NumberArgument a, NumberArgument b, NumberArgument epsilon);
+Number get_epsilon();
+Number get_default_epsilon();
+void set_epsilon(NumberArgument new_epsilon);
 
 #endif

@@ -1,7 +1,5 @@
 
-
-
-#include "test_positioning_system.h"
+#include "positioning_system_test.h"
 
 Number a = 0;
 Number b = 0;

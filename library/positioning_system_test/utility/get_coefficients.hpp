@@ -6,7 +6,6 @@
 
 void get_coefficients_from_zeros(NumberArgument zero1, 
                                  NumberPointer d, NumberPointer e);
-
 void get_coefficients_from_zeros(NumberArgument zero1, NumberArgument zero2, 
                                  NumberPointer c, NumberPointer d, NumberPointer e);
 void get_coefficients_from_zeros(NumberArgument zero1, NumberArgument zero2, NumberArgument zero3, 
