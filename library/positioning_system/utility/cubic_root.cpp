@@ -18,34 +18,18 @@ Number curt_1(NumberArgument x) {
   return nth_root(x, 3);
 }
 
-Number curt_2(NumberArgument x) {
-  // http://stackoverflow.com/a/28273079/1320237
-  if (x == 0) {
-    // would otherwise return something like 4.257959840008151e-109
-    return 0;
-  }
-  Number b = 1; // use any value except 0
-  Number last_b_1 = 0;
-  Number last_b_2 = 0;
-  while (last_b_1 != b && last_b_2 != b) {
-    last_b_1 = b;
-    b = (b + x / b / b) / 2;
-    last_b_2 = b;
-    b = (b + x / b / b) / 2;
-  }
-  return b;
-}
+const Number one_third = 1.0 / 3.0;
 
 Number curt_3(NumberArgument x) {
   // http://stackoverflow.com/a/4269145/1320237
   if (x < 0)
-    return -1.0 * pow(-1.0*x, 1.0 / 3.0);
+    return -1.0 * pow(-1.0*x, one_third);
   else
-    return pow(x, 1.0 / 3.0);
+    return pow(x, one_third);
 }
 
 Number curt(NumberArgument x) {
   // see the benchmark example for the decision
-  //return curt_3(x); // fastest
-  return curt_3(x);
+  // curt_3 is fastest
+  return curt_3(x); 
 };

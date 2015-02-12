@@ -82,32 +82,40 @@ void solve_equation(NumberArgument A,    NumberArgument B,    NumberArgument C, 
     Number p = p_._2double();
     Number q = q_._2double();
     
-
-    Number discriminant = (q_*q_ / 4 + p_*p_*p_ / 27)._2double();
-    if (discriminant > 0) {
-//      println("{solve_3} -> discriminant > 0");
-      Number sqrt_of_D = sqrt(discriminant);
-      Number mins_q_half = - q / 2;
-      Number u = curt(mins_q_half + sqrt_of_D);
-      Number v = curt(mins_q_half - sqrt_of_D);
-      Number z = u + v;
-      *zero1 = z - a/3;
-      *zero2 = get_not_a_number();
-      *zero3 = get_not_a_number();
-    } else if (p == 0 and q == 0) {
-//      println("{solve_3} -> p == 0 and q == 0");
+    HPA::xreal discriminant_ = q_*q_ / 4 + p_*p_*p_ / 27;
+    Number discriminant = discriminant_._2double();
+    Number minus_a_third =  - a/3;
+    
+    if (approximates(p, 0) and approximates(q, 0)) {
+//      println1("{solve_3} -> p == 0 and q == 0");
       // z = 0
-      *zero1 = - a / 3;
+      *zero1 = minus_a_third;
       *zero2 = get_not_a_number();
       *zero3 = get_not_a_number();
-    } else if (discriminant == 0) { // and (p != 0 or q != 0)
-//      println("{solve_3} -> discriminant == 0 and (p != 0 or q != 0)");
+    } else if (approximates(discriminant, 0)) { // and (p != 0 or q != 0)
+//      println1("{solve_3} -> discriminant == 0 and (p != 0 or q != 0)");
       Number u = curt(- q / 2);
       Number z1 = 2 * u;
       Number z23 = - u;
-      Number minus_a_third =  - a/3;
+
       *zero1 = z1 + minus_a_third;
       *zero2 = z23 + minus_a_third;
+      *zero3 = get_not_a_number();
+    } else if (discriminant > 0) {
+      //println1("{solve_3} -> discriminant > 0");
+      //println2("D: ", discriminant);
+      HPA::xreal sqrt_of_D = square_root(discriminant_);
+      //println2("sqrt_of_D: ", sqrt_of_D);
+      HPA::xreal minus_q_half = - q / 2;
+      //println2("mins_q_half: ", minus_q_half);
+      Number u = curt((minus_q_half + sqrt_of_D)._2double());
+      //println2("u: ", u);
+      Number v = curt((minus_q_half - sqrt_of_D)._2double());
+      //println2("v: ", v);
+      Number z = u + v;
+      //println2("z: ", z);
+      *zero1 = (z + minus_a_third);
+      *zero2 = get_not_a_number();
       *zero3 = get_not_a_number();
     } else { // discriminant < 0
 //      println1("{solve_3} -> discriminant < 0");
@@ -133,7 +141,7 @@ void solve_equation(NumberArgument A,    NumberArgument B,    NumberArgument C, 
 //      println2("z2: ", z2);
 //      println2("z1: ", z1);
 //      println2("z3: ", z3);
-      Number minus_a_third =  - a/3;
+
       *zero1 = (z1 + minus_a_third);
       *zero2 = (z2 + minus_a_third);
       *zero3 = (z3 + minus_a_third);

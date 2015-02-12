@@ -31,10 +31,16 @@ bool approximates(NumberArgument a, NumberArgument b, NumberArgument epsilon) {
       return a - b <= epsilon;
     }
   }
-  if (a < b) {
-    return b - a <= epsilon * b;
+  Number epsilon_;
+  if (abs(a) > abs(b)) {
+    epsilon_ = abs(a) * epsilon;
   } else {
-    return a - b <= epsilon * a;
+    epsilon_ = abs(b) * epsilon;
+  }
+  if (a < b) {
+    return b - a <= epsilon_;
+  } else {
+    return a - b <= epsilon_;
   }
 }
 

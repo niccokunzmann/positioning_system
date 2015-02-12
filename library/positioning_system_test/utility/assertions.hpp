@@ -4,6 +4,7 @@
 #define assertions_hpp
 
 #include "Arduino.h"
+#include <ArduinoUnit.h>
 #include "positioning_system.h"
 
 #ifndef TEST_APPROXIMATION_EPSILON
