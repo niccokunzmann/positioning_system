@@ -4,6 +4,9 @@
 
 #include "Arduino.h"
 #include "hpa.h"
+#include "positioning_system.h"
+
+void print_coefficients_to_serial(NumberArgument a, NumberArgument b, NumberArgument c, NumberArgument d, NumberArgument e);
 
 void println0();
 

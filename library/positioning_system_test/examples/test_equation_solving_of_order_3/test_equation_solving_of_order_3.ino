@@ -10,7 +10,7 @@ Number zero2;
 Number zero3;
 
 void print_zeros() {
-  println6("zero1: ", zero1, "zero2: ", zero2, "zero3: ", zero3);  
+  println6("zero1: ", zero1, " zero2: ", zero2, " zero3: ", zero3);  
 }
 
 test(equation_3_with_D_lower_0) {
@@ -49,7 +49,6 @@ test(equation_3_with_D_is_0_and_1_zero) {
 test(equation_3_with_D_greater_0) {
   solve_equation(1, 0, 1, 30, &zero1, &zero2, &zero3); // one solution only
   
-  print_zeros();
   assertApproximately(zero1, -3.);
   assertTrue(is_not_a_number(zero2));
   assertTrue(is_not_a_number(zero3));
