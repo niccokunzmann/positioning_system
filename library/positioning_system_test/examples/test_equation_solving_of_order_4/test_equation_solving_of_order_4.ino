@@ -19,12 +19,13 @@ test(equation_4_q_is_0) {
   get_coefficients_from_zeros(41, 42, 43, 44, &a, &b, &c, &d, &e);
   solve_equation(a, b, c, d, e, &zero1, &zero2, &zero3, &zero4);
   sort_numbers(&zero1, &zero2, &zero3, &zero4);
+  print_zeros();
   assertEqual(zero1, 41);
   assertEqual(zero2, 42);
   assertEqual(zero3, 43);
   assertEqual(zero4, 44);
 }
-
+/*
 test(equation_3_for_equation_4) {
   b = 8;
   c = 17.5;
@@ -51,7 +52,7 @@ test(equation_4) {
   assertEqual(zero3, 43);
   assertEqual(zero4, 44);
 }
-
+*/
 void setup() {
   Serial.begin(9600);
 }

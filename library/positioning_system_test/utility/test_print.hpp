@@ -6,6 +6,12 @@
 #include "hpa.h"
 #include "positioning_system.h"
 
+// from http://forum.arduino.cc/index.php/topic,85840.0.html
+#ifdef PROGMEM
+#undef PROGMEM
+#define PROGMEM __attribute__((section(".progmem.data")))
+#endif
+
 void print_coefficients_to_serial(NumberArgument a, NumberArgument b, NumberArgument c, NumberArgument d, NumberArgument e);
 
 void println0();
