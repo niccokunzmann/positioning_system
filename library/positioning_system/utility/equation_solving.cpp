@@ -84,18 +84,18 @@ namespace equation_solving {
         t1 = x;
         // epsilon for double precision
         // log2(1e14) == 46.5
-        t1 *= 1e-14; 
+        t1 *= 1e-16; 
         if (t1 < 0) {
           t1 = -t1;
         }
         //println2("difference: ", t._2double() - t1._2double());
         if (t < t1) {
-          println1("difference -> skip");
+          println2("difference -> skip ", i);
           return;
         }     
       }
       if (last_x == x) {
-        println1("-> skip");
+        println2("-> skip ", i);
         return;
       }
       last_x = x;
@@ -142,15 +142,22 @@ namespace equation_solving {
 // __attribute__((noinline))
 // http://stackoverflow.com/questions/4862222/locally-disable-function-inlining
 
-void __attribute__((noinline)) initialize_newton(NumberArgument a,    NumberArgument b,    NumberArgument c,    NumberArgument d,    NumberArgument e) {
+void initialize_newton(NumberArgument a,    NumberArgument b,    NumberArgument c,    NumberArgument d,    NumberArgument e) {
   equation_solving::initialize_newton(a, b, c, d, e);
 }
 
-void __attribute__((noinline)) get_one_zero(double* zero) {
-  equation_solving::compute_newton(100);
+const int CYCLES_1 = 5;
+const int CYCLES_2 = 100;
+const int CYCLES_3 = 100;
+const int CYCLES_4 = 100;
+
+
+void get_one_zero(double* zero, int cycles) {
+  equation_solving::compute_newton(cycles);
   *zero = equation_solving::get_x();
   equation_solving::remove_x_as_zero();
 }
+
 
 void solve_equation(NumberArgument e, 
                     NumberPointer zero1) {
@@ -163,26 +170,26 @@ void solve_equation(NumberArgument e,
 void solve_equation(NumberArgument d,    NumberArgument e, 
                     NumberPointer zero1) {
   initialize_newton(0, 0, 0, d, e);
-  get_one_zero(zero1);
+  get_one_zero(zero1, CYCLES_1);
 }
 void solve_equation(NumberArgument c,    NumberArgument d,    NumberArgument e, 
                     NumberPointer zero1, NumberPointer zero2) {
   initialize_newton(0, 0, c, d, e);
-  get_one_zero(zero1);
-  get_one_zero(zero2);
+  get_one_zero(zero1, CYCLES_2);
+  get_one_zero(zero2, CYCLES_1);
 }
 void solve_equation(NumberArgument b,    NumberArgument c,    NumberArgument d,    NumberArgument e, 
                     NumberPointer zero1, NumberPointer zero2, NumberPointer zero3) {
   initialize_newton(0, b, c, d, e);
-  get_one_zero(zero1);
-  get_one_zero(zero2);
-  get_one_zero(zero3);
+  get_one_zero(zero1, CYCLES_3);
+  get_one_zero(zero2, CYCLES_2);
+  get_one_zero(zero3, CYCLES_1);
 }
 void solve_equation(NumberArgument a,    NumberArgument b,    NumberArgument c,    NumberArgument d,    NumberArgument e, 
                     NumberPointer zero1, NumberPointer zero2, NumberPointer zero3, NumberPointer zero4) {
   initialize_newton(a, b, c, d, e);
-  get_one_zero(zero1);
-  get_one_zero(zero2);
-  get_one_zero(zero3);
-  get_one_zero(zero4);
+  get_one_zero(zero1, CYCLES_4);
+  get_one_zero(zero2, CYCLES_3);
+  get_one_zero(zero3, CYCLES_2);
+  get_one_zero(zero4, CYCLES_1);
 }

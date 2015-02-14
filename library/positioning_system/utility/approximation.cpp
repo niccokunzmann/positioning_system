@@ -1,7 +1,7 @@
 
 #include "Arduino.h"
 #include "approximation.hpp"
-//#include "positioning_system_test.h"
+#include "positioning_system_test.h"
 
 const Number default_epsilon = Number(0.00000001);
 
@@ -38,7 +38,7 @@ bool approximates(NumberArgument a, NumberArgument b, NumberArgument epsilon) {
   } else {
     epsilon_ = abs(b) * epsilon;
   }
-  //println6("a: ", a, " b: ", b, " epsilon_: ", epsilon_);
+  println6("a: ", a, " b: ", b, " epsilon_: ", epsilon_);
   if (a < b) {
     return b - a <= epsilon_;
   } else {

@@ -18,8 +18,8 @@ test(equation_2_with_2_zeros) {
   get_coefficients_from_zeros(32, 34, &c, &d, &e);
   solve_equation(0, c, d, e, &zero1, &zero2, &zero3);
   sort_numbers(&zero1, &zero2);
-  assertEqual(zero1, 32);
-  assertEqual(zero2, 34);
+  assertApproximately(zero1, 32.);
+  assertApproximately(zero2, 34.);
   assertTrue(is_not_a_number(zero3));
 }
 
@@ -27,9 +27,7 @@ test(equation_2_with_1_zero) {
   get_coefficients_from_zeros(38, 38, &c, &d, &e);
   solve_equation(0, c, d, e, &zero1, &zero2, &zero3);
   sort_numbers(&zero1, &zero2);
-  assertEqual(zero1, 38);
-  assertTrue(is_not_a_number(zero2));
-  assertTrue(is_not_a_number(zero3));
+  assertApproximately(zero1, 38.);
 }
 
 test(equation_2_with_0_zeros) {
