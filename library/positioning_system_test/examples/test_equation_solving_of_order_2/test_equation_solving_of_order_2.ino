@@ -7,26 +7,29 @@ Number zero1;
 Number zero2;
 
 test(equation_2) {  
+  println1(" ----- equation_2 ----- ");
   get_coefficients_from_zeros(22, 24, &c, &d, &e);
   
   solve_equation(c, d, e, &zero1, &zero2);
   
   sort_numbers(&zero1, &zero2);
   
-  assertEqual(zero1, 22);
-  assertEqual(zero2, 24);
+  assertApproximately(zero1, 22.);
+  assertApproximately(zero2, 24.);
 }
 
 test(equation_2_one_zero) {  
+  println1(" ----- equation_2_one_zero ----- ");
   get_coefficients_from_zeros(22, 22, &c, &d, &e);
   
   solve_equation(c, d, e, &zero1, &zero2);
   
-  assertEqual(zero1, 22);
-  assertTrue(is_not_a_number(zero2));
+  assertApproximately(zero1, 22.);
+  assertApproximately(zero2, 22.);
 }
 
 test(equation_2_no_zero) {  
+  println1(" ----- equation_2_no_zero ----- ");
   solve_equation(1, 0, 1, &zero1, &zero2);
   
   assertTrue(is_not_a_number(zero1));
@@ -34,14 +37,16 @@ test(equation_2_no_zero) {
 }
 
 test(equation_2_linear_solving) {  
+  println1(" ----- equation_2_linear_solving ----- ");
   get_coefficients_from_zeros(22, &d, &e);
   solve_equation(0, d, e, &zero1, &zero2);
   
-  assertEqual(zero1, 22);
+  assertApproximately(zero1, 22.);
   assertTrue(is_not_a_number(zero2));
 }
 
 test(equation_2_constant_solving) {  
+  println1(" ----- equation_2_constant_solving ----- ");
   solve_equation(0, 0, 2, &zero1, &zero2);
   
   assertTrue(is_not_a_number(zero1));

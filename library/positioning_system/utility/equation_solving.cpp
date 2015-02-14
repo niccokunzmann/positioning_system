@@ -47,6 +47,7 @@ namespace equation_solving {
   
   // t can be used by everyone
   Number t;
+  Number t1;
   
   void newton_step() {
     compute_slope_at_x();
@@ -62,9 +63,10 @@ namespace equation_solving {
   }
   
   void compute_newton(const int iterations) {
+    last_x = xNAN;
     for (int i = 0; i < iterations; ++i) {
       if (isNaN(x)) {
-        println1("not a number skip");
+        println1("nan -> skip");
         return;
       }
       println2("x: ", x);
@@ -73,14 +75,38 @@ namespace equation_solving {
 //      println2("c: ", coefficients[2]._2double());
 //      println2("d: ", coefficients[3]._2double());
 //      println2("e: ", coefficients[4]._2double());
+      if (!(i & 7)) {
+        t = last_x;
+        t -= x;
+        if (t.isneg()) {
+          t = -t;
+        }
+        t1 = x;
+        // epsilon for double precision
+        // log2(1e14) == 46.5
+        t1 *= 1e-14; 
+        if (t1 < 0) {
+          t1 = -t1;
+        }
+        println2("difference: ", t._2double() - t1._2double());
+        if (t < t1) {
+          println1("difference -> skip");
+          return;
+        }     
+      }
       if (last_x == x) {
-        println1("skip");
+        println1("-> skip");
         return;
       }
       last_x = x;
       newton_step();
 //      println2("slope: ", slope._2double());
     }
+    
+
+    println1("failed to determine x");
+    x = xNAN;
+
   }
   
   void initialize_newton(const Number a, const Number b, const Number c, const Number d, const Number e) {
@@ -90,7 +116,6 @@ namespace equation_solving {
     coefficients[3] = d;
     coefficients[4] = e;
     x = xZERO;
-    last_x = xNAN;
   }
   
   double get_x() {
