@@ -22,7 +22,10 @@ namespace equation_solving {
   Number last_x;
   Number x;
   Number slope;
-  Number d;
+  Number slope2;
+  // t can be used by everyone
+  Number t;
+  Number t1;
   
   void compute_y_at_x() {
     y = coefficients[0];
@@ -32,22 +35,34 @@ namespace equation_solving {
     }
   }
   void compute_slope_at_x() {
-    int di = NumberOfCoefficients - 2;
+    int di = NumberOfCoefficients - 1;
     slope = coefficients[0];
     slope *= di;
     for (int i = 1; i < NumberOfCoefficients - 1; ++i) {
-      slope *= x;
-      d = coefficients[i];
-      d *= di;
-      slope += d;
       --di;
+      slope *= x;
+      t = coefficients[i];
+      t *= di; // this can be optimized
+      slope += t;
     }
     //slope = ((4 * a * x + 3 * b) * x + 2 * c) * x + d;
   }
   
-  // t can be used by everyone
-  Number t;
-  Number t1;
+  /*void compute_slope2_at_x() {
+    int di = NumberOfCoefficients - 1;
+    slope2 = coefficients[0];
+    slope2 *= di * (di - 1);
+    for (int i = 1; i < NumberOfCoefficients - 2; ++i) {
+      --di;
+      slope2 *= x;
+      t = coefficients[i];
+      t *= di * (di - 1); // this can be optimized
+      slope2 += t;
+    }
+    //slope2 = ((4 * 3 * a * x + 3 * 2 * b) * x + 2 * 1 * c) * x + 1 * 0 * d;
+  }  
+  */
+
   
   void newton_step() {
     compute_slope_at_x();
@@ -57,9 +72,25 @@ namespace equation_solving {
     }
     compute_y_at_x();
     //new_x = - y / slope + x
+    // newton verfahren
     t = y;
     t /= slope;
+    // modifiziertes newtonverfahren
+    // http://www.tavrodir.lima-city.de/Arbeiten/Newton-%20und%20Sekantenverfahren%20Beleg.pdf
+    //compute_slope2_at_x();
+    //t1 = y;
+    //t1 /= slope;
+    //t1 *= slope2;
+    //t1 /= slope;
+    //t1 -= xONE;
+    //t1 =-t1;
+    //t /= t1;
+    // x_n+1
+    //println2("x: ", x);
+    //println2("t1: ", t1);
+    //println2("t: ", t);
     x -= t;
+    //println2("nx: ", x);
   }
   
   void compute_newton(const int iterations) {
@@ -69,12 +100,16 @@ namespace equation_solving {
         println1("nan -> skip");
         return;
       }
+      //if (i % 8 == 7) {
       //println2("x: ", x);
+      //println2("slope: ", slope);
+      //println2("slope2: ", slope2);
 //      println2("a: ", coefficients[0]._2double());
 //      println2("b: ", coefficients[1]._2double());
 //      println2("c: ", coefficients[2]._2double());
 //      println2("d: ", coefficients[3]._2double());
 //      println2("e: ", coefficients[4]._2double());
+      //}
       if (i % 8 == 7) {
         t = last_x;
         t -= x;
@@ -149,7 +184,7 @@ void initialize_newton(NumberArgument a,    NumberArgument b,    NumberArgument 
 const int CYCLES_1 = 5;
 const int CYCLES_2 = 100;
 const int CYCLES_3 = 100;
-const int CYCLES_4 = 100;
+const int CYCLES_4 = 10000;
 
 
 void get_one_zero(double* zero, int cycles) {
