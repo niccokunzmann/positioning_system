@@ -7,7 +7,7 @@ Number zero1;
 
 test(equation_0_zero) {
   solve_equation(0, &zero1);
-  assertEqual(zero1, 0);
+  assertEqual(zero1, 0.);
 }
 
 test(equation_0_not_zero) {
@@ -18,13 +18,13 @@ test(equation_0_not_zero) {
 test(equation_1_1) {
   get_coefficients_from_zeros(11, &d, &e);
   solve_equation(d, e, &zero1);
-  assertApproximately(zero1, 11);
+  assertApproximately(zero1, 11.);
 }
 
 test(equation_1_2) {
   get_coefficients_from_zeros(12, &d, &e);
   solve_equation(d, e, &zero1);
-  assertApproximately(zero1, 12);
+  assertApproximately(zero1, 12.);
 }
 
 test(equation_1_constant_solving) {
