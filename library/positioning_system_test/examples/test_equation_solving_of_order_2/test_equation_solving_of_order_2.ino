@@ -30,7 +30,7 @@ test(equation_2_one_zero) {
 
 test(equation_2_no_zero) {  
   println1(" ----- equation_2_no_zero ----- ");
-  solve_equation(1, 0, 1, &zero1, &zero2);
+  solve_equation(1, 2, 15, &zero1, &zero2);
   
   assertTrue(is_not_a_number(zero1));
   assertTrue(is_not_a_number(zero2));
