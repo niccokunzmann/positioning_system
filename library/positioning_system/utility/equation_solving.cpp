@@ -80,7 +80,6 @@ namespace equation_solving {
       last_x = x;
       newton_step();
 //      println2("slope: ", slope._2double());
-      
     }
   }
   
