@@ -19,7 +19,7 @@
 namespace equation_solving {
   using namespace HPA;
   
-  typedef HPA::xreal Coefficient;
+  typedef double Coefficient;
   
   // coefficients
   
@@ -28,7 +28,7 @@ namespace equation_solving {
 
   // for differeciation
   
-  typedef HPA::xreal Number;
+  typedef double Number;
   
   Number y;
   Number last_x;
@@ -114,9 +114,9 @@ namespace equation_solving {
   }
   
   void compute_newton(const int iterations) {
-    last_x = xNAN;
+    last_x = get_not_a_number(); //xNAN;
     if (!coefficients[NumberOfCoefficients - 1]) {
-      x = xZERO;
+      x = 0;
       return;
     }
     for (int i = 0; i < iterations; ++i) {
@@ -137,7 +137,7 @@ namespace equation_solving {
       if (i % 8 == 7) {
         t = last_x;
         t -= x;
-        if (t.isneg()) {
+        if (t < 0) {
           t = -t;
         }
         t1 = x;
@@ -162,7 +162,7 @@ namespace equation_solving {
 //      P2("slope: ", slope._2double());
     }
     P1("failed to determine x");
-    x = xNAN;
+    x = get_not_a_number();//xNAN;
   }
   
   void initialize_newton(const Number a, const Number b, const Number c, const Number d, const Number e) {
@@ -171,12 +171,12 @@ namespace equation_solving {
     coefficients[2] = c;
     coefficients[3] = d;
     coefficients[4] = e;
-    x = xONE;
+    x = 1;
     failes = 0;
   }
   
   double get_x() {
-    return x._2double();
+    return x;//._2double();
   }
   
   // ausklammern von x aus der Gleichung
@@ -195,7 +195,7 @@ namespace equation_solving {
     for (int i = NumberOfCoefficients - 1; i > 0; --i) {
       coefficients[i] = coefficients[i - 1];
     }
-    coefficients[0] = xZERO;
+    coefficients[0] = 0;
   }
 }
 

@@ -50,3 +50,7 @@ bool is_not_a_number(NumberArgument number) {
   return number != get_infinity() && number - number != 0;
 #endif
 }
+
+bool isNaN(double x) {
+  return is_not_a_number(x);
+}

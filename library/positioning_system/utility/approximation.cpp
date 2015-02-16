@@ -38,7 +38,7 @@ bool approximates(NumberArgument a, NumberArgument b, NumberArgument epsilon) {
   } else {
     epsilon_ = abs(b) * epsilon;
   }
-  println6("a: ", a, " b: ", b, " epsilon_: ", epsilon_);
+  println6("a: ", a, " b: ", b, " epsilon_*100000: ", epsilon_ * 100000);
   if (a < b) {
     return b - a <= epsilon_;
   } else {

@@ -7,5 +7,6 @@
 #include "call_coefficients.hpp"
 #include "sorting.hpp"
 #include "test_print.hpp"
+#include "test_position_functions.hpp"
 
 #endif

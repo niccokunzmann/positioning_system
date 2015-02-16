@@ -32,6 +32,13 @@ test(equation_1_constant_solving) {
   assertTrue(is_not_a_number(zero1));
 }
 
+test(convert_not_a_number) {
+  d = get_not_a_number();
+  HPA::xreal n = d;
+  e = n._2double();
+  assertTrue(is_not_a_number(e));
+}
+
 void setup() {
   Serial.begin(9600);
 }
