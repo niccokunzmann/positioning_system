@@ -1,8 +1,20 @@
 
 #include "equation_solving.hpp"
 
-//#include "positioning_system_test.h"
+//#define DEBUG_SOLVE
 
+#ifdef DEBUG_SOLVE
+#include "positioning_system_test.h"
+
+#define P1(A) println2("{{solve}} ", A);
+#define P2(A, B) println3("{{solve}} ", A, B);
+
+#else 
+
+#define P1(A)
+#define P2(A, B)  
+
+#endif
 
 namespace equation_solving {
   using namespace HPA;
@@ -42,7 +54,9 @@ namespace equation_solving {
       --di;
       slope *= x;
       t = coefficients[i];
+      //pvar(t);
       t *= di; // this can be optimized
+      //pvar(t);
       slope += t;
     }
     //slope = ((4 * a * x + 3 * b) * x + 2 * c) * x + d;
@@ -62,15 +76,21 @@ namespace equation_solving {
     //slope2 = ((4 * 3 * a * x + 3 * 2 * b) * x + 2 * 1 * c) * x + 1 * 0 * d;
   }  
   */
-
+  
+  int failes;
   
   void newton_step() {
+    P1("newton step");
+    P2("x: ", x);
     compute_slope_at_x();
+    P2("slope: ", slope);
     if (!slope) {
-      x = xNAN;
+      failes++;
+      x += failes;
       return;
     }
     compute_y_at_x();
+    P2("y: ", y);
     //new_x = - y / slope + x
     // newton verfahren
     t = y;
@@ -86,29 +106,29 @@ namespace equation_solving {
     //t1 =-t1;
     //t /= t1;
     // x_n+1
-    //println2("x: ", x);
-    //println2("t1: ", t1);
-    //println2("t: ", t);
+    //P2("x: ", x);
+    //P2("t1: ", t1);
+    //P2("t: ", t);
     x -= t;
-    //println2("nx: ", x);
+    //P2("nx: ", x);
   }
   
   void compute_newton(const int iterations) {
     last_x = xNAN;
     for (int i = 0; i < iterations; ++i) {
       if (isNaN(x)) {
-        //println1("nan -> skip");
+        P1("nan -> skip");
         return;
       }
       //if (i % 8 == 7) {
-      //println2("x: ", x);
-      //println2("slope: ", slope);
-      //println2("slope2: ", slope2);
-//      println2("a: ", coefficients[0]._2double());
-//      println2("b: ", coefficients[1]._2double());
-//      println2("c: ", coefficients[2]._2double());
-//      println2("d: ", coefficients[3]._2double());
-//      println2("e: ", coefficients[4]._2double());
+      //P2("x: ", x);
+      //P2("slope: ", slope);
+      //P2("slope2: ", slope2);
+//      P2("a: ", coefficients[0]._2double());
+//      P2("b: ", coefficients[1]._2double());
+//      P2("c: ", coefficients[2]._2double());
+//      P2("d: ", coefficients[3]._2double());
+//      P2("e: ", coefficients[4]._2double());
       //}
       if (i % 8 == 7) {
         t = last_x;
@@ -123,21 +143,21 @@ namespace equation_solving {
         if (t1 < 0) {
           t1 = -t1;
         }
-        //println2("difference: ", t._2double() - t1._2double());
+        //P2("difference: ", t._2double() - t1._2double());
         if (t < t1) {
-          //println2("difference -> skip ", i);
+          P2("difference -> skip ", i);
           return;
         }     
       }
       if (last_x == x) {
-        //println2("-> skip ", i);
+        P2("-> skip ", i);
         return;
       }
       last_x = x;
       newton_step();
-//      println2("slope: ", slope._2double());
+//      P2("slope: ", slope._2double());
     }
-    //println1("failed to determine x");
+    P1("failed to determine x");
     x = xNAN;
   }
   
@@ -148,6 +168,7 @@ namespace equation_solving {
     coefficients[3] = d;
     coefficients[4] = e;
     x = xONE;
+    failes = 0;
   }
   
   double get_x() {
@@ -184,7 +205,7 @@ void initialize_newton(NumberArgument a,    NumberArgument b,    NumberArgument 
 const int CYCLES_1 = 5;
 const int CYCLES_2 = 100;
 const int CYCLES_3 = 100;
-const int CYCLES_4 = 10000;
+const int CYCLES_4 = 300;
 
 
 void get_one_zero(double* zero, int cycles) {

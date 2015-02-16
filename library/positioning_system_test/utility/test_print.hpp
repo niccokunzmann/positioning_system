@@ -12,6 +12,8 @@
 #define PROGMEM __attribute__((section(".progmem.data")))
 #endif
 
+#define pvar(V) println3(#V, F(": "), V);
+
 void print_coefficients_to_serial(NumberArgument a, NumberArgument b, NumberArgument c, NumberArgument d, NumberArgument e);
 
 void println0();

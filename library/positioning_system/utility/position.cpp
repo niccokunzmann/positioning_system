@@ -2,6 +2,7 @@
 #include "numbers.hpp"
 #include "position.hpp"
 #include "math.h"
+#include "positioning_system_test.h"
 
 
 namespace positioning {
@@ -9,7 +10,7 @@ namespace positioning {
   struct point {
     double x;
     double y;
-  }
+  };
   
   double g1;
   double g2;
@@ -34,7 +35,7 @@ namespace positioning {
   double H;
   double K;
   double L;
-  double m;
+  double M;
   
   double A;
   double B;
@@ -62,21 +63,27 @@ namespace positioning {
     p *= p;
     // sture the delta t in g1, g2, g3
     // w
-    A = b - Ps[Ps_i].y;
+    A = b - Ps[Ps_i].x;
     A *= A;
     A += n;
     A = sqrt(A);
+    println2("w: ", A);
     // v
-    B = b - Ps[Ps_i].x;
+    B = a + Ps[Ps_i].y;
     B *= B;
     B += p;
     B = sqrt(B);
+    println2("v: ", B);
     // u
     C = sqrt(p + n);
+    println2("u: ", C);
     
     g1 = B - C;
     g2 = B - A;
     g3 = C - A;
+    pvar(g1);
+    pvar(g2);
+    pvar(g3);
     
     g1 -= dt1;
     g2 -= dt2;
@@ -100,6 +107,9 @@ namespace positioning {
     g1 = dt1;
     g2 = dt2;
     g3 = g2 - g1;
+    pvar(g1);
+    pvar(g2);
+    pvar(g3);
     
     a_2 = a * a;
     g_2 = g1 * g1;
@@ -110,6 +120,9 @@ namespace positioning {
     d = 4 * q;
     p = 4 * a * q;
     q *= q;
+    pvar(n);
+    pvar(p);
+    pvar(q);
     
     
     a_2 = b * b;
@@ -122,12 +135,22 @@ namespace positioning {
     e = -4 * v;
     t = 4 * b * v;
     v *= v;
+    pvar(r);
+    pvar(s);
+    pvar(t);
+    pvar(v); // could be better
+    
+    pvar(d);
+    pvar(e);
     
     // compute y
     // if (r == 0) // unimportant we divide by n
     if (n == 0) {
+      println1("{{position}} n == 0");
+      println6("{{position}} solving: ", d, " ", q, " ", p);
       solve_equation(d, p, q, 
                      &(Ps[0].y), &(Ps[2].y));
+      println4("{{position}} y1: ", Ps[0].y, " y2: ", Ps[2].y);
       max_i = 4;
     } else {
       /*
@@ -151,14 +174,16 @@ namespace positioning {
       L = 2 * v * e_n;
       M = t * t / n;
       
-      A = (H * d + K) * d + r * r;
-      B = 2 * H * d;
       C = L - M;
       E = H * q;
-      D = (E + E + C) * p;
-      E = (E + C) * q + v * v;
-      C * = D;
+      A = E + C;
+      D = (E + A) * p;
+      E = A * q + v * v;
+      C *= D;
       C -= 2 * r * v;
+      B = H * d;
+      A = (B + K) * d + r * r;
+      B += B;
       C += (B + K) * q + H * p * p;
       B += K;
       B *= p;
@@ -168,20 +193,30 @@ namespace positioning {
       max_i = 8;
     }
     // compute x
+    println1(F("{{position}} computing x"));
     for (int i = 0; i < max_i; i += 2) {
+      if (is_not_a_number(Ps[i].y)) {
+        continue;
+      }
       Ps[i+1].y = Ps[i].y;
+      println2("{{position}} y: ", Ps[i].y);
+      println6("{{position}} solving: ", e, " ", t, " ", v - r * Ps[i].y * Ps[i].y);
       solve_equation(e, t, v - r * Ps[i].y * Ps[i].y, 
                      &(Ps[i].x), &(Ps[i+1].x));
+      println4("{{position}} x1: ", Ps[i].x, " x2: ", Ps[i+1].x);
     }
     // find x, y with lowest error
     // we do not need other variables than Ps any more
-    *x = Ps[0].x;
-    *y = Ps[0].y;
-    compute_error(0, dt1, dt2, a, b);
-    min_error = error; 
-    for (int i = 1; i < max_i, ++i) {
+    min_error = get_not_a_number(); 
+    *x = get_not_a_number();
+    *y = get_not_a_number();
+    for (int i = 1; i < max_i; ++i) {
+      if (is_not_a_number(Ps[i].x) || is_not_a_number(Ps[i].y)) {
+        continue;
+      }
+      println6("{{position}} Ps: ", Ps[i].x, "\t", Ps[i].y, "\t", error);
       compute_error(i, dt1, dt2, a, b);
-      if (error < min_error) {
+      if (is_not_a_number(min_error) || (error < min_error)) {
         min_error = error;
         *x = Ps[i].x;
         *y = Ps[i].y;

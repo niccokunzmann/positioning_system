@@ -7,5 +7,6 @@
 #include "cubic_root.hpp"
 #include "square_root.hpp"
 #include "equation_solving.hpp"
+#include "position.hpp"
 
 #endif
