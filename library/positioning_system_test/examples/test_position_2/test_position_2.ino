@@ -1,8 +1,5 @@
 
-#define TEST_APPROXIMATION_EPSILON 0.001
-
 #include "positioning_system_test.h"
-
 
 test(position_1) {
   test_position(2, -1);
@@ -31,6 +28,7 @@ test(equation_4_for_position) {
 
 
 void setup() {
+  TEST_APPROXIMATION_EPSILON = 0.001;
   Serial.begin(9600);
 }
 

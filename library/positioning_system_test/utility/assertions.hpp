@@ -7,9 +7,7 @@
 #include <ArduinoUnit.h>
 #include "positioning_system.h"
 
-#ifndef TEST_APPROXIMATION_EPSILON
-#define TEST_APPROXIMATION_EPSILON 0.000001
-#endif
+extern double TEST_APPROXIMATION_EPSILON;
 
 /** Template binary operator== to assist with assertions */
 template <typename T>

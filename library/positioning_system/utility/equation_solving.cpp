@@ -16,10 +16,20 @@
 
 #endif
 
+double to_double(double x) {
+  return x;
+}
+
+double to_double(HPA::xreal x) {
+  return x._2double();
+}
+
+
 namespace equation_solving {
   using namespace HPA;
   
-  typedef double Coefficient;
+  typedef HPA::xreal Number;
+  typedef Number Coefficient;
   
   // coefficients
   
@@ -28,7 +38,6 @@ namespace equation_solving {
 
   // for differeciation
   
-  typedef double Number;
   
   Number y;
   Number last_x;
@@ -176,7 +185,7 @@ namespace equation_solving {
   }
   
   double get_x() {
-    return x;//._2double();
+    return to_double(x);
   }
   
   // ausklammern von x aus der Gleichung

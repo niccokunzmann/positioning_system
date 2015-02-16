@@ -17,4 +17,7 @@ void solve_equation(NumberArgument b,    NumberArgument c,    NumberArgument d, 
 void solve_equation(NumberArgument a,    NumberArgument b,    NumberArgument c,    NumberArgument d,    NumberArgument e, 
                     NumberPointer zero1, NumberPointer zero2, NumberPointer zero3, NumberPointer zero4);
 
+double to_double(double x);
+double to_double(HPA::xreal x);
+
 #endif
