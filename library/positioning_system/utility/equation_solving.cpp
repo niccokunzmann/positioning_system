@@ -1,7 +1,7 @@
 
 #include "equation_solving.hpp"
 
-#include "positioning_system_test.h"
+//#include "positioning_system_test.h"
 
 
 namespace equation_solving {
@@ -97,7 +97,7 @@ namespace equation_solving {
     last_x = xNAN;
     for (int i = 0; i < iterations; ++i) {
       if (isNaN(x)) {
-        println1("nan -> skip");
+        //println1("nan -> skip");
         return;
       }
       //if (i % 8 == 7) {
@@ -125,19 +125,19 @@ namespace equation_solving {
         }
         //println2("difference: ", t._2double() - t1._2double());
         if (t < t1) {
-          println2("difference -> skip ", i);
+          //println2("difference -> skip ", i);
           return;
         }     
       }
       if (last_x == x) {
-        println2("-> skip ", i);
+        //println2("-> skip ", i);
         return;
       }
       last_x = x;
       newton_step();
 //      println2("slope: ", slope._2double());
     }
-    println1("failed to determine x");
+    //println1("failed to determine x");
     x = xNAN;
   }
   
