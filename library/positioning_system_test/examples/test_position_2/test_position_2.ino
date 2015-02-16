@@ -36,40 +36,30 @@ void test_position(double x0, double y0, double a = 1., double b = 2.) {
   assertApproximately(y, y0);
 }
 
-test(position_n_eq_0) {
-  test_position(12, -0.5);
+test(position_1) {
+  test_position(2, -1);
 }
 
-test(equation2_for_position) {
-  solve_equation(0.03326345818211429, -0.06652691636422858, -3.9916149818513342, &x1, &x2);
-  sort_numbers(&x1, &x2);
-  assertApproximately(x1, -10.);
-  assertApproximately(x2, 12.);
-  
+test(position_2) {
+  test_position(100, -12);
 }
 
-
-test(position_r_eq_0_1) {
-  test_position(1, 1);
+test(position_3) {
+  test_position(123.12312321321, -100);
 }
 
-test(position_r_eq_0_2) {
-  test_position(1, 0);
+test(position_4) {
+  test_position(-33.213, -12);
 }
 
-test(position_r_eq_0_3) {
-  test_position(1, -1);
+test(equation_4_for_position) {
+  solve_equation(0,0,0,0,0, &x1, &x2, &x3, &x4);
+  sort_numbers(&x1, &x2, &x3, &x4);
+  assertApproximately(x1, 0);
+  assertApproximately(x2, 0); 
+  assertApproximately(x2, 0); 
+  assertApproximately(x2, 0); 
 }
-
-test(position_r_eq_0_4) {
-  test_position(0, 0);
-}
-
-test(position_r_eq_0_5) {
-  test_position(1, -0.5);
-}
-
-
 
 
 void setup() {
@@ -79,4 +69,3 @@ void setup() {
 void loop() {
   Test::run();
 }
-
