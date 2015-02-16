@@ -44,7 +44,7 @@ test(equation2_for_position) {
   
 }
 
-/*
+
 test(position_r_eq_0_1) {
   test_position(1, 1);
 }
@@ -79,9 +79,9 @@ test(position_3) {
 }
 
 test(position_4) {
-  test_position(-333.213, -12);
+  test_position(-33.213, -12);
 }
-*/
+
 void setup() {
   Serial.begin(9600);
 }

@@ -67,23 +67,23 @@ namespace positioning {
     A *= A;
     A += n;
     A = sqrt(A);
-    println2("w: ", A);
+    //println2("w: ", A);
     // v
     B = a + Ps[Ps_i].y;
     B *= B;
     B += p;
     B = sqrt(B);
-    println2("v: ", B);
+    //println2("v: ", B);
     // u
     C = sqrt(p + n);
-    println2("u: ", C);
+    //println2("u: ", C);
     
     g1 = B - C;
     g2 = B - A;
     g3 = C - A;
-    pvar(g1);
-    pvar(g2);
-    pvar(g3);
+    //pvar(g1);
+    //pvar(g2);
+    //pvar(g3);
     
     g1 -= dt1;
     g2 -= dt2;
@@ -179,7 +179,7 @@ namespace positioning {
       A = E + C;
       D = (E + A) * p;
       E = A * q + v * v;
-      C *= D;
+      C *= d;
       C -= 2 * r * v;
       B = H * d;
       A = (B + K) * d + r * r;
@@ -187,6 +187,11 @@ namespace positioning {
       C += (B + K) * q + H * p * p;
       B += K;
       B *= p;
+      pvar(A);
+      pvar(B);
+      pvar(C);
+      pvar(D);
+      pvar(E);
       
       solve_equation(A, B, C, D, E, 
                      &(Ps[0]).y, &(Ps[2]).y, &(Ps[4]).y, &(Ps[6]).y);
@@ -214,8 +219,8 @@ namespace positioning {
       if (is_not_a_number(Ps[i].x) || is_not_a_number(Ps[i].y)) {
         continue;
       }
-      println6("{{position}} Ps: ", Ps[i].x, "\t", Ps[i].y, "\t", error);
       compute_error(i, dt1, dt2, a, b);
+      println6("{{position}} Ps: ", Ps[i].x, "\t", Ps[i].y, "\t", error);
       if (is_not_a_number(min_error) || (error < min_error)) {
         min_error = error;
         *x = Ps[i].x;

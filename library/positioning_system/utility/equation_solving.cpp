@@ -115,6 +115,10 @@ namespace equation_solving {
   
   void compute_newton(const int iterations) {
     last_x = xNAN;
+    if (!coefficients[NumberOfCoefficients - 1]) {
+      x = xZERO;
+      return;
+    }
     for (int i = 0; i < iterations; ++i) {
       if (isNaN(x)) {
         P1("nan -> skip");
