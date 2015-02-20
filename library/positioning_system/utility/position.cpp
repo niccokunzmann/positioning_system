@@ -5,7 +5,7 @@
 
 #include "math.h"
 
-namespace position {
+namespace Position {
   
   typedef MicrophonePosition Point;
 
@@ -179,13 +179,13 @@ namespace position {
 void position(const double dt1, const double dt2, 
               const double a, const double b,
               double *x, double *y) {
-  return position::position(dt1, dt2, a, b, x, y);
+  return Position::position(dt1, dt2, a, b, x, y);
 }
 
 Point position(const double dt1, const double dt2, 
                const Point _A, const Point _B, 
                const Point _C) {
-  return position(const double dt1, const double dt2, 
-                  const Point _A, const Point _B, 
-                  const Point _C);
+  return Position::position(const double dt1, const double dt2, 
+                            const Point _A, const Point _B, 
+                            const Point _C);
 }

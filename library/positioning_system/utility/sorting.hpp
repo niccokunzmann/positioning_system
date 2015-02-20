@@ -40,36 +40,4 @@ void sort(T *a, T *b, T *c, T *d) {
   sort(a, b, c);
 }
 
-template <typename T>
-void switch_numbers(T *a, T *b) {
-  Number temp;
-  temp = *a;
-  *a = *b;
-  *b = temp;
-}
-
-template <typename T>
-void sort(T *a, T *b) {
-  if ((*a > *b) || is_not_a_number(*a)) {
-    switch_numbers(a, b);
-  }
-}
-
-template <typename T>
-void sort(T *a, T *b, T *c) {
-  // bubblesort
-  sort(a, b);
-  sort(b, c);
-  sort(a, b);
-}
-
-template <typename T>
-void sort(T *a, T *b, T *c, T *d) {
-  // bubblesort
-  sort(a, b);
-  sort(b, c);
-  sort(c, d);
-  sort(a, b, c);
-}
-
 #endif
