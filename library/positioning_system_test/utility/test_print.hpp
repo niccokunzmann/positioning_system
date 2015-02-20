@@ -14,18 +14,17 @@
 
 #define pvar(V) println3(#V, F(": "), V);
 
-void print_coefficients_to_serial(NumberArgument a, NumberArgument b, NumberArgument c, NumberArgument d, NumberArgument e);
-
 void println0();
 
 template <typename Type1> 
 void print1(Type1 message1) {
   Serial.print(message1);
-  delay(30);
   Serial.flush();
 }
+#ifdef HPA
 template <> void print1<HPA::xreal> (HPA::xreal message1);
 template <> void print1<struct xpr> (const struct xpr message1);
+#endif
 template <> void print1<double> (const double message1);
 
 template <typename Type1> 

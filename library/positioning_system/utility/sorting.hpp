@@ -4,13 +4,13 @@
 
 #include "positioning_system.h"
 
-void sort_numbers(NumberPointer a, NumberPointer b);
-void sort_numbers(NumberPointer a, NumberPointer b, NumberPointer c);
-void sort_numbers(NumberPointer a, NumberPointer b, NumberPointer c, NumberPointer d);
+void sort_numbers(double *a, double *b);
+void sort_numbers(double *a, double *b, double *c);
+void sort_numbers(double *a, double *b, double *c, double *d);
 
 template <typename T>
 void exchange(T *a, T *b) {
-  Number temp;
+  double temp;
   temp = *a;
   *a = *b;
   *b = temp;

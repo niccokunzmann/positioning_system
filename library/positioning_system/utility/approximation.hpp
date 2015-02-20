@@ -2,12 +2,10 @@
 #ifndef approximation_hpp
 #define approximation_hpp
 
-#include "numbers.hpp"
-
-bool approximates(NumberArgument a, NumberArgument b);
-bool approximates(NumberArgument a, NumberArgument b, NumberArgument epsilon);
-Number get_epsilon();
-Number get_default_epsilon();
-void set_epsilon(NumberArgument new_epsilon);
+bool approximates(double a, double b);
+bool approximates(double a, double b, double epsilon);
+double get_epsilon();
+double get_default_epsilon();
+void set_epsilon(double new_epsilon);
 
 #endif

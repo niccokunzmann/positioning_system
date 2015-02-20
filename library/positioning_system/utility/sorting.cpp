@@ -2,13 +2,13 @@
 #include "sorting.hpp"
 
 
-void sort_numbers(NumberPointer a, NumberPointer b){
+void sort_numbers(double *a, double *b){
   sort(a, b);
 }
-void sort_numbers(NumberPointer a, NumberPointer b, NumberPointer c) {
+void sort_numbers(double *a, double *b, double *c) {
   sort(a, b, c);
 }
-void sort_numbers(NumberPointer a, NumberPointer b, NumberPointer c, NumberPointer d) {
+void sort_numbers(double *a, double *b, double *c, double *d) {
   sort(a, b, c, d);
 }
 
