@@ -8,5 +8,6 @@
 #include "square_root.hpp"
 #include "equation_solving.hpp"
 #include "position.hpp"
+#include "sorting.hpp"
 
 #endif

@@ -5,7 +5,6 @@
 #include "assertions.hpp"
 #include "get_coefficients.hpp"
 #include "call_coefficients.hpp"
-#include "sorting.hpp"
 #include "test_print.hpp"
 #include "test_position_functions.hpp"
 

@@ -1,237 +1,191 @@
 
-#include "numbers.hpp"
+
 #include "position.hpp"
+#include "sorting.hpp"
+
 #include "math.h"
-#include "positioning_system_test.h"
 
+namespace position {
+  
+  typedef MicrophonePosition Point;
 
-namespace positioning {
-
-  struct point {
+  typedef struct NelderPoint {
     double x;
     double y;
-  };
-  
-  double g1;
-  double g2;
-  double g3;
-  
-  double n;
-  //double o;
-  double p;
-  double q;
+    double error;
+  } NPoint;
 
-  double r;
-  double s;
-  double t;
-  double v;
-  
-  double d;
-  double e;
-  
-  double a_2;
-  double g_2;
-  
-  double H;
-  double K;
-  double L;
-  double M;
-  
-  double A;
-  double B;
-  double C;
-  double D;
-  double E;
-  
-  double e_n;
-  
-  struct point Ps[8]; // (x, y)
-  
-  int max_i;
-  double min_error; // could remove these two variables
-  double error;
-  
-  void compute_error(
-          const int Ps_i, 
-          const double dt1, const double dt2,
-          const double a, const double b) {
-    // y_2
-    n = Ps[Ps_i].y;
-    n *= n;
-    // x_2
-    p = Ps[Ps_i].x;
-    p *= p;
-    // sture the delta t in g1, g2, g3
-    // w
-    A = b - Ps[Ps_i].x;
-    A *= A;
-    A += n;
-    A = sqrt(A);
-    //println2("w: ", A);
-    // v
-    B = a + Ps[Ps_i].y;
-    B *= B;
-    B += p;
-    B = sqrt(B);
-    //println2("v: ", B);
-    // u
-    C = sqrt(p + n);
-    //println2("u: ", C);
-    
-    g1 = B - C;
-    g2 = B - A;
-    g3 = C - A;
-    //pvar(g1);
-    //pvar(g2);
-    //pvar(g3);
-    
-    g1 -= dt1;
-    g2 -= dt2;
-    // dt3 = dt2 - dt1
-    g3 += dt1 - dt2;
-    
-    g1 *= g1;
-    g2 *= g2;
-    g3 *= g3;
 
-    error = g1 + g2 + g3;
+  template <>
+  void sort(NPoint *a, NPoint *b) {
+    if ((*a.error > *b.error)) {
+      exchange(a, b);
+    }
+  }
+
+  double get_t(NPoint x, Point p) {
+    double dx = x.x - p.x;
+    double dy = x.y - p.y;
+    // maybe one can remove the sqrt
+    return sqrt(dx * dx + dy * dy);
+  }
+
+  // dt1 = PB - CP
+  // dt2 = BP - AP
+  double dt1; double dt2;
+  // points A, B, C
+  Point A;
+  Point B;
+  Point C;
+
+  double get_error(Point P) {
+    // get time to points
+    double BP = get_t(P, B);
+    double CP = get_t(P, C);
+    double AP = get_t(P, A);
+    // compute the time differences
+    double _dt1 = BP - CP;
+    double _dt2 = BP - AP;
+    // compute quadratic error
+    _dt1 -= dt1;
+    _dt2 -= dt2;
+    return _dt1 * _dt1 + _dt2 * _dt2;
+  }
+
+  NPoint with_error(Point P) {
+    Npoint x;
+    x.x = P.x;
+    x.y = P.y;
+    x.error = get_error(P);
+    return x;
+  }
+
+  // https://en.wikipedia.org/wiki/Nelder%E2%80%93Mead_method
+  const double alpha = 1.0; // for reflection
+  const double gamma = 2.0; // for expansion
+  const double peta = -0.5; // for contraction
+  const double delta = 0.5; // for reduction
+
+  double reflect(const double x, const double x0, 
+                 const double multiplier) {
+    return x0 + m * (x0 - x);
+  }
+
+  NPoint reflect(const NPoint x, const NPoint x0;
+                 const double multiplier) {
+    Point p;
+    p.x = reflect(x.x, p.x, multiplier);
+    p.x = reflect(x.y, p.y, multiplier);
+    return with_error(p);
+  }
+
+  const double maximum_error = 1e-10;
+
+  Point minimize() {
+    // Nelder Mead in C
+    // using the function get_error
+    // https://en.wikipedia.org/wiki/Nelder%E2%80%93Mead_method
+    int iterations; // for debugging
+    NPoint x1 = with_error(A);
+    NPoint x2 = with_error(B);
+    NPoint x3 = with_error(C); // x[n+1]
+    Point x0;
+    NPoint xr;
+    NPoint xe;
+    NPoint xc;
+    while (true) {
+      ++iterations;
+      // 1 
+      sort(&x1, &x2, &x3);
+      if (x1.error < maximum_error) {
+        break;
+      }
+      // 2
+      x0.x = (x1.x + x2.x) / 2;
+      x0.y = (x1.y + x2.y) / 2;
+      // 3 reflection
+      xr = reflect(x3, x0, alpha);
+      if ((xr.error < x3.error) && (xr.error >= x1.error)) {
+        x3 = xr;
+        continue
+      }
+      // 4 expansion
+      if (x1.error > xr.error) {
+        xe = reflect(x3, x0, gamma);
+        if (xe.error < xv.error) {
+          x3 = xe;
+          continue;
+        } else {
+          x3 = xr;
+        }
+      }
+      // 5 contraction
+      // assert xr.error >= x2.error
+      xc = reflect(x3, x0, peta);
+      if (xc.error < xr.error) {
+        x3 = xc;
+      }
+      // 6 reduction
+      x0.x = x1.x;
+      x0.y = x1.y;
+      x2 = reflect(x2, x0, delta);
+      x3 = reflect(x3, x0, delta);
+      continue;
+    }
+    return x1;
+  }
+
+  Point position(const double _dt1, const double _dt2, 
+                const double a, const double b,
+                double *_x, double *_y) {
+    dt1 = _dt1;
+    dt2 = _dt2;
+
+    // compute position of points
+    C.x = 0;
+    C.y = 0;
+    A.x = a;
+    A.y = 0;
+    B.x = 0;
+    B.y = -b;
+    return compute_position();
   }
   
-  void compute_position(
-          const double dt1, const double dt2, 
-          const double a, const double b,
-          double *x, double* y) {
-    // dt1 = PB - CP
-    // dt2 = BP - AP
-    
-    g1 = dt1;
-    g2 = dt2;
-    g3 = g2 - g1;
-    //pvar(g1);
-    //pvar(g2);
-    //pvar(g3);
-    
-    a_2 = a * a;
-    g_2 = g1 * g1;
-    
-    n = 4 * g_2;
-    q = (a_2 - g_2);
-    // d = o - n
-    d = 4 * q;
-    p = 4 * a * q;
-    q *= q;
-    //pvar(n);
-    //pvar(p);
-    //pvar(q);
-    
-    
-    a_2 = b * b;
-    g_2 = g3 * g3;
-    
-    r = 4 * g_2;
-    s = 4 * a_2;
-    v = (g_2 - a_2);
-    // e = s - r
-    e = -4 * v;
-    t = 4 * b * v;
-    v *= v;
-    //pvar(r);
-    //pvar(s);
-    //pvar(t);
-    //pvar(v); // could be better
-    
-    //pvar(d);
-    //pvar(e);
-    
-    // compute y
-    // if (r == 0) // unimportant we divide by n
-    if (n == 0) {
-      //println1("{{position}} n == 0");
-      //println6("{{position}} solving: ", d, " ", q, " ", p);
-      solve_equation(d, p, q, 
-                     &(Ps[0].y), &(Ps[2].y));
-      //println4("{{position}} y1: ", Ps[0].y, " y2: ", Ps[2].y);
-      max_i = 4;
-    } else {
-      /*
-        F = -2 * e * r
-        G =  2 * e * v
-        H = e*e / n/n
-        K = F / n
-        L = G / n
-        M = t*t / n
+  Point compute_position() {
+    x1.x = A.x;
+    x1.y = A.y;
+    x2.x = B.x;
+    x2.y = B.y;
+    x3.x = C.x;
+    x3.y = C.y;
+    // find the position
+    return minimize();
+  }
+  
+  Point position(const double dt1, const double dt2, 
+                 const Point _A, const Point _B, 
+                 const Point _C) {
+    dt1 = _dt1;
+    dt2 = _dt2;
 
-        A = H * d*d + K * d + r*r
-        B = 2 * H * d * p + K * p
-        C = 2 * H * d * q + H * p*p + K * q + 
-            L * d - 2 * r * v - M * d
-        D = 2 * H * p * q + L * p - M * p
-        E = H * q*q + L * q + v*v - M * q
-      */
-      e_n = e / n;
-      H = e_n * e_n;
-      K = -2 * r * e_n;
-      L = 2 * v * e_n;
-      M = t * t / n;
-      
-      C = L - M;
-      E = H * q;
-      A = E + C;
-      D = (E + A) * p;
-      E = A * q + v * v;
-      C *= d;
-      C -= 2 * r * v;
-      B = H * d;
-      A = (B + K) * d + r * r;
-      B += B;
-      C += (B + K) * q + H * p * p;
-      B += K;
-      B *= p;
-      //pvar(A);
-      //pvar(B);
-      //pvar(C);
-      //pvar(D);
-      //pvar(E);
-      
-      solve_equation(A, B, C, D, E, 
-                     &(Ps[0]).y, &(Ps[2]).y, &(Ps[4]).y, &(Ps[6]).y);
-      max_i = 8;
-    }
-    // compute x
-    //println1(F("{{position}} computing x"));
-    for (int i = 0; i < max_i; i += 2) {
-      if (is_not_a_number(Ps[i].y)) {
-        continue;
-      }
-      Ps[i+1].y = Ps[i].y;
-      //println2("{{position}} y: ", Ps[i].y);
-      //println6("{{position}} solving: ", e, " ", t, " ", v - r * Ps[i].y * Ps[i].y);
-      solve_equation(e, t, v - r * Ps[i].y * Ps[i].y, 
-                     &(Ps[i].x), &(Ps[i+1].x));
-      //println4("{{position}} x1: ", Ps[i].x, " x2: ", Ps[i+1].x);
-    }
-    // find x, y with lowest error
-    // we do not need other variables than Ps any more
-    min_error = get_not_a_number(); 
-    *x = get_not_a_number();
-    *y = get_not_a_number();
-    for (int i = 1; i < max_i; ++i) {
-      if (is_not_a_number(Ps[i].x) || is_not_a_number(Ps[i].y)) {
-        continue;
-      }
-      compute_error(i, dt1, dt2, a, b);
-      //println6("{{position}} Ps: ", Ps[i].x, "\t", Ps[i].y, "\t", error);
-      if (is_not_a_number(min_error) || (error < min_error)) {
-        min_error = error;
-        *x = Ps[i].x;
-        *y = Ps[i].y;
-      }
-    }
+    // compute position of points
+    A = _A;
+    B = _B;
+    C = _C;
+    return compute_position();
   }
 }
 
 void position(const double dt1, const double dt2, 
               const double a, const double b,
-              double *x, double* y) {
-  positioning::compute_position(dt1, dt2, a, b, x, y);
+              double *x, double *y) {
+  return position::position(dt1, dt2, a, b, x, y);
+}
+
+Point position(const double dt1, const double dt2, 
+               const Point _A, const Point _B, 
+               const Point _C) {
+  return position(const double dt1, const double dt2, 
+                  const Point _A, const Point _B, 
+                  const Point _C);
 }
