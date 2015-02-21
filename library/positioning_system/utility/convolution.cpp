@@ -2,9 +2,8 @@
 #include "convolution.hpp"
 // http://www.nongnu.org/avr-libc/user-manual/group__avr__math.html
 #include "math.h"
-#include "positioning_system_test.h"
 
-Convolver::Convolver(short _wave_length_in_samples, short number_of_samples_in_buffer, byte sample_bits) {
+Convolver::Convolver(short _wave_length_in_samples, short number_of_samples_in_buffer, int8_t sample_bits) {
   wave_length_in_samples = _wave_length_in_samples;
   add_sample_index = number_of_samples_in_buffer % wave_length_in_samples;
   remove_sample_index = 0;
@@ -17,7 +16,7 @@ Convolver::Convolver(short _wave_length_in_samples, short number_of_samples_in_b
   compute_overflow_prevention(number_of_samples_in_buffer, sample_bits);
 }
 
-void Convolver::compute_overflow_prevention(short number_of_samples_in_buffer, byte sample_bits) {
+void Convolver::compute_overflow_prevention(short number_of_samples_in_buffer, int8_t sample_bits) {
   if(!valid) {
     return;
   }
@@ -37,8 +36,14 @@ void Convolver::compute_overflow_prevention(short number_of_samples_in_buffer, b
   }
   if (overflow_preventing_intensity_divisor_bits < 0) {
     overflow_preventing_intensity_divisor_bits = 0;
+  } else if (overflow_preventing_intensity_divisor_bits > 15) {
+    // In this case we shift out more than half of the long ->
+    // This means we need more bits than a long has  
+    // for the sum_cosinus and sum_sinus.
+    // This indicates that the sums could overflow.
+    // We should not operate under these conditions.
+    valid = false;
   }
-  pvar(overflow_preventing_intensity_divisor_bits);
 }
   
 void Convolver::allocate_memory_for_wave() {
@@ -102,12 +107,7 @@ long Convolver::squared_intensity() {
     return 0;
   }
   // remove some bits to prevent overflow
-  pvar(overflow_preventing_intensity_divisor_bits);
-  pvar(sum_sinus);
-  pvar(sum_cosinus);
   long s = sum_sinus >> overflow_preventing_intensity_divisor_bits; 
   long c = sum_cosinus >> overflow_preventing_intensity_divisor_bits;
-  pvar(s);
-  pvar(c);  
   return s * s + c * c;
 }

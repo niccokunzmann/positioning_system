@@ -24,7 +24,6 @@ class SampleBuffer {
   private:
     short number_of_samples;
     short current_sample_index;
-    long sum_of_all_samples;
     Sample *samples;
     boolean valid;
   

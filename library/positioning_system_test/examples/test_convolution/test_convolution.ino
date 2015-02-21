@@ -81,6 +81,24 @@ test(maximum_samples_are_no_overflow_problem_4) {
   assertMore(convolver.squared_intensity(), 0L);
 }
 
+test(constant_value_added_to_samples_does_not_influence_value) {
+  Convolver convolver1 = Convolver(4, 100);
+  Convolver convolver2 = Convolver(4, 100);
+  for (int i = 0; i < 50 ; ++i) {
+    convolver1.add_sample(-511);
+    convolver2.add_sample(0);
+    convolver1.add_sample(511);
+    convolver2.add_sample(1022);
+  }
+  assertEqual(convolver1.squared_intensity(), convolver2.squared_intensity());
+}
+
+test(too_big_sample_size_does_not_work) {
+  // 31 bit long - 8 bit - bits(length of samples) - sample_bits > 0
+  Convolver convolver = Convolver(4, 128, 32);
+  assertFalse(convolver.is_valid());
+}
+
 void setup() {
   Serial.begin(9600);
 }

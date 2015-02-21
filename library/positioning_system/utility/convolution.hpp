@@ -15,7 +15,7 @@ class Convolver {
    * when the assumption changes.
    */
   public:
-    Convolver(short wave_length_in_samples, short number_of_samples_in_buffer, byte sample_bits = 10);
+    Convolver(short wave_length_in_samples, short number_of_samples_in_buffer, int8_t sample_bits = 10);
     ~Convolver();
 
     boolean is_valid();
@@ -28,7 +28,7 @@ class Convolver {
   private:
     void allocate_memory_for_wave();
     void fill_wave();
-    void compute_overflow_prevention(short number_of_samples_in_buffer, byte sample_bits);
+    void compute_overflow_prevention(short number_of_samples_in_buffer, int8_t sample_bits);
     
     // 2 bytes
     short wave_length_in_samples;
