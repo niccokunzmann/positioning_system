@@ -3,7 +3,6 @@
 #define test_print_hpp
 
 #include "Arduino.h"
-#include "hpa.h"
 #include "positioning_system.h"
 
 // from http://forum.arduino.cc/index.php/topic,85840.0.html

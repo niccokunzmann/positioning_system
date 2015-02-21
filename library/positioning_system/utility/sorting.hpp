@@ -2,6 +2,8 @@
 #ifndef sorting_hpp
 #define sorting_hpp
 
+// http://www.nongnu.org/avr-libc/user-manual/group__avr__math.html
+#include "math.h"
 #include "positioning_system.h"
 
 void sort_numbers(double *a, double *b);
@@ -10,7 +12,7 @@ void sort_numbers(double *a, double *b, double *c, double *d);
 
 template <typename T>
 void exchange(T *a, T *b) {
-  double temp;
+  T temp;
   temp = *a;
   *a = *b;
   *b = temp;
@@ -18,7 +20,7 @@ void exchange(T *a, T *b) {
 
 template <typename T>
 void sort(T *a, T *b) {
-  if ((*a > *b) || is_not_a_number(*a)) {
+  if (!(*a < *b)) {
     exchange(a, b);
   }
 }

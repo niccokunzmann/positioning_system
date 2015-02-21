@@ -2,28 +2,30 @@
 
 #include "position.hpp"
 #include "sorting.hpp"
+#include "positioning_system_test.h"
 
 #include "math.h"
 
 namespace Position {
-  
-  typedef MicrophonePosition Point;
-
   typedef struct NelderPoint {
     double x;
     double y;
     double error;
   } NPoint;
+}
 
-
-  template <>
-  void sort(NPoint *a, NPoint *b) {
-    if ((*a.error > *b.error)) {
-      exchange(a, b);
-    }
+template <>
+void sort(Position::NPoint *a, Position::NPoint *b) {
+  if ((a->error > b->error)) {
+    exchange(a, b);
   }
+}
 
-  double get_t(NPoint x, Point p) {
+namespace Position {
+  
+  typedef MicrophonePosition Point;
+
+  double get_t(Point x, Point p) {
     double dx = x.x - p.x;
     double dy = x.y - p.y;
     // maybe one can remove the sqrt
@@ -38,14 +40,20 @@ namespace Position {
   Point B;
   Point C;
 
-  double get_error(Point P) {
+  double get_error(const Point P) {
     // get time to points
+    double AP = get_t(P, A);
     double BP = get_t(P, B);
     double CP = get_t(P, C);
-    double AP = get_t(P, A);
     // compute the time differences
     double _dt1 = BP - CP;
     double _dt2 = BP - AP;
+//    println4("x: ", P.x, "y: ", P.y);
+//    pvar(AP);
+//    pvar(BP);
+//    pvar(CP);
+//    pvar(dt1);
+//    pvar(dt2);
     // compute quadratic error
     _dt1 -= dt1;
     _dt2 -= dt2;
@@ -53,7 +61,7 @@ namespace Position {
   }
 
   NPoint with_error(Point P) {
-    Npoint x;
+    NPoint x;
     x.x = P.x;
     x.y = P.y;
     x.error = get_error(P);
@@ -68,24 +76,24 @@ namespace Position {
 
   double reflect(const double x, const double x0, 
                  const double multiplier) {
-    return x0 + m * (x0 - x);
+    return x0 + multiplier * (x0 - x);
   }
 
-  NPoint reflect(const NPoint x, const NPoint x0;
+  NPoint reflect(const NPoint x, const Point x0,
                  const double multiplier) {
     Point p;
-    p.x = reflect(x.x, p.x, multiplier);
-    p.x = reflect(x.y, p.y, multiplier);
+    p.x = reflect(x.x, x0.x, multiplier);
+    p.y = reflect(x.y, x0.y, multiplier);
     return with_error(p);
   }
 
-  const double maximum_error = 1e-10;
+  const double maximum_error = 1e-15;
 
   Point minimize() {
     // Nelder Mead in C
     // using the function get_error
     // https://en.wikipedia.org/wiki/Nelder%E2%80%93Mead_method
-    int iterations; // for debugging
+    int iterations = 0; // for debugging
     NPoint x1 = with_error(A);
     NPoint x2 = with_error(B);
     NPoint x3 = with_error(C); // x[n+1]
@@ -93,37 +101,47 @@ namespace Position {
     NPoint xr;
     NPoint xe;
     NPoint xc;
-    while (true) {
+    while (iterations < 300) {
       ++iterations;
       // 1 
       sort(&x1, &x2, &x3);
+      //print4("x1: ", x1.x, ",", x1.y);
+      //print4(" x2: ", x2.x, ",", x2.y);
+      //println4(" x3: ", x3.x, ",", x3.y);
+      //println6("error: ", x1.error, ",", x2.error, ", ", x3.error);
       if (x1.error < maximum_error) {
         break;
       }
       // 2
       x0.x = (x1.x + x2.x) / 2;
       x0.y = (x1.y + x2.y) / 2;
+      //println4("x0: ", x0.x, ",", x0.y);
       // 3 reflection
       xr = reflect(x3, x0, alpha);
-      if ((xr.error < x3.error) && (xr.error >= x1.error)) {
+      //pvar(xr.x); pvar(xr.y); pvar(xr.error);
+      if ((xr.error < x2.error) && (xr.error >= x1.error)) {
         x3 = xr;
-        continue
+        continue;
       }
       // 4 expansion
       if (x1.error > xr.error) {
         xe = reflect(x3, x0, gamma);
-        if (xe.error < xv.error) {
+        //pvar(xe.x); pvar(xe.y); pvar(xe.error);
+        if (xe.error < xr.error) {
           x3 = xe;
           continue;
         } else {
           x3 = xr;
+          continue;
         }
       }
       // 5 contraction
       // assert xr.error >= x2.error
       xc = reflect(x3, x0, peta);
+      //pvar(xc.x); pvar(xc.y); pvar(xc.error);
       if (xc.error < xr.error) {
         x3 = xc;
+        continue;
       }
       // 6 reduction
       x0.x = x1.x;
@@ -132,37 +150,31 @@ namespace Position {
       x3 = reflect(x3, x0, delta);
       continue;
     }
-    return x1;
+    println2("iterations:", iterations);
+    x0.x = x1.x;
+    x0.y = x1.y;
+    return x0;
   }
 
-  Point position(const double _dt1, const double _dt2, 
+  void position(const double _dt1, const double _dt2, 
                 const double a, const double b,
                 double *_x, double *_y) {
     dt1 = _dt1;
     dt2 = _dt2;
 
     // compute position of points
-    C.x = 0;
-    C.y = 0;
     A.x = a;
     A.y = 0;
     B.x = 0;
     B.y = -b;
-    return compute_position();
+    C.x = 0;
+    C.y = 0;
+    Point p =  minimize();
+    *_x = p.x;
+    *_y = p.y;
   }
   
-  Point compute_position() {
-    x1.x = A.x;
-    x1.y = A.y;
-    x2.x = B.x;
-    x2.y = B.y;
-    x3.x = C.x;
-    x3.y = C.y;
-    // find the position
-    return minimize();
-  }
-  
-  Point position(const double dt1, const double dt2, 
+  Point position(const double _dt1, const double _dt2, 
                  const Point _A, const Point _B, 
                  const Point _C) {
     dt1 = _dt1;
@@ -172,20 +184,20 @@ namespace Position {
     A = _A;
     B = _B;
     C = _C;
-    return compute_position();
+    return minimize();
   }
 }
 
 void position(const double dt1, const double dt2, 
               const double a, const double b,
               double *x, double *y) {
-  return Position::position(dt1, dt2, a, b, x, y);
+  Position::position(dt1, dt2, a, b, x, y);
 }
 
-Point position(const double dt1, const double dt2, 
-               const Point _A, const Point _B, 
-               const Point _C) {
-  return Position::position(const double dt1, const double dt2, 
-                            const Point _A, const Point _B, 
-                            const Point _C);
+MicrophonePosition position(
+               const double dt1, const double dt2, 
+               const SpeakerPosition A, 
+               const SpeakerPosition B, 
+               const SpeakerPosition C) {
+  return Position::position(dt1, dt2, A, B, C);
 }
