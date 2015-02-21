@@ -3,7 +3,7 @@
 #include "position.hpp"
 #include "sorting.hpp"
 
-#include "positioning_system_test.h"
+//#include "positioning_system_test.h"
 
 #include "math.h"
 
@@ -183,7 +183,7 @@ namespace Position {
       //println1("#reduction");
       continue;
     }
-    println2("iterations:", iterations);
+    //println2("iterations:", iterations);
     return x1;
   }
   
