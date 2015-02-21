@@ -12,6 +12,8 @@
 #endif
 
 #define pvar(V) println3(#V, F(": "), V);
+#define ppoint(V) println5(#V, F(": "), V.x, ", ", V.y);
+#define pnpoint(V) println7(#V, F(": "), V.x, ", ", V.y, " error: ", V.error);
 
 void println0();
 

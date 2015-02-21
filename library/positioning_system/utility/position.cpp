@@ -2,6 +2,7 @@
 
 #include "position.hpp"
 #include "sorting.hpp"
+
 #include "positioning_system_test.h"
 
 #include "math.h"
@@ -87,21 +88,49 @@ namespace Position {
     return with_error(p);
   }
 
-  const double maximum_error = 1e-15;
+  const double maximum_error = 1e-20;
+  const int maximum_number_of_iterations = 200;
+  // for middle_influence_on_starting_points
+  const double drag_the_points_together = 0.99;
+  const double drag_the_points_outside = 2;
+  double middle_influence_on_starting_points;
 
-  Point minimize() {
+  double mix(double v1, double v2, double v3) {
+    double middle = (v1 + v2 + v3) / 3;
+    return v1 * (1 - middle_influence_on_starting_points) + middle * middle_influence_on_starting_points;
+  }
+  
+  Point mixPoint(Point P1, Point P2, Point P3) {
+    Point p;
+    p.x = mix(P1.x, P2.x, P3.x);
+    p.y = mix(P1.y, P2.y, P3.y);
+    return p;
+  }
+  
+  bool is_perfect(NPoint p) {
+    return p.error < maximum_error;
+  }
+  
+  Point to_point(NPoint n) {
+    Point p;
+    p.x = n.x;
+    p.y = n.y;
+    return p;
+  }
+  
+  NPoint minimize() {
     // Nelder Mead in C
     // using the function get_error
     // https://en.wikipedia.org/wiki/Nelder%E2%80%93Mead_method
     int iterations = 0; // for debugging
-    NPoint x1 = with_error(A);
-    NPoint x2 = with_error(B);
-    NPoint x3 = with_error(C); // x[n+1]
+    NPoint x1 = with_error(mixPoint(A, B, C));
+    NPoint x2 = with_error(mixPoint(B, A, C));
+    NPoint x3 = with_error(mixPoint(C, B, A)); // x[n+1]
     Point x0;
     NPoint xr;
     NPoint xe;
     NPoint xc;
-    while (iterations < 300) {
+    while (iterations < maximum_number_of_iterations) {
       ++iterations;
       // 1 
       sort(&x1, &x2, &x3);
@@ -109,24 +138,26 @@ namespace Position {
       //print4(" x2: ", x2.x, ",", x2.y);
       //println4(" x3: ", x3.x, ",", x3.y);
       //println6("error: ", x1.error, ",", x2.error, ", ", x3.error);
-      if (x1.error < maximum_error) {
+      if (is_perfect(x1)) {
         break;
       }
       // 2
       x0.x = (x1.x + x2.x) / 2;
       x0.y = (x1.y + x2.y) / 2;
-      //println4("x0: ", x0.x, ",", x0.y);
+      //println5(" ---- x0: ", x0.x, ",", x0.y, " -----");
       // 3 reflection
       xr = reflect(x3, x0, alpha);
-      //pvar(xr.x); pvar(xr.y); pvar(xr.error);
+      //pnpoint(xr);
       if ((xr.error < x2.error) && (xr.error >= x1.error)) {
+        //println1("#reflection");
         x3 = xr;
         continue;
       }
       // 4 expansion
       if (x1.error > xr.error) {
         xe = reflect(x3, x0, gamma);
-        //pvar(xe.x); pvar(xe.y); pvar(xe.error);
+        //pnpoint(xe);
+        //println1("#expansion");
         if (xe.error < xr.error) {
           x3 = xe;
           continue;
@@ -138,8 +169,9 @@ namespace Position {
       // 5 contraction
       // assert xr.error >= x2.error
       xc = reflect(x3, x0, peta);
-      //pvar(xc.x); pvar(xc.y); pvar(xc.error);
+      //pnpoint(xc);
       if (xc.error < xr.error) {
+        //println1("#contraction");
         x3 = xc;
         continue;
       }
@@ -148,14 +180,19 @@ namespace Position {
       x0.y = x1.y;
       x2 = reflect(x2, x0, delta);
       x3 = reflect(x3, x0, delta);
+      //println1("#reduction");
       continue;
     }
     println2("iterations:", iterations);
-    x0.x = x1.x;
-    x0.y = x1.y;
-    return x0;
+    return x1;
   }
-
+  
+  NPoint compute_position() {
+    middle_influence_on_starting_points = drag_the_points_together;
+    // tried with drag_the_points_outside but that does not change anything
+    return minimize();
+  }
+ 
   void position(const double _dt1, const double _dt2, 
                 const double a, const double b,
                 double *_x, double *_y) {
@@ -166,10 +203,10 @@ namespace Position {
     A.x = a;
     A.y = 0;
     B.x = 0;
-    B.y = -b;
+    B.y = b;
     C.x = 0;
     C.y = 0;
-    Point p =  minimize();
+    NPoint p =  compute_position();
     *_x = p.x;
     *_y = p.y;
   }
@@ -184,7 +221,7 @@ namespace Position {
     A = _A;
     B = _B;
     C = _C;
-    return minimize();
+    return to_point(compute_position());
   }
 }
 

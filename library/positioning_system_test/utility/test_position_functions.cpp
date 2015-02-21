@@ -13,7 +13,7 @@ double x2;
 void compute_dt(double a, double b, double x, double y) {
   double CP = sqrt(x*x + y*y);
   double AP = sqrt(y*y + (a - x)*(a - x));
-  double BP = sqrt((b + y)*(b + y) + x*x);
+  double BP = sqrt((b - y)*(b - y) + x*x);
    
   dt1 = BP - CP;
   dt2 = BP - AP;
