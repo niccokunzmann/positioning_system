@@ -4,21 +4,22 @@
 
 #include "Arduino.h"
 
-typedef unsigned short Sample;
-typedef short NormalizedSample;
+typedef short Sample;
 
 class SampleBuffer {
   public:
     SampleBuffer(short number_of_normalized_samples);
     ~SampleBuffer();
     
-    NormalizedSample replaced_by(NormalizedSample new_sample);
+    Sample replaced_by(Sample new_sample);
     long sum();
-    NormalizedSample average();
+    Sample average();
     
-    NormalizedSample normalize(Sample sample);
+    Sample normalize(Sample sample);
     
     boolean is_valid();
+    
+    short size();
     
   private:
     short number_of_samples;
@@ -27,6 +28,6 @@ class SampleBuffer {
     Sample *samples;
     boolean valid;
   
-}
+};
 
 #endif

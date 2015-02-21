@@ -3,7 +3,7 @@
 // http://www.nongnu.org/avr-libc/user-manual/group__avr__math.html
 #include "math.h"
 
-Convolver::Convolver(int _wave_length_in_samples, short remove_samples_delayed_by_buffer) {
+Convolver::Convolver(short _wave_length_in_samples, short remove_samples_delayed_by_buffer) {
   wave_length_in_samples = _wave_length_in_samples;
   add_sample_index = remove_samples_delayed_by_buffer % wave_length_in_samples;
   remove_sample_index = 0;
@@ -36,7 +36,7 @@ Convolver::~Convolver() {
   free(cosinus_values);
 }
 
-void Convolver::add_sample(NormalizedSample sample) {
+void Convolver::add_sample(Sample sample) {
   if (!is_valid()) {
     return;
   }
@@ -46,7 +46,7 @@ void Convolver::add_sample(NormalizedSample sample) {
   sum_cosinus += sample * cosinus_values[add_sample_index];
 }
 
-void Convolver::remove_sample(NormalizedSample sample) {
+void Convolver::remove_sample(Sample sample) {
   if (!is_valid()) {
     return;
   }

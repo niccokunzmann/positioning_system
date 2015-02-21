@@ -5,5 +5,7 @@
 #include "approximation.hpp"
 #include "sorting.hpp"
 #include "position.hpp"
+#include "samples.hpp"
+#include "convolution.hpp"
 
 #endif

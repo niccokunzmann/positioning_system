@@ -14,8 +14,8 @@ class Convolver {
 
     boolean is_valid();
 
-    void add_sample   (NormalizedSample sample);
-    void remove_sample(NormalizedSample sample);
+    void add_sample   (Sample sample);
+    void remove_sample(Sample sample);
     
     unsigned long current_squared_intensity();
     
@@ -41,6 +41,6 @@ class Convolver {
     long sum_cosinus;
 
     
-}
+};
 
 #endif
