@@ -4,8 +4,8 @@
 
 PeakDetectionInAWindow::PeakDetectionInAWindow(
       NumberOfSamples distance_between_peaks,
-      NumberOfSamples maximum_latency,
-      NumberOfSamples offset_to_avoid_base_frequency_peak_duplication) {
+      NumberOfSamples offset_to_avoid_base_frequency_peak_duplication,
+      NumberOfSamples maximum_latency) {
   window_size = distance_between_peaks + maximum_latency;
   f1_offset = offset_to_avoid_base_frequency_peak_duplication;
   offset1 = 0;
