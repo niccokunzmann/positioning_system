@@ -6,13 +6,14 @@
 #include "Arduino.h"
 #include "samples.hpp"
 
+typedef long Intensity;
+
 class Convolver {
   /** Convolution with a frequency
    *
-   * samples should range from -511 to +511 (10 bit)
-   * otherwise overflow errors in squared_intensity() may occur.
-   * sample_bits represents this assumption and can be changed
-   * when the assumption changes.
+   * Samples should use 10 bit. (samples range from -511 to +511 or from 0 to 1023 for example)
+   * If they use more bits than `sample_bits`, then an overflow error in squared_intensity() may occur.
+   * sample_bits can be changed if more or less bits are required.
    */
   public:
     Convolver(short wave_length_in_samples, short number_of_samples_in_buffer, int8_t sample_bits = 10);
@@ -20,8 +21,8 @@ class Convolver {
 
     boolean is_valid();
 
-    void add_sample   (Sample sample /* -511 <= sample <= +511 */);
-    void remove_sample(Sample sample /* -511 <= sample <= +511 */);
+    void add_sample   (Sample sample);
+    void remove_sample(Sample sample);
     
     long squared_intensity();
     
