@@ -19,13 +19,16 @@ class PeakDetectionInAWindow {
                          Intensity of_second_frequency,
                          Intensity of_third_frequency);
     
-    boolean has_offsets();
+    boolean reached_end_of_window();
     
-    /* shall only be called when has_offsets() is true */
+    /* shall only be called when reached_end_of_window() is true */
     SignalPosition offset_of_base_frequency(); 
     SignalPosition offset_of_second_frequency(); 
     SignalPosition offset_of_third_frequency(); 
     
+    /* when reached_end_of_window() is true you should call reset_window()
+     * to begin an new window.
+     */
     void reset_window();
   
   private:
@@ -40,7 +43,7 @@ class PeakDetectionInAWindow {
     NumberOfSamples next_offset_in_window;
     NumberOfSamples window_size;
     NumberOfSamples f1_offset;
-}
+};
 
 
 
