@@ -64,6 +64,17 @@ test(example_6_1_2) {
   nothing     window_end(2) //          ok 
 }
 
+test(recent_maximum_values_are_forgotten) {
+  PeakDetectionInAWindow p = PeakDetectionInAWindow(3, 1, 1);
+  nothing
+  nothing
+  p.add_intensities(3,0,0);
+  nothing  window_end(3)
+  nothing
+  nothing
+  p.add_intensities(1,0,0);
+  window_end(4)
+}
 
 void setup() {
   Serial.begin(9600);
