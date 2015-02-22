@@ -7,7 +7,7 @@ PeakDetectionInAWindow::PeakDetectionInAWindow(
       NumberOfSamples offset_to_avoid_base_frequency_peak_duplication,
       NumberOfSamples maximum_latency) {
   window_size = distance_between_peaks + maximum_latency;
-  f1_offset = offset_to_avoid_base_frequency_peak_duplication;
+  f1_offset = offset_to_avoid_base_frequency_peak_duplication - 1;
   offset1 = 0;
   next_offset_in_window = 1;
   reset_window();
@@ -33,7 +33,7 @@ void PeakDetectionInAWindow::add_intensities(
       Intensity intensity3) {
   println8("intensities: ", intensity1, " ", intensity2, " ", intensity3, " offset: ", next_offset_in_window);
   if ((intensity1 >= maximum_intensity1) && 
-      (next_offset_in_window >= f1_offset)) {
+      (next_offset_in_window > f1_offset)) {
     maximum_intensity1 = intensity1;
     offset1 = next_offset_in_window;
   }
