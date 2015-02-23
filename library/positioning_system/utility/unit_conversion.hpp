@@ -33,4 +33,8 @@ Time maximum_signal_time_difference(
       const SamplingRate sampling_rate
       );
 
+MetersPerSecond speed_of_sound_at_temperature_in_kelvin(Kelvin temperature);
+Kelvin degrees_celsius_to_kelvin(DegreesCelsius temperature);
+Kelvin degrees_fahrenheit_to_kelvin(DegreesFahrenheit temperature);
+
 #endif

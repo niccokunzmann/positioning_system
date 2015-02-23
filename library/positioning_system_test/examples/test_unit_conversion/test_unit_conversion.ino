@@ -33,7 +33,7 @@ test(compute_time_difference_plus_minus) {
 
 test(time_difference_with_overflow) {
   compute_time_difference(20, 18, 2, 2000, &dt1, &dt2);
-  assertApproximately(dt1 * 10000, -0.004333333333333333333  * 10000);
+  assertApproximately(dt1 * 10000, -0.004333333333333333333 * 10000);
   assertApproximately(dt2 * 10000,  0.004333333333333333333 * 10000);
 }
 

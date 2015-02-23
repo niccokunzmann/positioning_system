@@ -16,6 +16,11 @@ typedef double SignalPosition;
 typedef short SamplingRate;
 // Time
 typedef double Time;
-
+// for speed of sound
+typedef double MetersPerSecond;
+// temperature
+typedef double DegreesCelsius;
+typedef double DegreesFahrenheit;
+typedef double Kelvin;
 
 #endif
