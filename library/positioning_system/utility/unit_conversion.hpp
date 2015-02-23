@@ -22,6 +22,11 @@ void compute_time_difference(
       Time *time_difference_1, 
       Time *time_difference_2
       );
+      
+SignalPosition normalize_position_difference(
+      const SignalPosition position_difference, 
+      const SignalPosition distance_between_peaks
+      );
 
 Time maximum_signal_time_difference(
       const NumberOfSamples samples_between_signal_beginnings, 
