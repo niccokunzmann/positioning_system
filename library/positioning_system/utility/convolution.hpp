@@ -4,9 +4,7 @@
 #define convolution_hpp
 
 #include "Arduino.h"
-#include "samples.hpp"
-
-typedef long Intensity;
+#include "units.hpp"
 
 class Convolver {
   /** Convolution with a frequency

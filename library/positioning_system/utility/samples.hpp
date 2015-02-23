@@ -3,8 +3,7 @@
 #define samples_hpp
 
 #include "Arduino.h"
-
-typedef short Sample;
+#include "units.hpp"
 
 class SampleBuffer {
   public:

@@ -5,8 +5,7 @@
 #include "Arduino.h"
 #include "convolution.hpp"
 
-typedef short NumberOfSamples;
-typedef double SignalPosition;
+#include "units.hpp"
 
 class PeakDetectionInAWindow {
   public:

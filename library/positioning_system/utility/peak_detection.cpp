@@ -1,6 +1,5 @@
 
 #include "peak_detection.hpp"
-#include "positioning_system_test.h"
 
 PeakDetectionInAWindow::PeakDetectionInAWindow(
       NumberOfSamples distance_between_peaks,
@@ -31,7 +30,6 @@ void PeakDetectionInAWindow::add_intensities(
       Intensity intensity1, 
       Intensity intensity2,
       Intensity intensity3) {
-  println8("intensities: ", intensity1, " ", intensity2, " ", intensity3, " offset: ", next_offset_in_window);
   if ((intensity1 >= maximum_intensity1) && 
       (next_offset_in_window > f1_offset)) {
     maximum_intensity1 = intensity1;
