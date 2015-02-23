@@ -4,7 +4,7 @@
 
 #include "units.hpp"
 
-Time signal_position_to_time_difference(
+Time signal_position_to_time(
       const SignalPosition signal_offset, 
       const SamplingRate sampling_rate
       );
@@ -20,11 +20,11 @@ void compute_time_difference(
       const SignalPosition third_frequency_offset, 
       const SamplingRate sampling_rate, 
       Time *time_difference_1, 
-      Time *time_difference_2, 
+      Time *time_difference_2
       );
 
-SignalPosition maximum_sample_position(
-      const NumberOfSamples signal_length, 
+Time maximum_signal_time_difference(
+      const NumberOfSamples samples_between_signal_beginnings, 
       const SamplingRate sampling_rate
       );
 
