@@ -7,15 +7,17 @@
 #include "RunningMedian.h"
 #include "convolution.hpp"
 #include "units.hpp"
+#include "position.hpp"
+#include "unit_conversion.hpp"
 
 class Location {
   public:
     Location(PositioningSystemConfiguration configuration);
     ~Location();
     
-    compute_new_coordinates();
-    x();
-    y();
+    void compute_new_coordinates();
+    double x();
+    double y();
     
     boolean is_valid();
 
@@ -30,8 +32,15 @@ class Location {
     
     Convolver frequency_1_convolver; 
     Convolver frequency_2_convolver; 
-    Convolver frequency_3_convolver; 
-}
+    Convolver frequency_3_convolver;
+    
+    SampleBuffer sample_buffer;
+    PeakDetectionInAWindow peak_detection;
+    
+    MicrophonePosition location;
+    
+    boolean valid;
+};
 
 
 

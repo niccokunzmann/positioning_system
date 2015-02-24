@@ -14,13 +14,23 @@ typedef double SignalPosition;
 
 // the rate in Hz used for sampling
 typedef short SamplingRate;
-// Time
-typedef double Time;
+// Time in seconds
+typedef double Seconds;
+typedef Seconds Time;
 // for speed of sound
 typedef double MetersPerSecond;
+typedef double Meters;
 // temperature
 typedef double DegreesCelsius;
 typedef double DegreesFahrenheit;
 typedef double Kelvin;
+
+typedef struct MicrophonePosition {
+  Meters x;
+  Meters y;
+} MicrophonePosition;
+
+typedef MicrophonePosition SpeakerPosition;
+
 
 #endif

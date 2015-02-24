@@ -39,6 +39,8 @@ class PositioningSystemConfiguration {
     const short wave_length_in_samples_for_frequency_3();
     const short number_of_samples_in_convolution_buffer();
     const int8_t bits_used_by_samples();
+    const NumberOfSamples samples_between_signal_beginnings();
+    const NumberOfSamples maximum_change_of_following_signal_in_number_of_samples();
 }
 
 #endif

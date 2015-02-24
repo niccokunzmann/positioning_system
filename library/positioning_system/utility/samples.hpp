@@ -7,6 +7,7 @@
 
 class SampleBuffer {
   public:
+    // todo: can allocate less space if we know the bit size
     SampleBuffer(short number_of_normalized_samples);
     ~SampleBuffer();
     

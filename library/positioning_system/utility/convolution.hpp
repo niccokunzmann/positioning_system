@@ -21,6 +21,7 @@ class Convolver {
 
     void add_sample   (Sample sample);
     void remove_sample(Sample sample);
+    void replace_sample(Sample sample, Sample with_new_sample);
     
     long squared_intensity();
     

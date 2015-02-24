@@ -111,3 +111,8 @@ long Convolver::squared_intensity() {
   long c = sum_cosinus >> overflow_preventing_intensity_divisor_bits;
   return s * s + c * c;
 }
+
+void Convolver::replace_sample(Sample old_sample, Sample new_sample) {
+  add_sample(new_sample);
+  remove_sample(old_sample);
+}
