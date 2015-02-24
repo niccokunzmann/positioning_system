@@ -23,12 +23,22 @@ class PositioningSystemConfiguration {
     // for Location
     int microphone_input_pin = A0;
     int sampling_frequency_in_hertz = 8000;
-    int use_interrupt_number = 2;
-        
+    double time_to_listen_to_signals_for_location_in_seconds = 1;
+    int minimum_sample_value = 0;
+    int maximum_sample_value = 1023;
+  
     // for speakers
     int speaker_1_output_pin = 8;
     int speaker_2_output_pin = 9;
     int speaker_3_output_pin = 10;
+    
+    // functions
+    const uint8_t running_median_size();
+    const short wave_length_in_samples_for_frequency_1();
+    const short wave_length_in_samples_for_frequency_2();
+    const short wave_length_in_samples_for_frequency_3();
+    const short number_of_samples_in_convolution_buffer();
+    const int8_t bits_used_by_samples();
 }
 
 #endif
