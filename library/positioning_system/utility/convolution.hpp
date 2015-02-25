@@ -14,7 +14,7 @@ class Convolver {
    * sample_bits can be changed if more or less bits are required.
    */
   public:
-    Convolver(short wave_length_in_samples, short number_of_samples_in_buffer, int8_t sample_bits = 10);
+    Convolver(short wave_length_in_samples = 0, short number_of_samples_in_buffer = 0, int8_t sample_bits = 10);
     ~Convolver();
 
     boolean is_valid();

@@ -3,16 +3,20 @@
 #define location_hpp
 
 #include "Arduino.h"
-#include "configuration.hpp"
-#include "RunningMedian.h"
-#include "convolution.hpp"
 #include "units.hpp"
-#include "position.hpp"
-#include "unit_conversion.hpp"
+
+// forward declaration
+// http://stackoverflow.com/questions/9119236/c-class-forward-declaration
+class PositioningSystemConfiguration;
+class RunningMedian;
+class Convolver;
+class SampleBuffer;
+class PeakDetectionInAWindow;
+
 
 class Location {
   public:
-    Location(PositioningSystemConfiguration configuration);
+    Location(PositioningSystemConfiguration *configuration);
     ~Location();
     
     void compute_new_coordinates();
@@ -24,24 +28,23 @@ class Location {
     void add_sample(Sample sample);
     
   private: 
-    PositioningSystemConfiguration configuration;
+    PositioningSystemConfiguration *configuration;
     
-    RunningMedian frequency_1_offset_medians;
-    RunningMedian frequency_2_offset_medians;
-    RunningMedian frequency_3_offset_medians;
+    RunningMedian *frequency_1_offset_medians;
+    RunningMedian *frequency_2_offset_medians;
+    RunningMedian *frequency_3_offset_medians;
     
-    Convolver frequency_1_convolver; 
-    Convolver frequency_2_convolver; 
-    Convolver frequency_3_convolver;
+    Convolver *frequency_1_convolver; 
+    Convolver *frequency_2_convolver; 
+    Convolver *frequency_3_convolver;
     
-    SampleBuffer sample_buffer;
-    PeakDetectionInAWindow peak_detection;
+    SampleBuffer *sample_buffer;
+    PeakDetectionInAWindow *peak_detection;
     
     MicrophonePosition location;
     
     boolean valid;
 };
-
 
 
 #endif

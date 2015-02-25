@@ -5,15 +5,21 @@
 
 Convolver::Convolver(short _wave_length_in_samples, short number_of_samples_in_buffer, int8_t sample_bits) {
   wave_length_in_samples = _wave_length_in_samples;
-  add_sample_index = number_of_samples_in_buffer % wave_length_in_samples;
-  remove_sample_index = 0;
-  valid = true;
-  sum_sinus = 0;
-  sum_cosinus = 0;
-  
+  valid = wave_length_in_samples > 1;
+  if (valid) {
+    add_sample_index = number_of_samples_in_buffer % wave_length_in_samples;
+    remove_sample_index = 0;
+    sum_sinus = 0;
+    sum_cosinus = 0;
+  }
   allocate_memory_for_wave();
   fill_wave();
   compute_overflow_prevention(number_of_samples_in_buffer, sample_bits);
+}
+  
+Convolver::~Convolver() {
+  free(sinus_values);
+  free(cosinus_values);
 }
 
 void Convolver::compute_overflow_prevention(short number_of_samples_in_buffer, int8_t sample_bits) {
@@ -47,7 +53,7 @@ void Convolver::compute_overflow_prevention(short number_of_samples_in_buffer, i
 }
   
 void Convolver::allocate_memory_for_wave() {
-  if (wave_length_in_samples > 1) {
+  if ((wave_length_in_samples > 1) && valid) {
     sinus_values =   (int8_t*)malloc(wave_length_in_samples * sizeof(int8_t));
     cosinus_values = (int8_t*)malloc(wave_length_in_samples * sizeof(int8_t));
     valid = cosinus_values && sinus_values;
@@ -67,11 +73,6 @@ void Convolver::fill_wave() {
       cosinus_values[i] = (int8_t)(127 * cos(phase));
     }
   }
-}
-  
-Convolver::~Convolver() {
-  free(sinus_values);
-  free(cosinus_values);
 }
 
 long convolve(Sample sample, int8_t value) {
