@@ -89,22 +89,27 @@ void Location::compute_new_coordinates() {
   if (!valid) {
     return;
   }
-  Seconds time_difference_1;
-  Seconds time_difference_2;
-  compute_time_difference(
-        frequency_1_offset_medians->getMedian(), 
-        frequency_2_offset_medians->getMedian(), 
-        frequency_3_offset_medians->getMedian(), 
-        configuration->sampling_frequency_in_hertz, 
-        &time_difference_1, 
-        &time_difference_2);
-  const Meters BP_minus_CP = configuration->speed_of_sound_in_meters_per_second * time_difference_1;
-  const Meters BP_minus_AP = configuration->speed_of_sound_in_meters_per_second * time_difference_2;
-  location = position(
-        BP_minus_CP, BP_minus_AP, 
-        configuration->A(), 
-        configuration->B(), 
-        configuration->C());
+  double offset_1 = frequency_1_offset_medians->getMedian();
+  double offset_2 = frequency_2_offset_medians->getMedian();
+  double offset_3 = frequency_3_offset_medians->getMedian();
+  if (isnan(offset_1) || isnan(offset_2) || isnan(offset_3)) {
+    location.x = NAN;
+    location.y = NAN;
+  } else {
+    Seconds time_difference_1;
+    Seconds time_difference_2;
+    compute_time_difference(
+          offset_1, offset_2, offset_3, 
+          configuration->sampling_frequency_in_hertz, 
+          &time_difference_1, &time_difference_2);
+    const Meters BP_minus_CP = configuration->speed_of_sound_in_meters_per_second * time_difference_1;
+    const Meters BP_minus_AP = configuration->speed_of_sound_in_meters_per_second * time_difference_2;
+    location = position(
+          BP_minus_CP, BP_minus_AP, 
+          configuration->A(), 
+          configuration->B(), 
+          configuration->C());
+  }
 }
 
 double Location::x() {

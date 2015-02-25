@@ -22,13 +22,13 @@ long LCM(long a, long b) {
 
 PositioningSystemConfiguration::PositioningSystemConfiguration(
       // for both
+      double distance_between_speaker_1_and_speaker_2_in_meters,
+      double distance_between_speaker_2_and_speaker_3_in_meters,
+      double distance_between_speaker_3_and_speaker_1_in_meters,
       int frequency_1_in_hertz, 
       int frequency_2_in_hertz, 
       int frequency_3_in_hertz,
       int length_of_a_tone_in_milliseconds,
-      double distance_between_speaker_1_and_speaker_2_in_meters,
-      double distance_between_speaker_2_and_speaker_3_in_meters,
-      double distance_between_speaker_3_and_speaker_1_in_meters,
       double speed_of_sound_in_meters_per_second,
       // for location
       int microphone_input_pin,
@@ -43,13 +43,13 @@ PositioningSystemConfiguration::PositioningSystemConfiguration(
       int speaker_3_output_pin
       ): 
       // for both
+      distance_between_speaker_1_and_speaker_2_in_meters(distance_between_speaker_1_and_speaker_2_in_meters),
+      distance_between_speaker_2_and_speaker_3_in_meters(distance_between_speaker_2_and_speaker_3_in_meters),
+      distance_between_speaker_3_and_speaker_1_in_meters(distance_between_speaker_3_and_speaker_1_in_meters),
       frequency_1_in_hertz(frequency_1_in_hertz),
       frequency_2_in_hertz(frequency_2_in_hertz),
       frequency_3_in_hertz(frequency_3_in_hertz),
       length_of_a_tone_in_milliseconds(length_of_a_tone_in_milliseconds),
-      distance_between_speaker_1_and_speaker_2_in_meters(distance_between_speaker_1_and_speaker_2_in_meters),
-      distance_between_speaker_2_and_speaker_3_in_meters(distance_between_speaker_2_and_speaker_3_in_meters),
-      distance_between_speaker_3_and_speaker_1_in_meters(distance_between_speaker_3_and_speaker_1_in_meters),
       speed_of_sound_in_meters_per_second(speed_of_sound_in_meters_per_second),
       // for location
       microphone_input_pin(microphone_input_pin),
@@ -78,14 +78,19 @@ const uint8_t PositioningSystemConfiguration::running_median_size() {
   }
   return round(offsets_produced_while_listening + 0.5);
 }
+
+const NumberOfSamples PositioningSystemConfiguration::frequency_to_samples(int frequency) {
+  return round(double(sampling_frequency_in_hertz) / double(frequency));
+}
+
 const short PositioningSystemConfiguration::wave_length_in_samples_for_frequency_1() {
-  return sampling_frequency_in_hertz / frequency_1_in_hertz;
+  return frequency_to_samples(frequency_1_in_hertz);
 }
 const short PositioningSystemConfiguration::wave_length_in_samples_for_frequency_2() {
-  return sampling_frequency_in_hertz / frequency_2_in_hertz;
+  return frequency_to_samples(frequency_2_in_hertz);
 }
 const short PositioningSystemConfiguration::wave_length_in_samples_for_frequency_3() {
-  return sampling_frequency_in_hertz / frequency_3_in_hertz;
+  return frequency_to_samples(frequency_3_in_hertz);
 }
 const short PositioningSystemConfiguration::number_of_samples_in_convolution_buffer() {
   long n;
