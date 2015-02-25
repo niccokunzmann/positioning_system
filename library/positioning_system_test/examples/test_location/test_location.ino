@@ -3,9 +3,9 @@
 
 
 
-test(add_sample) {
+test(default_configuration_fits_into_memory) {
   Location location = Location(&default_configuration);
-  location.add_sample(12);
+  assertTrue(location.is_valid());
 }
 
 void setup() {
