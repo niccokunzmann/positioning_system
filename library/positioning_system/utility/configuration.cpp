@@ -92,7 +92,7 @@ const short PositioningSystemConfiguration::wave_length_in_samples_for_frequency
 const short PositioningSystemConfiguration::wave_length_in_samples_for_frequency_3() {
   return frequency_to_samples(frequency_3_in_hertz);
 }
-const short PositioningSystemConfiguration::number_of_samples_in_convolution_buffer() {
+const NumberOfSamples PositioningSystemConfiguration::number_of_samples_in_convolution_buffer() {
   long n;
   n = LCM(wave_length_in_samples_for_frequency_1(), wave_length_in_samples_for_frequency_2());
   n = LCM(wave_length_in_samples_for_frequency_3(), n);
@@ -107,6 +107,13 @@ const int PositioningSystemConfiguration::speaker_2_frequency_in_hertz() {
 }
 const int PositioningSystemConfiguration::speaker_3_frequency_in_hertz() {
   return sampling_frequency_in_hertz / wave_length_in_samples_for_frequency_3();
+}
+
+const boolean PositioningSystemConfiguration::is_valid() {
+  int f1 = speaker_1_frequency_in_hertz();
+  int f2 = speaker_2_frequency_in_hertz();
+  int f3 = speaker_3_frequency_in_hertz();
+  return (f1 != f2) && (f2 != f3) && (f1 != f3);
 }
 
 const int8_t PositioningSystemConfiguration::bits_used_by_samples() {

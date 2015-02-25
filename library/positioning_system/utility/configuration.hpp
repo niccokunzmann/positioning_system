@@ -66,12 +66,15 @@ class PositioningSystemConfiguration {
     int speaker_2_output_pin;
     int speaker_3_output_pin;
     
+    // functions for all
+    const boolean is_valid();
+    
     // functions for location
     const uint8_t running_median_size();
     const NumberOfSamples wave_length_in_samples_for_frequency_1();
     const NumberOfSamples wave_length_in_samples_for_frequency_2();
     const NumberOfSamples wave_length_in_samples_for_frequency_3();
-    const short number_of_samples_in_convolution_buffer();
+    const NumberOfSamples number_of_samples_in_convolution_buffer();
     const int8_t bits_used_by_samples();
     const NumberOfSamples samples_between_signal_beginnings();
     const NumberOfSamples length_of_a_tone_in_samples();

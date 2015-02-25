@@ -65,8 +65,37 @@ test(wave_length_in_samples_for_frequency_3) {
   assertEqual(configuration.speaker_3_frequency_in_hertz(), 1333);
 }
 
+test(number_of_samples_in_convolution_buffer_1) {
+  PositioningSystemConfiguration configuration = PositioningSystemConfiguration();
+  configuration.frequency_1_in_hertz = 2000; //4
+  configuration.frequency_2_in_hertz = 1600; //5
+  configuration.frequency_3_in_hertz = 1333; //6
+  configuration.length_of_a_tone_in_milliseconds = 10; // minimum 80 samples
+  configuration.sampling_frequency_in_hertz = 8000;
+  assertEqual(number_of_samples_in_convolution_buffer(), 120);
+}
+
+test(number_of_samples_in_convolution_buffer_2) {
+  PositioningSystemConfiguration configuration = PositioningSystemConfiguration();
+  configuration.frequency_1_in_hertz = 2000; //4
+  configuration.frequency_2_in_hertz = 1600; //5
+  configuration.frequency_3_in_hertz = 800;  //10
+  configuration.length_of_a_tone_in_milliseconds = 30; // minimum 240 samples
+  configuration.sampling_frequency_in_hertz = 8000;
+  assertEqual(number_of_samples_in_convolution_buffer(), 240);
+}
+
+test(number_of_samples_in_convolution_buffer_3) {
+  PositioningSystemConfiguration configuration = PositioningSystemConfiguration();
+  configuration.frequency_1_in_hertz = 100; //10
+  configuration.frequency_2_in_hertz = 333; //3
+  configuration.frequency_3_in_hertz = 200; //5
+  configuration.length_of_a_tone_in_milliseconds = 13; // minimum 13 samples
+  configuration.sampling_frequency_in_hertz = 1000;
+  assertEqual(number_of_samples_in_convolution_buffer(), 15);
+}
+
     const uint8_t running_median_size();
-    const short number_of_samples_in_convolution_buffer();
     const int8_t bits_used_by_samples();
     const NumberOfSamples samples_between_signal_beginnings();
     const NumberOfSamples length_of_a_tone_in_samples();
