@@ -7,9 +7,7 @@ double position_to_offset(
           double x, double y, 
           SpeakerPosition P,
           PositioningSystemConfiguration *configuration) {
-  double dx = P.x - x;
-  double dy = P.y - y;
-  double distance = sqrt(dx * dx + dy * dy);
+  double distance = hypot(P.x - x, P.y - y);
   Time sound_difference = distance / configuration->speed_of_sound_in_meters_per_second;
   return sound_difference * configuration->sampling_frequency_in_hertz;
 }

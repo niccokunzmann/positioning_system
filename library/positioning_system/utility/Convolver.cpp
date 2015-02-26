@@ -117,3 +117,7 @@ void Convolver::replace_sample(Sample old_sample, Sample new_sample) {
   add_sample(new_sample);
   remove_sample(old_sample);
 }
+
+WaveState Convolver::wave_state() {
+  return WaveState(squared_intensity(), sum_sinus, sum_cosinus, wave_length_in_samples);
+}

@@ -6,6 +6,19 @@
 #include "Arduino.h"
 #include "units.hpp"
 
+class WaveState {
+  public:
+    WaveState(long squared_intensity, long sum_sinus, long sum_cosinus, short wave_length_in_samples);
+    
+    double phase_between_samples();
+    
+    long squared_intensity;
+    long sum_sinus;
+    long sum_cosinus;
+    short wave_length_in_samples;
+};
+
+
 class Convolver {
   /** Convolution with a frequency
    *
@@ -24,6 +37,8 @@ class Convolver {
     void replace_sample(Sample sample, Sample with_new_sample);
     
     long squared_intensity();
+    
+    WaveState wave_state();
     
   private:
     void allocate_memory_for_wave();
