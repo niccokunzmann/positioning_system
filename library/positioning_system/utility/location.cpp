@@ -38,8 +38,12 @@ Location::Location(
           frequency_2_convolver && frequency_2_convolver->is_valid() && 
           frequency_3_convolver && frequency_3_convolver->is_valid() && valid;
 
-  sample_buffer = new SampleBuffer(samples_in_buffer);
-  valid = sample_buffer && sample_buffer->is_valid() && valid;
+  average_sample = new ExponentialAverage(
+        configuration->exponential_average_decay(),
+        configuration->expected_average_sample());
+  normalized_samples = new SampleBuffer(samples_in_buffer);
+  valid = normalized_samples && normalized_samples->is_valid() &&
+          average_sample && valid;
   
   peak_detection = new PeakDetectionInAWindow(
         configuration->samples_between_signal_beginnings(),
@@ -59,7 +63,8 @@ Location::~Location() {
   delete frequency_2_convolver;
   delete frequency_3_convolver;
   
-  delete sample_buffer;
+  delete average_sample;
+  delete normalized_samples;
   
   delete peak_detection;
   valid = false;
@@ -69,10 +74,12 @@ void Location::add_sample(Sample new_sample) {
   if (!valid) {
     return;
   }
-  Sample old_sample = sample_buffer->replaced_by(new_sample);
-  frequency_1_convolver->replace_sample(old_sample, new_sample);
-  frequency_2_convolver->replace_sample(old_sample, new_sample);
-  frequency_3_convolver->replace_sample(old_sample, new_sample);
+  average_sample->add_sample(new_sample);
+  Sample normalized_new_sample = average_sample->normalize(new_sample);
+  Sample normalized_old_sample = normalized_samples->replaced_by(normalized_new_sample);
+  frequency_1_convolver->replace_sample(normalized_old_sample, normalized_new_sample);
+  frequency_2_convolver->replace_sample(normalized_old_sample, normalized_new_sample);
+  frequency_3_convolver->replace_sample(normalized_old_sample, normalized_new_sample);
   peak_detection->add_intensities(
         frequency_1_convolver->squared_intensity(), 
         frequency_2_convolver->squared_intensity(), 

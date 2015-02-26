@@ -29,35 +29,11 @@ Sample SampleBuffer::replaced_by(Sample new_sample) {
   return old_sample;
 }
 
-long SampleBuffer::sum() {
-  if (!valid) {
-    return 0;
-  }
-  long sum_of_all_samples = 0;
-  for (int i = 0; i < number_of_samples; ++i) {
-    sum_of_all_samples += samples[i];
-  }
-  return sum_of_all_samples;
-}
-
-Sample SampleBuffer::average() {
-  if (!valid) {
-    return 0;
-  }
-  return sum() / number_of_samples;
-}
-
 boolean SampleBuffer::is_valid() {
   return valid;
-}
-
-Sample SampleBuffer::normalize(Sample sample) {
-  if (!valid) {
-    return 0;
-  }
-  return sample - sum() / number_of_samples;
 }
 
 short SampleBuffer::size() {
   return number_of_samples;
 }
+

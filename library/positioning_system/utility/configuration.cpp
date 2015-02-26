@@ -93,11 +93,7 @@ const short PositioningSystemConfiguration::wave_length_in_samples_for_frequency
   return frequency_to_samples(frequency_3_in_hertz);
 }
 const NumberOfSamples PositioningSystemConfiguration::number_of_samples_in_convolution_buffer() {
-  long n;
-  n = LCM(wave_length_in_samples_for_frequency_1(), wave_length_in_samples_for_frequency_2());
-  n = LCM(wave_length_in_samples_for_frequency_3(), n);
-  short minimum = length_of_a_tone_in_samples();
-  return ((minimum - 1) / n + 1) * n;
+  return length_of_a_tone_in_samples();
 }
 const int PositioningSystemConfiguration::speaker_1_frequency_in_hertz() {
   return sampling_frequency_in_hertz / wave_length_in_samples_for_frequency_1();
@@ -174,3 +170,11 @@ const SpeakerPosition PositioningSystemConfiguration::C() {
   p.y = sqrt(b * b - x * x);
   return p;
 } // frequency 2
+
+const double PositioningSystemConfiguration::exponential_average_decay() {
+  return pow(0.99, 1. / number_of_samples_in_convolution_buffer());
+}
+
+const double PositioningSystemConfiguration::expected_average_sample() {
+  return (maximum_sample_value + minimum_sample_value) / 2.;
+}

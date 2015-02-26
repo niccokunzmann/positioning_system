@@ -11,6 +11,7 @@ class PositioningSystemConfiguration;
 class RunningMedian;
 class Convolver;
 class SampleBuffer;
+class ExponentialAverage;
 class PeakDetectionInAWindow;
 
 
@@ -38,7 +39,8 @@ class Location {
     Convolver *frequency_2_convolver; 
     Convolver *frequency_3_convolver;
     
-    SampleBuffer *sample_buffer;
+    ExponentialAverage *average_sample;
+    SampleBuffer *normalized_samples;
     PeakDetectionInAWindow *peak_detection;
     
     MicrophonePosition location;

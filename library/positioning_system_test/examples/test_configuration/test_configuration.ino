@@ -71,9 +71,9 @@ test(number_of_samples_in_convolution_buffer_1) {
   configuration.frequency_1_in_hertz = 2000; //4
   configuration.frequency_2_in_hertz = 1600; //5
   configuration.frequency_3_in_hertz = 1333; //6
-  configuration.length_of_a_tone_in_milliseconds = 10; // minimum 80 samples
+  configuration.length_of_a_tone_in_milliseconds = 10; // 80 samples
   configuration.sampling_frequency_in_hertz = 8000;
-  assertEqual(configuration.number_of_samples_in_convolution_buffer(), 120);
+  assertEqual(configuration.number_of_samples_in_convolution_buffer(), 80);
 }
 
 test(number_of_samples_in_convolution_buffer_2) {
@@ -81,7 +81,7 @@ test(number_of_samples_in_convolution_buffer_2) {
   configuration.frequency_1_in_hertz = 2000; //4
   configuration.frequency_2_in_hertz = 1600; //5
   configuration.frequency_3_in_hertz = 800;  //10
-  configuration.length_of_a_tone_in_milliseconds = 30; // minimum 240 samples
+  configuration.length_of_a_tone_in_milliseconds = 30; // 240 samples
   configuration.sampling_frequency_in_hertz = 8000;
   assertEqual(configuration.number_of_samples_in_convolution_buffer(), 240);
 }
@@ -91,9 +91,9 @@ test(number_of_samples_in_convolution_buffer_3) {
   configuration.frequency_1_in_hertz = 100; //10
   configuration.frequency_2_in_hertz = 333; //3
   configuration.frequency_3_in_hertz = 200; //5
-  configuration.length_of_a_tone_in_milliseconds = 13; // minimum 13 samples
+  configuration.length_of_a_tone_in_milliseconds = 13; // 13 samples
   configuration.sampling_frequency_in_hertz = 1000;
-  assertEqual(configuration.number_of_samples_in_convolution_buffer(), 30);
+  assertEqual(configuration.number_of_samples_in_convolution_buffer(), 13);
 }
 
 test(length_of_a_tone_in_samples) {

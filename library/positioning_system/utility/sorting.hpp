@@ -2,9 +2,11 @@
 #ifndef sorting_hpp
 #define sorting_hpp
 
-// http://www.nongnu.org/avr-libc/user-manual/group__avr__math.html
-#include "math.h"
-#include "positioning_system.h"
+#include "Arduino.h"
+
+double get_not_a_number();
+double get_infinity();
+boolean is_not_a_number(double n);
 
 void sort_numbers(double *a, double *b);
 void sort_numbers(double *a, double *b, double *c);
@@ -20,10 +22,13 @@ void exchange(T *a, T *b) {
 
 template <typename T>
 void sort(T *a, T *b) {
-  if (!(*a < *b)) {
+  if (*a > *b) {
     exchange(a, b);
   }
 }
+
+template <>
+void sort(double *a, double *b);
 
 template <typename T>
 void sort(T *a, T *b, T *c) {

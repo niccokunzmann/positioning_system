@@ -83,6 +83,8 @@ class PositioningSystemConfiguration {
     const SpeakerPosition A(); // frequency 3
     const SpeakerPosition B(); // base frequency 1
     const SpeakerPosition C(); // frequency 2
+    const double exponential_average_decay();
+    const double expected_average_sample();
     
     // functions for speakers
     const int speaker_1_frequency_in_hertz();

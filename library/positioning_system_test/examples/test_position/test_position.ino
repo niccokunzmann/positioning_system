@@ -4,7 +4,7 @@
 
 
 test(position_n_eq_0) {
-  test_position(12, -0.5);
+  test_position(.12, -0.5);
 }
 
 test(position_r_eq_0_1) {
