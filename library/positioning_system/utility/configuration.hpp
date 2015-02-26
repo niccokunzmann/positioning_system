@@ -20,8 +20,8 @@ class PositioningSystemConfiguration {
           double distance_between_speaker_3_and_speaker_1_in_meters = 1.0,
           int frequency_1_in_hertz = 2000, 
           int frequency_2_in_hertz = 1600, 
-          int frequency_3_in_hertz = 1333,
-          int length_of_a_tone_in_milliseconds = 30,
+          int frequency_3_in_hertz = 1143,
+          int length_of_a_tone_in_milliseconds = 10,
           double speed_of_sound_in_meters_per_second = SPEED_OF_SOUND_IN_DRY_AIR_AT_20_DEGREES_TEMPERATURE,
           // for location
           int microphone_input_pin = A0,

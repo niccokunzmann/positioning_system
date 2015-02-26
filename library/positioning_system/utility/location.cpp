@@ -8,6 +8,7 @@
 #include "samples.hpp"
 #include "peak_detection.hpp"
 #include "math.h"
+#include "positioning_system_test.hpp"
 
 Location::Location(
       PositioningSystemConfiguration *_configuration
@@ -70,35 +71,59 @@ Location::~Location() {
   valid = false;
 }
 
+int index = -1;
+long max_intensity1 = -1;
+long max_intensity2 = -1;
+long max_intensity3 = -1;
+
 void Location::add_sample(Sample new_sample) {
   if (!valid) {
     return;
   }
-  average_sample->add_sample(new_sample);
+  ++index;
+  //average_sample->add_sample(new_sample);
+  //println2("new_sample: ", new_sample);
   Sample normalized_new_sample = average_sample->normalize(new_sample);
+  //println2("normalized_new_sample: ", normalized_new_sample);
   Sample normalized_old_sample = normalized_samples->replaced_by(normalized_new_sample);
+  //println2("normalized_old_sample: ", normalized_old_sample);
   frequency_1_convolver->replace_sample(normalized_old_sample, normalized_new_sample);
   frequency_2_convolver->replace_sample(normalized_old_sample, normalized_new_sample);
   frequency_3_convolver->replace_sample(normalized_old_sample, normalized_new_sample);
-  peak_detection->add_intensities(
-        frequency_1_convolver->squared_intensity(), 
-        frequency_2_convolver->squared_intensity(), 
-        frequency_3_convolver->squared_intensity());
+  Intensity intensity_1 = frequency_1_convolver->squared_intensity();
+  Intensity intensity_2 = frequency_2_convolver->squared_intensity();
+  Intensity intensity_3 = frequency_3_convolver->squared_intensity();
+//  if (max_intensity1 < intensity_1) max_intensity1 = intensity_1; else if (max_intensity1 == intensity_1) println2("max1 at: ", index);
+//  if (max_intensity2 < intensity_2) max_intensity2 = intensity_2; else if (max_intensity2 == intensity_2) println2("max2 at: ", index);
+//  if (max_intensity3 < intensity_3) max_intensity3 = intensity_3; else if (max_intensity3 == intensity_3) println2("max3 at: ", index);
+  peak_detection->add_intensities(intensity_1, intensity_2, intensity_3);
   if (peak_detection->reached_end_of_window()) {
-    frequency_1_offset_medians->add(peak_detection->offset_of_base_frequency());
-    frequency_2_offset_medians->add(peak_detection->offset_of_second_frequency());
-    frequency_3_offset_medians->add(peak_detection->offset_of_third_frequency());
+    double offset1 = peak_detection->offset_of_base_frequency();
+    double offset2 = peak_detection->offset_of_second_frequency();
+    double offset3 = peak_detection->offset_of_third_frequency();
+    pvar(offset1);
+    pvar(offset2);
+    pvar(offset3);
+    frequency_1_offset_medians->add(offset1);
+    frequency_2_offset_medians->add(offset2);
+    frequency_3_offset_medians->add(offset3);
     peak_detection->reset_window();
   }
 }
-    
+
+
+
 void Location::compute_new_coordinates() {
   if (!valid) {
     return;
   }
+  
   double offset_1 = frequency_1_offset_medians->getMedian();
   double offset_2 = frequency_2_offset_medians->getMedian();
   double offset_3 = frequency_3_offset_medians->getMedian();
+  pvar(offset_1);
+  pvar(offset_2);
+  pvar(offset_3);
   if (isnan(offset_1) || isnan(offset_2) || isnan(offset_3)) {
     location.x = NAN;
     location.y = NAN;

@@ -126,7 +126,7 @@ const int8_t PositioningSystemConfiguration::bits_used_by_samples() {
 }
 const NumberOfSamples PositioningSystemConfiguration::samples_between_signal_beginnings() {
   double s1 = minimum_samples_between_signal_beginnings();
-  double s2 = number_of_samples_in_convolution_buffer() * 2;
+  double s2 = number_of_samples_in_convolution_buffer() * 6;
   return max(s1, s2);
 }
 const NumberOfSamples PositioningSystemConfiguration::minimum_samples_between_signal_beginnings() {
