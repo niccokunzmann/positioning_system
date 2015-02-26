@@ -8,7 +8,7 @@
 #include "samples.hpp"
 #include "peak_detection.hpp"
 #include "math.h"
-#include "positioning_system_test.hpp"
+//#include "positioning_system_test.hpp"
 
 Location::Location(
       PositioningSystemConfiguration *_configuration
@@ -81,7 +81,7 @@ void Location::add_sample(Sample new_sample) {
     return;
   }
   ++index;
-  //average_sample->add_sample(new_sample);
+  average_sample->add_sample(new_sample);
   //println2("new_sample: ", new_sample);
   Sample normalized_new_sample = average_sample->normalize(new_sample);
   //println2("normalized_new_sample: ", normalized_new_sample);
@@ -101,9 +101,9 @@ void Location::add_sample(Sample new_sample) {
     double offset1 = peak_detection->offset_of_base_frequency();
     double offset2 = peak_detection->offset_of_second_frequency();
     double offset3 = peak_detection->offset_of_third_frequency();
-    pvar(offset1);
-    pvar(offset2);
-    pvar(offset3);
+    //pvar(offset1);
+    //pvar(offset2);
+    //pvar(offset3);
     frequency_1_offset_medians->add(offset1);
     frequency_2_offset_medians->add(offset2);
     frequency_3_offset_medians->add(offset3);
@@ -121,9 +121,9 @@ void Location::compute_new_coordinates() {
   double offset_1 = frequency_1_offset_medians->getMedian();
   double offset_2 = frequency_2_offset_medians->getMedian();
   double offset_3 = frequency_3_offset_medians->getMedian();
-  pvar(offset_1);
-  pvar(offset_2);
-  pvar(offset_3);
+  //pvar(offset_1);
+  //pvar(offset_2);
+  //pvar(offset_3);
   if (isnan(offset_1) || isnan(offset_2) || isnan(offset_3)) {
     location.x = NAN;
     location.y = NAN;
