@@ -129,6 +129,11 @@ const int8_t PositioningSystemConfiguration::bits_used_by_samples() {
   return bits;
 }
 const NumberOfSamples PositioningSystemConfiguration::samples_between_signal_beginnings() {
+  double s1 = minimum_samples_between_signal_beginnings();
+  double s2 = number_of_samples_in_convolution_buffer() * 2;
+  return max(s1, s2);
+}
+const NumberOfSamples PositioningSystemConfiguration::minimum_samples_between_signal_beginnings() {
   double maximum_distance_in_meters = max(max(
         distance_between_speaker_1_and_speaker_2_in_meters, 
         distance_between_speaker_2_and_speaker_3_in_meters), 
@@ -142,7 +147,7 @@ const NumberOfSamples PositioningSystemConfiguration::maximum_change_of_followin
   double distance_robot_travelled_in_meters = time_robot_travelled_in_seconds * maximum_speed_of_robot_in_meters_per_second;
   double time_sound_travelled_in_seconds = distance_robot_travelled_in_meters / speed_of_sound_in_meters_per_second;
   double time_sound_travelled_in_samples = time_sound_travelled_in_seconds /* * sampling_frequency_in_hertz */;
-  return max(time_sound_travelled_in_samples, length_of_a_tone_in_samples());
+  return round(time_sound_travelled_in_samples);
 }
 const NumberOfSamples PositioningSystemConfiguration::length_of_a_tone_in_samples() {
   return time_to_signal_position(length_of_a_tone_in_milliseconds / 1000., sampling_frequency_in_hertz);

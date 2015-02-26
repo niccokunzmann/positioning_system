@@ -37,13 +37,14 @@ void compute_time_difference(
 }
 
 SignalPosition normalize_position_difference(
-      const SignalPosition position_difference, 
+      SignalPosition position_difference, 
       const SignalPosition distance_between_peaks
       ) {
-  if (distance_between_peaks - position_difference < position_difference) {
-    return position_difference - distance_between_peaks;
-  } else if (distance_between_peaks + position_difference < -position_difference) {
-    return position_difference + distance_between_peaks;
+  while (distance_between_peaks - position_difference < position_difference) {
+    position_difference = position_difference - distance_between_peaks;
+  }
+  while (distance_between_peaks + position_difference < -position_difference) {
+    position_difference = position_difference + distance_between_peaks;
   }
   return position_difference;
 }

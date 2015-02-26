@@ -77,6 +77,7 @@ class PositioningSystemConfiguration {
     const NumberOfSamples number_of_samples_in_convolution_buffer();
     const int8_t bits_used_by_samples();
     const NumberOfSamples samples_between_signal_beginnings();
+    const NumberOfSamples minimum_samples_between_signal_beginnings();
     const NumberOfSamples length_of_a_tone_in_samples();
     const NumberOfSamples maximum_change_of_following_signal_in_number_of_samples();
     const SpeakerPosition A(); // frequency 3
