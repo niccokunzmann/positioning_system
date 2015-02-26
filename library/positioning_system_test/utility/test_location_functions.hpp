@@ -14,5 +14,7 @@ void add_samples_for_position(
           double x, double y, Location *location, 
           PositioningSystemConfiguration *configuration
           );
+          
+void assertLocates(double x, double y);
 
 #endif

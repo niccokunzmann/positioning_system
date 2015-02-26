@@ -17,7 +17,7 @@ PeakDetectionInAWindow::~PeakDetectionInAWindow() {
 }
 
 void PeakDetectionInAWindow::reset_window() {
-  next_offset_in_window -= offset1;
+  next_offset_in_window -= offset_of_base_frequency();
   maximum1 = WaveState();
   maximum2 = WaveState();
   maximum3 = WaveState();
@@ -30,13 +30,13 @@ void PeakDetectionInAWindow::add_intensities(
       Intensity intensity1, 
       Intensity intensity2,
       Intensity intensity3) {
-  add_wave_state(
+  add_wave_states(
         WaveState(intensity1, 1, 0, 0), 
         WaveState(intensity2, 1, 0, 0), 
         WaveState(intensity3, 1, 0, 0));
 }
 
-void PeakDetectionInAWindow::add_wave_state(
+void PeakDetectionInAWindow::add_wave_states(
       WaveState wave_state_1, 
       WaveState wave_state_2,
       WaveState wave_state_3) {

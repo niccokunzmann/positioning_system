@@ -1,6 +1,7 @@
 
 #include "test_location_functions.hpp"
 #include "test_print.hpp"
+#include "assertions.hpp"
 #include "math.h"
 
 double position_to_offset(          
@@ -59,4 +60,15 @@ void add_samples_for_position(
     }
     location->add_sample(round(sample));
   }
+}
+
+void assertLocates(double x, double y) {
+  Location location = Location(&default_configuration);
+  assertTrue(location.is_valid());
+  add_samples_for_position(x, y, &location, &default_configuration);
+  location.compute_new_coordinates();
+  pvar(location.y());
+  pvar(location.x());
+  assertApproximately(location.y(), y);
+  assertApproximately(location.x(), x);
 }
