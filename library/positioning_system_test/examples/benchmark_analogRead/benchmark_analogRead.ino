@@ -6,7 +6,6 @@ void setup() {
 }
 
 void loop() {
-  //tone(8, 100, 2000);
   int READS = 10000;
   int s = 0;
   int time = -millis();
