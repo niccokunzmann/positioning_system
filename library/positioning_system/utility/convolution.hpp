@@ -9,6 +9,7 @@
 class WaveState {
   public:
     WaveState(long squared_intensity, long sum_sinus, long sum_cosinus, short wave_length_in_samples);
+    WaveState();
     
     double phase_between_samples();
     

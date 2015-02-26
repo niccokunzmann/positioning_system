@@ -37,9 +37,13 @@ TEST_CONVOLUTION(7, 90)
 
 TEST_CONVOLUTION(30, 90)
 TEST_CONVOLUTION(29, 90)
-TEST_CONVOLUTION(330, 2)
+//TEST_CONVOLUTION(330, 2)
 TEST_CONVOLUTION(100, 2)
-TEST_CONVOLUTION(1000, 2)
+//TEST_CONVOLUTION(1000, 2)
+
+test(default_wave_state_has_phase_0) {
+  assertEqual(WaveState().phase_between_samples(), 0.0);
+}
 
 void setup() {
   TEST_APPROXIMATION_EPSILON = 0.5;

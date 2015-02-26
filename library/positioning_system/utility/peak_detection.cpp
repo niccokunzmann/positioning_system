@@ -18,9 +18,9 @@ PeakDetectionInAWindow::~PeakDetectionInAWindow() {
 
 void PeakDetectionInAWindow::reset_window() {
   next_offset_in_window -= offset1;
-  maximum_intensity1 = 0;
-  maximum_intensity2 = 0;
-  maximum_intensity3 = 0;
+  maximum1 = WaveState();
+  maximum2 = WaveState();
+  maximum3 = WaveState();
   offset1 = next_offset_in_window;
   offset2 = next_offset_in_window;
   offset3 = next_offset_in_window;
@@ -30,17 +30,27 @@ void PeakDetectionInAWindow::add_intensities(
       Intensity intensity1, 
       Intensity intensity2,
       Intensity intensity3) {
-  if ((intensity1 >= maximum_intensity1) && 
+  add_wave_state(
+        WaveState(intensity1, 1, 0, 0), 
+        WaveState(intensity2, 1, 0, 0), 
+        WaveState(intensity3, 1, 0, 0));
+}
+
+void PeakDetectionInAWindow::add_wave_state(
+      WaveState wave_state_1, 
+      WaveState wave_state_2,
+      WaveState wave_state_3) {
+  if ((wave_state_1.squared_intensity >= maximum1.squared_intensity) && 
       (next_offset_in_window > f1_offset)) {
-    maximum_intensity1 = intensity1;
+    maximum1 = wave_state_1;
     offset1 = next_offset_in_window;
   }
-  if (intensity2 >= maximum_intensity2) {
-    maximum_intensity2 = intensity2;
+  if (wave_state_2.squared_intensity >= maximum2.squared_intensity) {
+    maximum2 = wave_state_2;
     offset2 = next_offset_in_window;
   }
-  if (intensity3 >= maximum_intensity3) {
-    maximum_intensity3 = intensity3;
+  if (wave_state_3.squared_intensity >= maximum3.squared_intensity) {
+    maximum3 = wave_state_3;
     offset3 = next_offset_in_window;
   }
   next_offset_in_window++;
@@ -53,11 +63,11 @@ boolean PeakDetectionInAWindow::reached_end_of_window() {
 }
 
 SignalPosition PeakDetectionInAWindow::offset_of_base_frequency() {
-  return offset1;
+  return offset1 + maximum1.phase_between_samples();
 }
 SignalPosition PeakDetectionInAWindow::offset_of_second_frequency() {
-  return offset2;
+  return offset2 + maximum2.phase_between_samples();
 }
 SignalPosition PeakDetectionInAWindow::offset_of_third_frequency() {
-  return offset3;
+  return offset3 + maximum3.phase_between_samples();
 }

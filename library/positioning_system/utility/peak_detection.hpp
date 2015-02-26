@@ -17,7 +17,11 @@ class PeakDetectionInAWindow {
     void add_intensities(Intensity of_base_frequency, 
                          Intensity of_second_frequency,
                          Intensity of_third_frequency);
-    
+
+    void add_wave_state(WaveState of_base_frequency, 
+                        WaveState of_second_frequency,
+                        WaveState of_third_frequency);
+                         
     boolean reached_end_of_window();
     
     /* shall only be called when reached_end_of_window() is true */
@@ -35,9 +39,9 @@ class PeakDetectionInAWindow {
     NumberOfSamples offset2;
     NumberOfSamples offset3;
     
-    Intensity maximum_intensity1;
-    Intensity maximum_intensity2;
-    Intensity maximum_intensity3;
+    WaveState maximum1;
+    WaveState maximum2;
+    WaveState maximum3;
     
     NumberOfSamples next_offset_in_window;
     NumberOfSamples window_size;
