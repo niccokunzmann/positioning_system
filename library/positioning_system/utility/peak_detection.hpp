@@ -33,11 +33,16 @@ class PeakDetectionInAWindow {
      * to begin an new window.
      */
     void reset_window();
+    void end_window();
+    void start_window();
   
   private:
     SignalPosition offset1;
     SignalPosition offset2;
     SignalPosition offset3;
+    
+    double offset_1_between_samples;
+    double next_offset_1_between_samples;
     
     WaveState maximum1;
     WaveState maximum2;

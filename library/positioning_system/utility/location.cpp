@@ -45,7 +45,6 @@ Location::Location(
   normalized_samples = new SampleBuffer(samples_in_buffer);
   valid = normalized_samples && normalized_samples->is_valid() &&
           average_sample && valid;
-  
   peak_detection = new PeakDetectionInAWindow(
         configuration->samples_between_signal_beginnings(),
          samples_in_buffer,
@@ -90,6 +89,7 @@ void Location::add_sample(Sample new_sample) {
         frequency_2_convolver->wave_state(), 
         frequency_3_convolver->wave_state());
   if (peak_detection->reached_end_of_window()) {
+    peak_detection->end_window();
     double offset1 = peak_detection->offset_of_base_frequency();
     double offset2 = peak_detection->offset_of_second_frequency();
     double offset3 = peak_detection->offset_of_third_frequency();
@@ -99,7 +99,7 @@ void Location::add_sample(Sample new_sample) {
     frequency_1_offset_medians->add(offset1);
     frequency_2_offset_medians->add(offset2);
     frequency_3_offset_medians->add(offset3);
-    peak_detection->reset_window();
+    peak_detection->start_window();
   }
 }
 

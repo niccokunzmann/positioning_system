@@ -1,5 +1,6 @@
 
 #include "peak_detection.hpp"
+#include "positioning_system_test.h"
 
 PeakDetectionInAWindow::PeakDetectionInAWindow(
       NumberOfSamples distance_between_peaks,
@@ -9,14 +10,20 @@ PeakDetectionInAWindow::PeakDetectionInAWindow(
   f1_offset = offset_to_avoid_base_frequency_peak_duplication - 1;
   offset1 = 0;
   next_offset_in_window = 1;
-  reset_window();
+  start_window();
+  offset_1_between_samples = 0;
 }
       
 PeakDetectionInAWindow::~PeakDetectionInAWindow() {
   
 }
 
-void PeakDetectionInAWindow::reset_window() {
+void PeakDetectionInAWindow::end_window() {
+  offset_1_between_samples = next_offset_1_between_samples;
+  next_offset_1_between_samples = maximum1.phase_between_samples();
+}
+
+void PeakDetectionInAWindow::start_window() {
   next_offset_in_window -= offset1;
   maximum1 = WaveState();
   maximum2 = WaveState();
@@ -24,6 +31,11 @@ void PeakDetectionInAWindow::reset_window() {
   offset1 = next_offset_in_window;
   offset2 = next_offset_in_window;
   offset3 = next_offset_in_window;
+}
+
+void PeakDetectionInAWindow::reset_window() {
+  end_window();
+  start_window();
 }
 
 void PeakDetectionInAWindow::add_intensities(
@@ -63,11 +75,23 @@ boolean PeakDetectionInAWindow::reached_end_of_window() {
 }
 
 SignalPosition PeakDetectionInAWindow::offset_of_base_frequency() {
-  return offset1 + maximum1.expected_closest_end_of_wave();
+  pvar(maximum1.expected_closest_end_of_wave());
+  //pvar(maximum1.phase_in_samples());
+  //maximum1.expected_closest_end_of_wave();
+  
+  return offset1 + next_offset_1_between_samples - offset_1_between_samples;//+ maximum1.phase_between_samples();//+ maximum1.expected_closest_end_of_wave();
 }
 SignalPosition PeakDetectionInAWindow::offset_of_second_frequency() {
-  return offset2 + maximum2.expected_closest_end_of_wave();
+  pvar(maximum2.expected_closest_end_of_wave());
+  //pvar(maximum2.phase_in_samples());
+  //maximum2.expected_closest_end_of_wave();
+  //pvar(maximum2.phase_between_samples());
+  return offset2 + maximum2.phase_between_samples() - offset_1_between_samples;//+ maximum2.expected_closest_end_of_wave();
 }
 SignalPosition PeakDetectionInAWindow::offset_of_third_frequency() {
-  return offset3 + maximum3.expected_closest_end_of_wave();
+  pvar(maximum3.expected_closest_end_of_wave());
+  //pvar(maximum3.phase_in_samples());
+  //maximum3.expected_closest_end_of_wave();
+  //pvar(maximum3.phase_between_samples());
+  return offset3 + maximum3.phase_between_samples() - offset_1_between_samples;//+ maximum3.expected_closest_end_of_wave();
 }

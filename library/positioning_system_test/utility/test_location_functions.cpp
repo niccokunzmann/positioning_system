@@ -21,9 +21,9 @@ void add_samples_for_position(
   pvar(do_samples_again);
   int length_of_tone = configuration->length_of_a_tone_in_samples();
   pvar(length_of_tone);
-  int samples_to_generate = 
-        6 * do_samples_again + 
-        configuration->number_of_samples_in_convolution_buffer();
+  short samples_in_buffer = configuration->number_of_samples_in_convolution_buffer();
+  pvar(samples_in_buffer);
+  int samples_to_generate = 6 * do_samples_again + 101;
   int number_of_samples[3];
   number_of_samples[0] = configuration->wave_length_in_samples_for_frequency_1();
   number_of_samples[1] = configuration->wave_length_in_samples_for_frequency_2();
@@ -33,28 +33,33 @@ void add_samples_for_position(
   pvar(number_of_samples[2]);
   double frequency_start_index[3];
   double offset1 = position_to_offset(x, y, configuration->B(), configuration);
-  frequency_start_index[0] = 0;
+  double general_offset = 0.00001 - offset1;
+  frequency_start_index[0] = offset1;
   frequency_start_index[1] = position_to_offset(x, y, configuration->C(), configuration) + 
-                             do_samples_again / 3. - offset1;
+                             do_samples_again / 3.;
   frequency_start_index[2] = position_to_offset(x, y, configuration->A(), configuration) + 
-                             do_samples_again * 2. / 3 - offset1;
-  pvar(frequency_start_index[0]);
-  pvar(frequency_start_index[1]);
-  pvar(frequency_start_index[2]);
+                             do_samples_again * 2. / 3;
+  pvar(frequency_start_index[0] - offset1);
+  pvar(frequency_start_index[1] - offset1);
+  pvar(frequency_start_index[2] - offset1);
+  frequency_start_index[0] += general_offset;
+  frequency_start_index[1] += general_offset;
+  frequency_start_index[2] += general_offset;
   for (int sample_index = 0; sample_index < samples_to_generate; ++sample_index) {
+    //pvar(sample_index);
     double sample = configuration->expected_average_sample(); // add noise here
     for (int frequency_number = 0; frequency_number < 3; ++frequency_number) {
       double start = frequency_start_index[frequency_number];
       if (start > sample_index) {
         // before tone
       } else if (start + length_of_tone < sample_index) {
-        //println2("end: ", frequency_number);
+        println4("end: ", frequency_number, " at ", sample_index);
         // after tone
         frequency_start_index[frequency_number] += do_samples_again;
       } else {
         // within tone
         if (start > sample_index - 1) {
-          //println2("start: ", frequency_number);
+          println4("start: ", frequency_number, " at ", sample_index);
         }
         sample += 255 * sin((sample_index - start) / number_of_samples[frequency_number] * 2 * M_PI);
       }

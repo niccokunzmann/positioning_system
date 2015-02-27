@@ -12,6 +12,8 @@ class SampleBuffer {
     ~SampleBuffer();
     
     Sample replaced_by(Sample new_sample);
+    
+    void fill_with(Sample sample);
 
     boolean is_valid();
     

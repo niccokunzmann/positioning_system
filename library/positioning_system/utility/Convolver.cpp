@@ -2,6 +2,7 @@
 #include "convolution.hpp"
 // http://www.nongnu.org/avr-libc/user-manual/group__avr__math.html
 #include "math.h"
+#include "positioning_system_test.h"
 
 Convolver::Convolver(
       short wave_length_in_samples, 
@@ -119,6 +120,8 @@ long Convolver::squared_intensity() {
 }
 
 void Convolver::replace_sample(Sample old_sample, Sample new_sample) {
+  //pvar(old_sample);
+  //pvar(new_sample);
   add_sample(new_sample);
   remove_sample(old_sample);
 }

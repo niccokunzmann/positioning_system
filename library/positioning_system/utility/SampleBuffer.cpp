@@ -18,6 +18,12 @@ SampleBuffer::~SampleBuffer() {
   free(samples);
 }
 
+void SampleBuffer::fill_with(Sample sample) {
+  for (int i = 0; i < number_of_samples; ++i) {
+    replaced_by(sample);
+  }
+}
+
 Sample SampleBuffer::replaced_by(Sample new_sample) {
   if (!valid) {
     return 0;
