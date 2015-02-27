@@ -8,7 +8,7 @@ double half_life_sample_to_multiplier(double half_life_samples) {
 
 ExponentialAverage::ExponentialAverage(double _multiplier, double start) {
   multiplier = _multiplier;
-  current_average = start;
+  current_average = start / (1 - multiplier);
 }
     
 void ExponentialAverage::add_sample(Sample sample) {

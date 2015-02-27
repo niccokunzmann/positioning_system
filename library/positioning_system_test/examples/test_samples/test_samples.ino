@@ -102,6 +102,11 @@ test(adding_samples) {
   assertEqual(average.normalize(100), 50);
 }
 
+test(same_average_as_in_start) {
+  ExponentialAverage average = ExponentialAverage(half_life_sample_to_multiplier(80), 30);
+  assertEqual(average.average(), 30);
+}
+
 void setup() {
   Serial.begin(9600);
 }
