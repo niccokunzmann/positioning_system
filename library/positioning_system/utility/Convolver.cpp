@@ -3,18 +3,23 @@
 // http://www.nongnu.org/avr-libc/user-manual/group__avr__math.html
 #include "math.h"
 
-Convolver::Convolver(short _wave_length_in_samples, short number_of_samples_in_buffer, int8_t sample_bits) {
-  wave_length_in_samples = _wave_length_in_samples;
+Convolver::Convolver(
+      short wave_length_in_samples, 
+      short number_of_samples_in_buffer, 
+      int8_t sample_bits) : 
+          wave_length_in_samples(wave_length_in_samples), 
+          number_of_samples_in_buffer(number_of_samples_in_buffer) {
   valid = wave_length_in_samples > 1;
   if (valid) {
-    add_sample_index = number_of_samples_in_buffer % wave_length_in_samples;
-    remove_sample_index = 0;
+    
+    add_sample_index = -1;
+    remove_sample_index = (-number_of_samples_in_buffer) % wave_length_in_samples - 1;
     sum_sinus = 0;
     sum_cosinus = 0;
   }
   allocate_memory_for_wave();
   fill_wave();
-  compute_overflow_prevention(number_of_samples_in_buffer, sample_bits);
+  compute_overflow_prevention(sample_bits);
 }
   
 Convolver::~Convolver() {
@@ -22,7 +27,7 @@ Convolver::~Convolver() {
   free(cosinus_values);
 }
 
-void Convolver::compute_overflow_prevention(short number_of_samples_in_buffer, int8_t sample_bits) {
+void Convolver::compute_overflow_prevention(int8_t sample_bits) {
   if(!valid) {
     return;
   }
@@ -85,18 +90,18 @@ void Convolver::add_sample(Sample sample) {
   if (!is_valid()) {
     return;
   }
+  add_sample_index = (add_sample_index + 1) % wave_length_in_samples;
   sum_sinus +=   convolve(sample, sinus_values  [add_sample_index]);
   sum_cosinus += convolve(sample, cosinus_values[add_sample_index]);
-  add_sample_index = (add_sample_index + 1) % wave_length_in_samples;
 }
 
 void Convolver::remove_sample(Sample sample) {
   if (!is_valid()) {
     return;
   }
+  remove_sample_index = (remove_sample_index + 1) % wave_length_in_samples;
   sum_sinus   -= convolve(sample, sinus_values  [remove_sample_index]);
   sum_cosinus -= convolve(sample, cosinus_values[remove_sample_index]);
-  remove_sample_index = (remove_sample_index + 1) % wave_length_in_samples;
 }
 
 boolean Convolver::is_valid() {
@@ -119,5 +124,10 @@ void Convolver::replace_sample(Sample old_sample, Sample new_sample) {
 }
 
 WaveState Convolver::wave_state() {
-  return WaveState(squared_intensity(), sum_sinus, sum_cosinus, wave_length_in_samples);
+  return WaveState(
+        squared_intensity(), 
+        sum_sinus, 
+        sum_cosinus, 
+        wave_length_in_samples, 
+        add_sample_index + number_of_samples_in_buffer);
 }

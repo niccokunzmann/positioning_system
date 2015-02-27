@@ -9,5 +9,6 @@
 #include "test_print.hpp"
 #include "test_position_functions.hpp"
 #include "test_location_functions.hpp"
+#include "test_convolution_functions.hpp"
 
 #endif

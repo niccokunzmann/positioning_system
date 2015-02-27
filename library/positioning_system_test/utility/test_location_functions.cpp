@@ -32,11 +32,12 @@ void add_samples_for_position(
   pvar(number_of_samples[1]);
   pvar(number_of_samples[2]);
   double frequency_start_index[3];
-  frequency_start_index[0] = position_to_offset(x, y, configuration->B(), configuration);
+  double offset1 = position_to_offset(x, y, configuration->B(), configuration);
+  frequency_start_index[0] = 0;
   frequency_start_index[1] = position_to_offset(x, y, configuration->C(), configuration) + 
-                             do_samples_again / 3.;
+                             do_samples_again / 3. - offset1;
   frequency_start_index[2] = position_to_offset(x, y, configuration->A(), configuration) + 
-                             do_samples_again * 2. / 3;
+                             do_samples_again * 2. / 3 - offset1;
   pvar(frequency_start_index[0]);
   pvar(frequency_start_index[1]);
   pvar(frequency_start_index[2]);

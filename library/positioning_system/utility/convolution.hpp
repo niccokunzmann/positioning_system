@@ -8,15 +8,23 @@
 
 class WaveState {
   public:
-    WaveState(long squared_intensity, long sum_sinus, long sum_cosinus, short wave_length_in_samples);
-    WaveState();
+    WaveState(
+          long squared_intensity = 0, 
+          long sum_sinus = 1, 
+          long sum_cosinus = 0, 
+          short wave_length_in_samples = 1,
+          short convolutional_offset = 0
+          );
     
+    double phase_in_samples();
     double phase_between_samples();
+    double expected_closest_end_of_wave();
     
     long squared_intensity;
     long sum_sinus;
     long sum_cosinus;
     short wave_length_in_samples;
+    short convolutional_offset;
 };
 
 
@@ -44,12 +52,13 @@ class Convolver {
   private:
     void allocate_memory_for_wave();
     void fill_wave();
-    void compute_overflow_prevention(short number_of_samples_in_buffer, int8_t sample_bits);
+    void compute_overflow_prevention(int8_t sample_bits);
     
     // 2 bytes
     short wave_length_in_samples;
     short add_sample_index;
     short remove_sample_index;
+    short number_of_samples_in_buffer;
 
     // 1 byte
     boolean valid;

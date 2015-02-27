@@ -17,7 +17,7 @@ PeakDetectionInAWindow::~PeakDetectionInAWindow() {
 }
 
 void PeakDetectionInAWindow::reset_window() {
-  next_offset_in_window -= offset_of_base_frequency();
+  next_offset_in_window -= offset1;
   maximum1 = WaveState();
   maximum2 = WaveState();
   maximum3 = WaveState();
@@ -31,9 +31,9 @@ void PeakDetectionInAWindow::add_intensities(
       Intensity intensity2,
       Intensity intensity3) {
   add_wave_states(
-        WaveState(intensity1, 1, 0, 0), 
-        WaveState(intensity2, 1, 0, 0), 
-        WaveState(intensity3, 1, 0, 0));
+        WaveState(intensity1), 
+        WaveState(intensity2), 
+        WaveState(intensity3));
 }
 
 void PeakDetectionInAWindow::add_wave_states(
@@ -63,11 +63,11 @@ boolean PeakDetectionInAWindow::reached_end_of_window() {
 }
 
 SignalPosition PeakDetectionInAWindow::offset_of_base_frequency() {
-  return offset1 + maximum1.phase_between_samples();
+  return offset1 + maximum1.expected_closest_end_of_wave();
 }
 SignalPosition PeakDetectionInAWindow::offset_of_second_frequency() {
-  return offset2 + maximum2.phase_between_samples();
+  return offset2 + maximum2.expected_closest_end_of_wave();
 }
 SignalPosition PeakDetectionInAWindow::offset_of_third_frequency() {
-  return offset3 + maximum3.phase_between_samples();
+  return offset3 + maximum3.expected_closest_end_of_wave();
 }
