@@ -75,23 +75,23 @@ boolean PeakDetectionInAWindow::reached_end_of_window() {
 }
 
 SignalPosition PeakDetectionInAWindow::offset_of_base_frequency() {
-  pvar(maximum1.expected_closest_end_of_wave());
+  //pvar(maximum1.expected_closest_end_of_wave());
   //pvar(maximum1.phase_in_samples());
   //maximum1.expected_closest_end_of_wave();
   
-  return offset1 + next_offset_1_between_samples - offset_1_between_samples;//+ maximum1.phase_between_samples();//+ maximum1.expected_closest_end_of_wave();
+  return offset1;// + next_offset_1_between_samples - offset_1_between_samples;//+ maximum1.phase_between_samples();//+ maximum1.expected_closest_end_of_wave();
 }
 SignalPosition PeakDetectionInAWindow::offset_of_second_frequency() {
-  pvar(maximum2.expected_closest_end_of_wave());
+  //pvar(maximum2.expected_closest_end_of_wave());
   //pvar(maximum2.phase_in_samples());
   //maximum2.expected_closest_end_of_wave();
   //pvar(maximum2.phase_between_samples());
-  return offset2 + maximum2.phase_between_samples() - offset_1_between_samples;//+ maximum2.expected_closest_end_of_wave();
+  return offset2;// + maximum2.phase_between_samples() - offset_1_between_samples;//+ maximum2.expected_closest_end_of_wave();
 }
 SignalPosition PeakDetectionInAWindow::offset_of_third_frequency() {
-  pvar(maximum3.expected_closest_end_of_wave());
+  //pvar(maximum3.expected_closest_end_of_wave());
   //pvar(maximum3.phase_in_samples());
   //maximum3.expected_closest_end_of_wave();
   //pvar(maximum3.phase_between_samples());
-  return offset3 + maximum3.phase_between_samples() - offset_1_between_samples;//+ maximum3.expected_closest_end_of_wave();
+  return offset3;// + maximum3.phase_between_samples() - offset_1_between_samples;//+ maximum3.expected_closest_end_of_wave();
 }
